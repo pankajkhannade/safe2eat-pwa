@@ -211,6 +211,311 @@
     .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; background: none; border: none; color: var(--text-dim); font-size: 11px; cursor: pointer; padding: 8px; }
     .nav-item.active { color: var(--accent); }
     .nav-icon { font-size: 20px; }
+
+    /* Favorites Screen */
+    .fav-screen { display: none; padding: 20px; }
+    .fav-screen.visible { display: block; }
+    .fav-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .fav-back { background: none; border: none; color: var(--text-dim); font-size: 14px; cursor: pointer; padding: 4px; }
+    .fav-title-text { font-size: 18px; font-weight: 600; }
+    .fav-list { display: flex; flex-direction: column; gap: 8px; }
+    .fav-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--surface); border-radius: 12px; cursor: pointer; border: none; width: 100%; text-align: left; }
+    .fav-item:active { background: var(--surface2); }
+    .fav-img { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; background: var(--surface2); flex-shrink: 0; }
+    .fav-info { flex: 1; min-width: 0; }
+    .fav-name { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .fav-brand { font-size: 11px; color: var(--text-dim); }
+    .fav-badge { font-size: 10px; padding: 3px 8px; border-radius: 10px; font-weight: 600; flex-shrink: 0; }
+    .fav-badge.safe { background: rgba(34,197,94,0.15); color: var(--safe); }
+    .fav-badge.warning { background: rgba(245,158,11,0.15); color: var(--warn); }
+    .fav-badge.avoid { background: rgba(239,68,68,0.15); color: var(--avoid); }
+    .fav-remove { background: none; border: none; color: var(--text-dim); font-size: 18px; cursor: pointer; padding: 4px; }
+    .fav-empty { text-align: center; padding: 48px 20px; }
+    .fav-empty-icon { font-size: 52px; margin-bottom: 12px; }
+    .fav-empty-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+    .fav-empty-sub { font-size: 13px; color: var(--text-dim); }
+
+    /* History Screen */
+    .history-screen { display: none; padding: 20px; }
+    .history-screen.visible { display: block; }
+    .history-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .history-back { background: none; border: none; color: var(--text-dim); font-size: 14px; cursor: pointer; padding: 4px; }
+    .history-title-text { font-size: 18px; font-weight: 600; }
+    .history-list { display: flex; flex-direction: column; gap: 8px; }
+    .history-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--surface); border-radius: 12px; cursor: pointer; border: none; width: 100%; text-align: left; }
+    .history-item:active { background: var(--surface2); }
+    .history-img { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; background: var(--surface2); flex-shrink: 0; }
+    .history-info { flex: 1; min-width: 0; }
+    .history-name { font-size: 14px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .history-brand { font-size: 11px; color: var(--text-dim); }
+    .history-time { font-size: 11px; color: var(--text-dim); white-space: nowrap; }
+    .history-badge { font-size: 10px; padding: 3px 8px; border-radius: 10px; font-weight: 600; flex-shrink: 0; }
+    .history-badge.safe { background: rgba(34,197,94,0.15); color: var(--safe); }
+    .history-badge.warning { background: rgba(245,158,11,0.15); color: var(--warn); }
+    .history-badge.avoid { background: rgba(239,68,68,0.15); color: var(--avoid); }
+    .history-empty { text-align: center; padding: 48px 20px; }
+    .history-empty-icon { font-size: 52px; margin-bottom: 12px; }
+    .history-empty-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+    .history-empty-sub { font-size: 13px; color: var(--text-dim); }
+
+    /* Compare Screen */
+    .compare-screen { display: none; padding: 20px; }
+    .compare-screen.visible { display: block; }
+    .compare-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .compare-back { background: none; border: none; color: var(--text-dim); font-size: 14px; cursor: pointer; padding: 4px; }
+    .compare-title-text { font-size: 18px; font-weight: 600; }
+    .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+    .compare-card { background: var(--surface); border-radius: 12px; padding: 12px; text-align: center; }
+    .compare-card-label { font-size: 11px; color: var(--text-dim); margin-bottom: 8px; }
+    .compare-card-img { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; background: var(--surface2); margin: 0 auto 6px; }
+    .compare-card-name { font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .compare-card-brand { font-size: 10px; color: var(--text-dim); }
+    .compare-card-verdict { font-size: 11px; font-weight: 700; margin-top: 6px; padding: 4px 8px; border-radius: 8px; display: inline-block; }
+    .compare-card-verdict.safe { background: rgba(34,197,94,0.15); color: var(--safe); }
+    .compare-card-verdict.warning { background: rgba(245,158,11,0.15); color: var(--warn); }
+    .compare-card-verdict.avoid { background: rgba(239,68,68,0.15); color: var(--avoid); }
+    .compare-row { display: flex; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .compare-row:last-child { border-bottom: none; }
+    .compare-row-label { flex: 1; font-size: 13px; color: var(--text-dim); }
+    .compare-row-val { flex: 1; text-align: center; font-size: 13px; font-weight: 600; }
+    .compare-row-val.safe { color: var(--safe); }
+    .compare-row-val.warning { color: var(--warn); }
+    .compare-row-val.avoid { color: var(--avoid); }
+    .compare-placeholder { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; background: var(--surface); border-radius: 12px; cursor: pointer; border: 2px dashed var(--border); }
+    .compare-placeholder:active { border-color: var(--accent); }
+    .compare-placeholder-icon { font-size: 32px; margin-bottom: 8px; color: var(--text-dim); }
+    .compare-placeholder-text { font-size: 12px; color: var(--text-dim); }
+    .compare-vs { text-align: center; font-size: 14px; font-weight: 700; color: var(--text-dim); padding: 8px 0; }
+
+    /* Allergen Badges */
+    .allergen-strip { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .allergen-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; }
+    .allergen-badge.gluten { background: rgba(245,158,11,0.15); color: var(--warn); }
+    .allergen-badge.dairy { background: rgba(167,139,250,0.15); color: var(--accent); }
+    .allergen-badge.nuts { background: rgba(234,179,8,0.15); color: #ca8a04; }
+    .allergen-badge.soy { background: rgba(34,197,94,0.15); color: var(--safe); }
+    .allergen-badge.eggs { background: rgba(251,191,36,0.15); color: #d97706; }
+    .allergen-badge.fish { background: rgba(96,165,250,0.15); color: #3b82f6; }
+    .allergen-badge.shellfish { background: rgba(248,113,113,0.15); color: var(--nonveg); }
+    .allergen-section-title { font-size: 12px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+
+    /* Nutrition Facts Panel */
+    .nutrition-facts { background: var(--surface); border-radius: 12px; padding: 14px; margin-bottom: 14px; border: 1px solid var(--border); }
+    .nf-title { font-size: 20px; font-weight: 900; border-bottom: 1px solid var(--text); padding-bottom: 4px; margin-bottom: 6px; }
+    .nf-serving { font-size: 12px; color: var(--text-dim); border-bottom: 1px solid var(--border); padding-bottom: 6px; margin-bottom: 6px; }
+    .nf-serving-row { display: flex; justify-content: space-between; align-items: center; }
+    .nf-serving-size { font-size: 13px; font-weight: 600; }
+    .nf-serving-adjust { display: flex; align-items: center; gap: 8px; }
+    .nf-serving-btn { width: 28px; height: 28px; border-radius: 50%; background: var(--surface2); border: 1px solid var(--border); color: var(--text); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .nf-serving-btn:active { background: var(--surface); }
+    .nf-serving-count { font-size: 14px; font-weight: 700; min-width: 24px; text-align: center; }
+    .nf-calories-row { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid var(--border); padding: 6px 0; margin-bottom: 4px; }
+    .nf-calories-label { font-size: 14px; font-weight: 700; }
+    .nf-calories-val { font-size: 22px; font-weight: 900; }
+    .nf-row { display: flex; justify-content: space-between; padding: 3px 0; border-bottom: 1px solid var(--border); font-size: 12px; }
+    .nf-row:last-child { border-bottom: none; }
+    .nf-row-indent { padding-left: 16px; }
+    .nf-row-bold { font-weight: 700; }
+    .nf-dv { font-size: 10px; color: var(--text-dim); }
+    .nf-thick-border { border-bottom: 4px solid var(--text); }
+
+    /* Salt/Sugar/Fat Meters */
+    .meter-section { margin-bottom: 14px; }
+    .meter-title { font-size: 12px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+    .meter-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .meter-label { font-size: 12px; font-weight: 500; min-width: 60px; }
+    .meter-bar-wrap { flex: 1; height: 8px; background: var(--surface2); border-radius: 4px; overflow: hidden; }
+    .meter-bar { height: 100%; border-radius: 4px; transition: width 0.3s; }
+    .meter-bar.low { background: var(--safe); }
+    .meter-bar.mid { background: var(--warn); }
+    .meter-bar.high { background: var(--avoid); }
+    .meter-val { font-size: 11px; font-weight: 600; min-width: 40px; text-align: right; }
+    .meter-dv { font-size: 10px; color: var(--text-dim); min-width: 30px; text-align: right; }
+
+    /* Brand Score */
+    .brand-score { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--surface); border-radius: 12px; margin-bottom: 12px; }
+    .brand-score-label { font-size: 12px; color: var(--text-dim); }
+    .brand-grade { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; font-weight: 900; flex-shrink: 0; }
+    .brand-grade.A { background: rgba(34,197,94,0.2); color: var(--safe); }
+    .brand-grade.B { background: rgba(163,230,53,0.2); color: #65a30d; }
+    .brand-grade.C { background: rgba(245,158,11,0.2); color: var(--warn); }
+    .brand-grade.D { background: rgba(249,115,22,0.2); color: #ea580c; }
+    .brand-grade.F { background: rgba(239,68,68,0.2); color: var(--avoid); }
+    .brand-score-val { font-size: 14px; font-weight: 700; }
+    .brand-score-detail { font-size: 11px; color: var(--text-dim); }
+    .brand-score-bar-wrap { flex: 1; height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+    .brand-score-bar { height: 100%; border-radius: 3px; background: var(--accent); }
+
+    /* Action Buttons Row */
+    .action-row { display: flex; gap: 8px; margin-bottom: 10px; }
+    .action-btn { flex: 1; background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 10px 8px; font-size: 12px; font-weight: 500; color: var(--text); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .action-btn:active { background: var(--surface); }
+    .action-btn.fav-active { color: #f87171; }
+
+    /* Toast */
+    .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: var(--text); color: var(--bg); padding: 10px 20px; border-radius: 24px; font-size: 13px; font-weight: 600; z-index: 9999; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+    .toast.visible { opacity: 1; }
+
+    /* Full Nutrition Toggle */
+    .nutrition-toggle { text-align: center; margin-bottom: 8px; }
+    .nutrition-toggle-btn { background: none; border: none; color: var(--accent); font-size: 12px; cursor: pointer; text-decoration: underline; }
+
+    /* ===== NEW FEATURES 11-20 ===== */
+
+    /* Feature 11: Safety Score Gauge */
+    .safety-score-section { background: var(--surface); border-radius: 12px; padding: 14px; margin-bottom: 14px; border: 1px solid var(--border); }
+    .safety-score-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+    .safety-score-title { font-size: 13px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; }
+    .safety-score-value { font-size: 28px; font-weight: 900; }
+    .safety-score-value.high { color: var(--safe); }
+    .safety-score-value.mid { color: var(--warn); }
+    .safety-score-value.low { color: var(--avoid); }
+    .safety-gauge { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .safety-gauge-bar { flex: 1; height: 10px; background: var(--surface2); border-radius: 5px; overflow: hidden; }
+    .safety-gauge-fill { height: 100%; border-radius: 5px; transition: width 0.6s ease; }
+    .safety-gauge-fill.high { background: var(--safe); }
+    .safety-gauge-fill.mid { background: var(--warn); }
+    .safety-gauge-fill.low { background: var(--avoid); }
+    .safety-gauge-fill.grade { background: linear-gradient(90deg, var(--avoid), var(--warn), var(--safe)); }
+    .safety-breakdown { display: flex; flex-direction: column; gap: 6px; }
+    .safety-breakdown-row { display: flex; align-items: center; gap: 8px; }
+    .safety-breakdown-label { font-size: 12px; color: var(--text-dim); min-width: 100px; }
+    .safety-breakdown-bar-wrap { flex: 1; height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+    .safety-breakdown-bar { height: 100%; border-radius: 3px; transition: width 0.4s; }
+    .safety-breakdown-val { font-size: 11px; font-weight: 600; min-width: 24px; text-align: right; }
+    .safety-breakdown-row.f-safe .safety-breakdown-bar { background: var(--safe); }
+    .safety-breakdown-row.f-warn .safety-breakdown-bar { background: var(--warn); }
+    .safety-breakdown-row.f-avoid .safety-breakdown-bar { background: var(--avoid); }
+    .safety-breakdown-row.f-veg .safety-breakdown-bar { background: var(--veg); }
+    .safety-breakdown-row.f-allergen .safety-breakdown-bar { background: var(--warn); }
+
+    /* Feature 12: Additive Timeline */
+    .additive-timeline { background: var(--surface); border-radius: 12px; padding: 14px; margin-bottom: 14px; border: 1px solid var(--border); }
+    .timeline-title { font-size: 12px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+    .timeline { position: relative; padding-left: 18px; }
+    .timeline::before { content: ''; position: absolute; left: 6px; top: 4px; bottom: 4px; width: 2px; background: var(--border); }
+    .timeline-item { position: relative; margin-bottom: 10px; }
+    .timeline-item::before { content: ''; position: absolute; left: -14px; top: 5px; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); border: 2px solid var(--bg); }
+    .timeline-item.approved::before { background: var(--safe); }
+    .timeline-item.restricted::before { background: var(--warn); }
+    .timeline-item.banned::before { background: var(--avoid); }
+    .timeline-item-date { font-size: 10px; color: var(--text-dim); margin-bottom: 2px; }
+    .timeline-item-name { font-size: 12px; font-weight: 500; }
+    .timeline-item-code { font-size: 11px; color: var(--text-dim); }
+    .timeline-item-desc { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+
+    /* Feature 13: Product Category Tags */
+    .category-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+    .category-tag { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 20px; }
+    .category-tag.ultra-processed { background: rgba(239,68,68,0.15); color: var(--avoid); }
+    .category-tag.processed { background: rgba(245,158,11,0.15); color: var(--warn); }
+    .category-tag.fresh { background: rgba(34,197,94,0.15); color: var(--safe); }
+    .category-tag.organic { background: rgba(74,222,128,0.15); color: #16a34a; }
+    .category-tag.certified { background: rgba(167,139,250,0.15); color: var(--accent); }
+
+    /* Feature 14: Better Alternatives */
+    .alternatives-section { background: var(--surface); border-radius: 12px; padding: 14px; margin-bottom: 14px; border: 1px solid var(--border); }
+    .alternatives-title { font-size: 13px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+    .alt-loading { font-size: 12px; color: var(--text-dim); text-align: center; padding: 10px; }
+    .alt-list { display: flex; flex-direction: column; gap: 8px; }
+    .alt-item { display: flex; align-items: center; gap: 10px; padding: 10px; background: var(--surface2); border-radius: 10px; cursor: pointer; border: none; width: 100%; text-align: left; }
+    .alt-item:active { background: var(--surface); }
+    .alt-img { width: 40px; height: 40px; border-radius: 8px; object-fit: cover; background: var(--surface2); flex-shrink: 0; }
+    .alt-img-placeholder { width: 40px; height: 40px; border-radius: 8px; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .alt-info { flex: 1; min-width: 0; }
+    .alt-name { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .alt-brand { font-size: 11px; color: var(--text-dim); }
+    .alt-score { font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 8px; flex-shrink: 0; }
+    .alt-score.safe { background: rgba(34,197,94,0.15); color: var(--safe); }
+    .alt-score.warning { background: rgba(245,158,11,0.15); color: var(--warn); }
+    .alt-score.avoid { background: rgba(239,68,68,0.15); color: var(--avoid); }
+
+    /* Feature 15: Data Quality Score */
+    .data-quality { display: flex; align-items: center; gap: 8px; padding: 10px 12px; background: var(--surface); border-radius: 10px; margin-bottom: 12px; }
+    .dq-label { font-size: 12px; color: var(--text-dim); }
+    .dq-value { font-size: 13px; font-weight: 700; }
+    .dq-bar-wrap { flex: 1; height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+    .dq-bar { height: 100%; border-radius: 3px; background: var(--accent); }
+    .dq-detail { font-size: 10px; color: var(--text-dim); }
+
+    /* Feature 16: Additive Detail Modal */
+    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px; }
+    .modal-overlay.visible { display: flex; }
+    .modal-card { background: var(--surface); border-radius: 16px; width: 100%; max-width: 420px; max-height: 80vh; overflow-y: auto; border: 1px solid var(--border); }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px; border-bottom: 1px solid var(--border); }
+    .modal-title { font-size: 16px; font-weight: 700; }
+    .modal-close { background: none; border: none; color: var(--text-dim); font-size: 20px; cursor: pointer; padding: 4px; }
+    .modal-body { padding: 16px; }
+    .modal-section { margin-bottom: 14px; }
+    .modal-section-title { font-size: 11px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
+    .modal-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+    .modal-row:last-child { border-bottom: none; }
+    .modal-row-label { color: var(--text-dim); }
+    .modal-row-val { font-weight: 600; }
+    .modal-ratings { display: flex; gap: 8px; flex-wrap: wrap; }
+    .modal-rating { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 8px 12px; background: var(--surface2); border-radius: 10px; min-width: 60px; }
+    .modal-rating-agency { font-size: 10px; color: var(--text-dim); }
+    .modal-rating-val { font-size: 12px; font-weight: 700; }
+    .modal-rating-val.safe { color: var(--safe); }
+    .modal-rating-val.warning { color: var(--warn); }
+    .modal-rating-val.avoid { color: var(--avoid); }
+    .modal-rating-val.unknown { color: var(--text-dim); }
+    .modal-desc { font-size: 13px; line-height: 1.6; color: var(--text-dim); }
+    .modal-warnings { display: flex; flex-direction: column; gap: 6px; }
+    .modal-warning-item { display: flex; align-items: flex-start; gap: 6px; font-size: 12px; padding: 8px; background: rgba(245,158,11,0.1); border-radius: 8px; }
+    .modal-warning-item.pregnancy { background: rgba(239,68,68,0.1); }
+    .modal-sources { font-size: 11px; color: var(--text-dim); line-height: 1.6; }
+    .modal-sources a { color: var(--accent); }
+
+    /* Feature 17: Theme Toggle (3 states) */
+    .theme-toggle-btn { display: flex; align-items: center; gap: 4px; }
+
+    /* Feature 18: Brand Avoid Warning */
+    .brand-warning { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3); border-radius: 10px; padding: 10px 14px; margin-bottom: 12px; display: flex; align-items: center; gap: 10px; }
+    .brand-warning-icon { font-size: 20px; flex-shrink: 0; }
+    .brand-warning-text { font-size: 13px; color: var(--avoid); }
+    .brand-warning-actions { display: flex; gap: 6px; margin-top: 6px; }
+    .brand-warning-btn { flex: 1; padding: 6px 10px; border-radius: 8px; font-size: 12px; font-weight: 500; cursor: pointer; border: none; }
+    .brand-warning-btn.avoid { background: var(--avoid); color: #fff; }
+    .brand-warning-btn.cancel { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+
+    /* Feature 19: Scanner Settings */
+    .settings-modal .modal-card { max-height: 60vh; }
+    .settings-section { margin-bottom: 16px; }
+    .settings-section-title { font-size: 11px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+    .settings-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); }
+    .settings-row:last-child { border-bottom: none; }
+    .settings-row-label { font-size: 14px; }
+    .settings-row-desc { font-size: 11px; color: var(--text-dim); }
+    .settings-toggle { position: relative; width: 44px; height: 24px; background: var(--surface2); border-radius: 12px; cursor: pointer; transition: background 0.2s; border: 1px solid var(--border); }
+    .settings-toggle.active { background: var(--accent); border-color: var(--accent); }
+    .settings-toggle::after { content: ''; position: absolute; top: 3px; left: 3px; width: 16px; height: 16px; background: #fff; border-radius: 50%; transition: transform 0.2s; }
+    .settings-toggle.active::after { transform: translateX(20px); }
+    .scan-mode-btns { display: flex; gap: 6px; }
+    .scan-mode-btn { flex: 1; padding: 8px; border-radius: 8px; font-size: 12px; cursor: pointer; border: 1px solid var(--border); background: var(--surface2); color: var(--text-dim); }
+    .scan-mode-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    /* Feature 20: Weekly Food Safety Report */
+    .report-section { background: var(--surface); border-radius: 12px; padding: 14px; margin-bottom: 14px; border: 1px solid var(--border); }
+    .report-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .report-title { font-size: 15px; font-weight: 700; }
+    .report-meta { font-size: 11px; color: var(--text-dim); }
+    .report-trend { display: flex; align-items: center; gap: 8px; padding: 10px; background: var(--surface2); border-radius: 10px; margin-bottom: 12px; }
+    .report-trend-icon { font-size: 20px; }
+    .report-trend-text { font-size: 13px; font-weight: 500; }
+    .report-trend-sub { font-size: 11px; color: var(--text-dim); }
+    .report-stat-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+    .report-stat-row:last-child { border-bottom: none; }
+    .report-stat-label { color: var(--text-dim); }
+    .report-stat-val { font-weight: 700; }
+    .report-allergens { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+    .report-allergen-chip { font-size: 11px; padding: 4px 10px; border-radius: 20px; background: rgba(245,158,11,0.15); color: var(--warn); }
+    .report-new-additives { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+    .report-new-add { font-size: 12px; padding: 6px 10px; background: rgba(239,68,68,0.1); border-radius: 8px; color: var(--avoid); display: flex; align-items: center; gap: 6px; }
+    .report-week-nav { display: flex; gap: 6px; }
+    .report-nav-btn { padding: 6px 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; font-size: 12px; cursor: pointer; color: var(--text); }
+    .report-nav-btn:active { background: var(--surface); }
+    .report-empty { text-align: center; padding: 20px; color: var(--text-dim); font-size: 13px; }
   </style>
 </head>
 <body>
@@ -224,6 +529,7 @@
         <button class="icon-btn" onclick="setLang('hi')" id="langHi" style="display:none">हि</button>
       </div>
       <div class="top-bar-right">
+        <button class="icon-btn" id="settingsBtn" onclick="openSettingsModal()" title="Settings">⚙️</button>
         <button class="icon-btn" onclick="showAbout()">ℹ️</button>
       </div>
     </div>
@@ -305,13 +611,206 @@
     <div class="verdict" id="verdict">
       <div class="verdict-emoji" id="verdictEmoji">✅</div>
       <div class="verdict-label" id="verdictLabel">Safe</div>
-      <div class="verdict-sub" id="verdictSub">No concerning additives</div>
+      <div class="verdict-sub" id="verdictSub">No harmful additives detected</div>
     </div>
+
+    <!-- Safety Score Breakdown (Feature 11) -->
+    <div class="safety-score-section" id="safetyScoreSection">
+      <div class="safety-score-header">
+        <span class="safety-score-title" id="safetyScoreTitle">📊 सुरक्षा स्कोर</span>
+        <span class="safety-score-value high" id="safetyScoreValue">100</span>
+      </div>
+      <div class="safety-gauge">
+        <div class="safety-gauge-bar">
+          <div class="safety-gauge-fill grade" id="safetyGaugeFill" style="width:100%"></div>
+        </div>
+      </div>
+      <div class="safety-breakdown" id="safetyBreakdown">
+        <div class="safety-breakdown-row f-safe">
+          <span class="safety-breakdown-label" id="breakdownSafeLabel">Safe Additives</span>
+          <div class="safety-breakdown-bar-wrap"><div class="safety-breakdown-bar" id="breakdownSafeBar" style="width:100%"></div></div>
+          <span class="safety-breakdown-val" id="breakdownSafeVal">0</span>
+        </div>
+        <div class="safety-breakdown-row f-warn">
+          <span class="safety-breakdown-label" id="breakdownWarnLabel">Caution Additives</span>
+          <div class="safety-breakdown-bar-wrap"><div class="safety-breakdown-bar" id="breakdownWarnBar" style="width:0%"></div></div>
+          <span class="safety-breakdown-val" id="breakdownWarnVal">0</span>
+        </div>
+        <div class="safety-breakdown-row f-avoid">
+          <span class="safety-breakdown-label" id="breakdownAvoidLabel">Avoid Additives</span>
+          <div class="safety-breakdown-bar-wrap"><div class="safety-breakdown-bar" id="breakdownAvoidBar" style="width:0%"></div></div>
+          <span class="safety-breakdown-val" id="breakdownAvoidVal">0</span>
+        </div>
+        <div class="safety-breakdown-row f-allergen">
+          <span class="safety-breakdown-label" id="breakdownAllergenLabel">एलर्जी मैच</span>
+          <div class="safety-breakdown-bar-wrap"><div class="safety-breakdown-bar" id="breakdownAllergenBar" style="width:0%"></div></div>
+          <span class="safety-breakdown-val" id="breakdownAllergenVal">0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Category Tags (Feature 13) -->
+    <div class="category-tags" id="categoryTags"></div>
+
+    <!-- Brand Avoid Warning (Feature 18) -->
+    <div class="brand-warning" id="brandWarning" style="display:none">
+      <span class="brand-warning-icon">🚫</span>
+      <div style="flex:1">
+        <div class="brand-warning-text" id="brandWarningText">This brand is in your avoid list!</div>
+        <div class="brand-warning-actions">
+          <button class="brand-warning-btn cancel" onclick="dismissBrandWarning()">Dismiss</button>
+          <button class="brand-warning-btn avoid" onclick="confirmRemoveBrand()">Remove from list</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Quality Score (Feature 15) -->
+    <div class="data-quality" id="dataQualitySection">
+      <span class="dq-label" id="dqLabel">📋 डेटा गुणवत्ता</span>
+      <span class="dq-value" id="dqValue">100%</span>
+      <div class="dq-bar-wrap"><div class="dq-bar" id="dqBar" style="width:100%"></div></div>
+      <span class="dq-detail" id="dqDetail"></span>
+    </div>
+
+    <!-- Brand Reputation Score -->
+    <div class="brand-score" id="brandScore">
+      <div class="brand-score-label" id="brandScoreLabel">Brand Score</div>
+      <div class="brand-grade" id="brandGrade">—</div>
+      <div>
+        <div class="brand-score-val" id="brandScoreVal">—</div>
+        <div class="brand-score-detail" id="brandScoreDetail">—</div>
+      </div>
+      <div class="brand-score-bar-wrap">
+        <div class="brand-score-bar" id="brandScoreBar" style="width:0%"></div>
+      </div>
+    </div>
+
+    <!-- Allergen Warnings -->
+    <div id="allergenSection" style="display:none">
+      <p class="allergen-section-title" id="allergenSectionTitle">⚠️ Allergens Detected</p>
+      <div class="allergen-strip" id="allergenStrip"></div>
+    </div>
+
+    <!-- Salt/Sugar/Fat Meters -->
+    <div class="meter-section" id="meterSection">
+      <p class="meter-title" id="meterTitle">Salt · Sugar · Fat</p>
+      <div class="meter-row" id="sodiumMeterRow">
+        <span class="meter-label" id="sodiumMeterLabel">Sodium</span>
+        <div class="meter-bar-wrap"><div class="meter-bar" id="sodiumMeterBar"></div></div>
+        <span class="meter-val" id="sodiumMeterVal">0mg</span>
+        <span class="meter-dv" id="sodiumMeterDV">0% DV</span>
+      </div>
+      <div class="meter-row" id="sugarMeterRow">
+        <span class="meter-label" id="sugarMeterLabel">Sugar</span>
+        <div class="meter-bar-wrap"><div class="meter-bar" id="sugarMeterBar"></div></div>
+        <span class="meter-val" id="sugarMeterVal">0g</span>
+        <span class="meter-dv" id="sugarMeterDV">0% DV</span>
+      </div>
+      <div class="meter-row" id="fatMeterRow">
+        <span class="meter-label" id="fatMeterLabel">Total Fat</span>
+        <div class="meter-bar-wrap"><div class="meter-bar" id="fatMeterBar"></div></div>
+        <span class="meter-val" id="fatMeterVal">0g</span>
+        <span class="meter-dv" id="fatMeterDV">0% DV</span>
+      </div>
+    </div>
+
+    <!-- Action Buttons Row -->
+    <div class="action-row">
+      <button class="action-btn" id="favBtn" onclick="toggleFavorite()">
+        <span id="favBtnIcon">🤍</span> <span id="favBtnLabel">Save</span>
+      </button>
+      <button class="action-btn" id="compareBtn" onclick="startCompare()">
+        ⚖️ <span id="compareBtnLabel">Compare</span>
+      </button>
+      <button class="action-btn" id="shareBtnAction" onclick="shareResult()">
+        📤 <span id="shareBtnLabel">Share</span>
+      </button>
+    </div>
+
+    <!-- Nutrition Strip (quick view) -->
     <div class="nutrition-strip" id="nutritionStrip"></div>
+
+    <!-- Full Nutrition Facts Toggle -->
+    <div class="nutrition-toggle">
+      <button class="nutrition-toggle-btn" id="nutritionToggleBtn" onclick="toggleNutritionFacts()">View full nutrition ↓</button>
+    </div>
+
+    <!-- Full Nutrition Facts Panel (FDA style) -->
+    <div class="nutrition-facts" id="nutritionFacts" style="display:none">
+      <div class="nf-title">Nutrition Facts</div>
+      <div class="nf-serving">
+        <div class="nf-serving-row">
+          <span class="nf-serving-size" id="nfServingSize">Per 1 serving</span>
+        </div>
+        <div class="nf-serving-row" style="margin-top:6px">
+          <span id="nfServingAdjustLabel">Servings per container</span>
+          <div class="nf-serving-adjust">
+            <button class="nf-serving-btn" onclick="adjustServings(-1)">−</button>
+            <span class="nf-serving-count" id="nfServingCount">1</span>
+            <button class="nf-serving-btn" onclick="adjustServings(1)">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="nf-calories-row">
+        <span class="nf-calories-label">Calories</span>
+        <span class="nf-calories-val" id="nfCalories">0</span>
+      </div>
+      <div style="text-align:right;font-size:10px;color:var(--text-dim);padding:2px 0">% Daily Value*</div>
+      <div class="nf-row nf-thick-border">
+        <span class="nf-row-bold"><span id="nfTotalFatLabel">Total Fat</span> <span id="nfTotalFatVal">0g</span></span>
+        <span class="nf-dv"><span id="nfTotalFatDV">0%</span></span>
+      </div>
+      <div class="nf-row nf-row-indent">
+        <span><span id="nfSatFatLabel">Saturated Fat</span> <span id="nfSatFatVal">0g</span></span>
+        <span class="nf-dv"><span id="nfSatFatDV">0%</span></span>
+      </div>
+      <div class="nf-row nf-row-indent">
+        <span><span id="nfTransFatLabel">Trans Fat</span> <span id="nfTransFatVal">0g</span></span>
+        <span class="nf-dv"></span>
+      </div>
+      <div class="nf-row">
+        <span class="nf-row-bold"><span id="nfCholLabel">Cholesterol</span> <span id="nfCholVal">0mg</span></span>
+        <span class="nf-dv"><span id="nfCholDV">0%</span></span>
+      </div>
+      <div class="nf-row">
+        <span class="nf-row-bold"><span id="nfSodiumLabel">Sodium</span> <span id="nfSodiumVal">0mg</span></span>
+        <span class="nf-dv"><span id="nfSodiumDV">0%</span></span>
+      </div>
+      <div class="nf-row nf-thick-border">
+        <span class="nf-row-bold"><span id="nfCarbsLabel">Total Carbohydrate</span> <span id="nfCarbsVal">0g</span></span>
+        <span class="nf-dv"><span id="nfCarbsDV">0%</span></span>
+      </div>
+      <div class="nf-row nf-row-indent">
+        <span><span id="nfFiberLabel">Dietary Fiber</span> <span id="nfFiberVal">0g</span></span>
+        <span class="nf-dv"><span id="nfFiberDV">0%</span></span>
+      </div>
+      <div class="nf-row nf-row-indent">
+        <span><span id="nfSugarsLabel">Total Sugars</span> <span id="nfSugarsVal">0g</span></span>
+        <span class="nf-dv"></span>
+      </div>
+      <div class="nf-row nf-thick-border">
+        <span class="nf-row-bold"><span id="nfProteinLabel">Protein</span> <span id="nfProteinVal">0g</span></span>
+        <span class="nf-dv"><span id="nfProteinDV">0%</span></span>
+      </div>
+      <p style="font-size:9px;color:var(--text-dim);margin-top:8px;line-height:1.4" id="nfDisclaimer">*Percent Daily Values are based on a 2000 calorie diet.</p>
+    </div>
+
+    <!-- Additive Timeline (Feature 12) -->
+    <div class="additive-timeline" id="additiveTimeline" style="display:none">
+      <p class="timeline-title" id="timelineTitle">📅 Additive History</p>
+      <div class="timeline" id="timelineContent"></div>
+    </div>
+
+    <!-- Better Alternatives (Feature 14) -->
+    <div class="alternatives-section" id="alternativesSection" style="display:none">
+      <div class="alternatives-title" id="alternativesTitle">🔄 बेहतर विकल्प</div>
+      <div class="alt-loading" id="altLoading">Loading alternatives...</div>
+      <div class="alt-list" id="altList"></div>
+    </div>
+
     <p class="section-title" id="ingredientsSectionTitle">Ingredients</p>
     <div class="ingredients-list" id="ingredientsList"></div>
     <div class="disclaimer" id="disclaimer">⚠️ Safety ratings are algorithmic estimates based on EU standards. FSSAI-specific data is being built. For medical advice, consult a healthcare professional.</div>
-    <button class="share-btn" id="shareBtn" onclick="shareResult()">📤 <span id="shareLabel">Share Result</span></button>
     <p class="api-note">Data from <a href="https://world.openfoodfacts.org" target="_blank" style="color:var(--accent)">Open Food Facts</a> (open source, CC BY-SA 4.0)</p>
   </div>
 
@@ -355,11 +854,77 @@
     <div class="about-section">
       <p class="about-section-title">Key Features</p>
       <div class="about-source"><span class="about-source-icon">📷</span><span>Barcode scanning (Android Chrome), manual entry, search by name</span></div>
-      <div class="about-source"><span class="about-source-icon">🌙</span><span>Light / Dark theme with persistent preference</span></div>
+      <div class="about-source"><span class="about-source-icon">🌙</span><span>Light / Dark / System theme with persistent preference</span></div>
       <div class="about-source"><span class="about-source-icon">📴</span><span>Offline mode — cached results when no connection</span></div>
       <div class="about-source"><span class="about-source-icon">🌐</span><span>Hindi + English interface</span></div>
+      <div class="about-source"><span class="about-source-icon">📊</span><span>Safety Score, Data Quality Score, Weekly Report</span></div>
+      <div class="about-source"><span class="about-source-icon">📅</span><span>Weekly Food Safety Report</span></div>
     </div>
     <p class="about-note" id="aboutNote">⚠️ Safety ratings are algorithmic estimates based on publicly available regulatory data. Always verify with official sources. This app advises, it does not diagnose. For medical advice, consult a healthcare professional.</p>
+    <button class="submit-btn" id="weeklyReportBtn" onclick="openReportModal()" style="margin-top:12px">
+      📅 <span id="weeklyReportBtnText">Weekly Food Safety Report</span>
+    </button>
+  </div>
+
+  <!-- History Screen -->
+  <div class="history-screen" id="historyScreen">
+    <div class="history-header">
+      <button class="history-back" onclick="showScan()">← <span id="historyBackLabel">Back</span></button>
+      <span class="history-title-text" id="historyTitleText">Scan History</span>
+    </div>
+    <div class="history-list" id="historyList"></div>
+    <div class="history-empty" id="historyEmpty" style="display:none">
+      <div class="history-empty-icon">📋</div>
+      <p class="history-empty-title" id="historyEmptyTitle">No scan history</p>
+      <p class="history-empty-sub" id="historyEmptySub">Your scanned products will appear here</p>
+    </div>
+  </div>
+
+  <!-- Favorites Screen -->
+  <div class="fav-screen" id="favScreen">
+    <div class="fav-header">
+      <button class="fav-back" onclick="showScan()">← <span id="favBackLabel">Back</span></button>
+      <span class="fav-title-text" id="favTitleText">Favorites</span>
+    </div>
+    <div class="fav-list" id="favList"></div>
+    <div class="fav-empty" id="favEmpty" style="display:none">
+      <div class="fav-empty-icon">❤️</div>
+      <p class="fav-empty-title" id="favEmptyTitle">No favorites yet</p>
+      <p class="fav-empty-sub" id="favEmptySub">Tap the heart icon on any product to save it</p>
+    </div>
+  </div>
+
+  <!-- Compare Screen -->
+  <div class="compare-screen" id="compareScreen">
+    <div class="compare-header">
+      <button class="compare-back" onclick="showResult()">← <span id="compareBackLabel">Back</span></button>
+      <span class="compare-title-text" id="compareTitleText">Compare Products</span>
+    </div>
+    <div class="compare-grid" id="compareGrid">
+      <div class="compare-card" id="compareCard1">
+        <div class="compare-card-label" id="compareLabel1">Current Product</div>
+        <img class="compare-card-img" id="compareImg1" src="" alt="">
+        <div class="compare-card-name" id="compareName1">—</div>
+        <div class="compare-card-brand" id="compareBrand1"></div>
+        <div class="compare-card-verdict" id="compareVerdict1">—</div>
+      </div>
+      <div class="compare-card" id="compareCard2">
+        <div class="compare-card-label" id="compareLabel2">Select product</div>
+        <div class="compare-placeholder" id="comparePlaceholder2" onclick="openComparePicker()">
+          <div class="compare-placeholder-icon">➕</div>
+          <div class="compare-placeholder-text" id="comparePlaceholderText">Tap to choose</div>
+        </div>
+        <img class="compare-card-img" id="compareImg2" src="" alt="" style="display:none">
+        <div class="compare-card-name" id="compareName2"></div>
+        <div class="compare-card-brand" id="compareBrand2"></div>
+        <div class="compare-card-verdict" id="compareVerdict2" style="display:none"></div>
+      </div>
+    </div>
+    <div id="compareRows"></div>
+    <div id="comparePicker" style="display:none; margin-top:16px;">
+      <p class="section-title" id="comparePickerTitle">Select a product to compare</p>
+      <div id="comparePickerList"></div>
+    </div>
   </div>
 
   <!-- Bottom Nav -->
@@ -367,13 +932,95 @@
     <button class="nav-item active" onclick="showScan()" id="navScan">
       <span class="nav-icon">📷</span><span id="navScanLabel">Scan</span>
     </button>
-    <button class="nav-item" onclick="showSearch()" id="navSearch">
-      <span class="nav-icon">🔍</span><span id="navSearchLabel">Search</span>
+    <button class="nav-item" onclick="showHistory()" id="navHistory">
+      <span class="nav-icon">📋</span><span id="navHistoryLabel">History</span>
+    </button>
+    <button class="nav-item" onclick="showFavorites()" id="navFavorites">
+      <span class="nav-icon">❤️</span><span id="navFavoritesLabel">Favorites</span>
     </button>
     <button class="nav-item" onclick="showAbout()" id="navAbout">
       <span class="nav-icon">ℹ️</span><span id="navAboutLabel">About</span>
     </button>
   </nav>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Additive Detail Modal (Feature 16) -->
+  <div class="modal-overlay" id="additiveModal" onclick="if(event.target===this)closeAdditiveModal()">
+    <div class="modal-card">
+      <div class="modal-header">
+        <span class="modal-title" id="modalAdditiveTitle">Additive Detail</span>
+        <button class="modal-close" onclick="closeAdditiveModal()">✕</button>
+      </div>
+      <div class="modal-body" id="modalAdditiveBody"></div>
+    </div>
+  </div>
+
+  <!-- Brand Avoid Warning Modal (Feature 18) -->
+  <div class="modal-overlay" id="brandWarningModal" onclick="if(event.target===this)closeBrandWarningModal()">
+    <div class="modal-card">
+      <div class="modal-header">
+        <span class="modal-title" id="brandWarningModalTitle">⚠️ Brand Warning</span>
+        <button class="modal-close" onclick="closeBrandWarningModal()">✕</button>
+      </div>
+      <div class="modal-body" id="brandWarningModalBody"></div>
+    </div>
+  </div>
+
+  <!-- Scanner Settings Modal (Feature 19) -->
+  <div class="modal-overlay settings-modal" id="settingsModal" onclick="if(event.target===this)closeSettingsModal()">
+    <div class="modal-card">
+      <div class="modal-header">
+        <span class="modal-title" id="settingsModalTitle">सेटिंग्स</span>
+        <button class="modal-close" onclick="closeSettingsModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="settings-section">
+          <p class="settings-section-title" id="settingsScanTitle">Scanner</p>
+          <div class="settings-row">
+            <div>
+              <div class="settings-row-label" id="settingsScanModeLabel">Scan Mode</div>
+              <div class="settings-row-desc" id="settingsScanModeDesc">Accurate mode is slower but more reliable</div>
+            </div>
+          </div>
+          <div class="scan-mode-btns">
+            <button class="scan-mode-btn active" id="modeFastBtn" onclick="setScanMode('fast')">
+              ⚡ <span id="modeFastLabel">तेज़ मोड</span>
+            </button>
+            <button class="scan-mode-btn" id="modeAccurateBtn" onclick="setScanMode('accurate')">
+              🎯 <span id="modeAccurateLabel">सटीक मोड</span>
+            </button>
+          </div>
+        </div>
+        <div class="settings-section">
+          <p class="settings-section-title" id="settingsManualTitle">Manual Barcode</p>
+          <div class="settings-row">
+            <div>
+              <div class="settings-row-label" id="settingsManualLabel">Manual barcode entry</div>
+              <div class="settings-row-desc" id="settingsManualDesc">Always show manual entry field on scan screen</div>
+            </div>
+            <div class="settings-toggle" id="manualEntryToggle" onclick="toggleManualEntry()"></div>
+          </div>
+        </div>
+        <div class="settings-section">
+          <p class="settings-section-title" id="settingsAvoidTitle">Brand Avoidance</p>
+          <div id="avoidedBrandsList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Weekly Report Modal (Feature 20) -->
+  <div class="modal-overlay" id="reportModal" onclick="if(event.target===this)closeReportModal()">
+    <div class="modal-card">
+      <div class="modal-header">
+        <span class="modal-title" id="reportModalTitle">Weekly Report</span>
+        <button class="modal-close" onclick="closeReportModal()">✕</button>
+      </div>
+      <div class="modal-body" id="reportModalBody"></div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -472,6 +1119,120 @@ const I18 = {
     searchLoading: "Searching...", searchEmptyTitle: "No products found", searchEmptySub: "Try a different name or scan the barcode",
     offline: "📴 You're offline — showing cached result",
     recentClear: "Clear",
+    // New for features
+    historyTitle: "Scan History",
+    historyEmptyTitle: "No scan history",
+    historyEmptySub: "Your scanned products will appear here",
+    scannedOn: "Scanned on",
+    favoritesTitle: "Favorites",
+    favoritesEmptyTitle: "No favorites yet",
+    favoritesEmptySub: "Tap the heart icon on any product to save it",
+    addToFavorites: "Save",
+    removeFromFavorites: "Remove",
+    compareBtn: "Compare",
+    compareTitle: "Compare Products",
+    compareLabel1: "Current Product",
+    compareLabel2: "Select product",
+    comparePlaceholderText: "Tap to choose",
+    comparePickerTitle: "Select a product to compare",
+    allergensTitle: "⚠️ Allergens Detected",
+    containsAllergen: "Contains",
+    brandScore: "Brand Score",
+    calories: "Calories",
+    protein: "Protein",
+    totalFat: "Total Fat",
+    saturatedFat: "Saturated Fat",
+    transFat: "Trans Fat",
+    cholesterol: "Cholesterol",
+    carbohydrate: "Total Carbohydrate",
+    dietaryFiber: "Dietary Fiber",
+    totalSugars: "Total Sugars",
+    servingSize: "Serving Size",
+    perServing: "per serving",
+    perNServings: "per",
+    servings: "servings",
+    servingsPerContainer: "Servings per container",
+    viewFullNutrition: "View full nutrition ↓",
+    hideFullNutrition: "Hide full nutrition ↑",
+    saltSugarFat: "Salt · Sugar · Fat",
+    percentDV: "% DV",
+    fssaiApproved: "FSSAI Approved",
+    unknownAdditives: "Unknown Additives",
+    tryTheseInstead: "Try these instead",
+    betterAlternatives: "Better alternatives",
+    copiedToClipboard: "Copied to clipboard!",
+    shareProduct: "Share product",
+    compareProducts: "Compare products",
+    // Allergens
+    gluten: "Gluten", dairy: "Dairy", nuts: "Nuts", soy: "Soy",
+    eggs: "Eggs", fish: "Fish", shellfish: "Shellfish",
+    allergenGluten: "🌾 Gluten", allergenDairy: "🥛 Dairy", allergenNuts: "🥜 Nuts",
+    allergenSoy: "🫘 Soy", allergenEggs: "🥚 Eggs", allergenFish: "🐟 Fish", allergenShellfish: "🦐 Shellfish",
+    // Brand score detail
+    brandScoreDetail1: "additives used",
+    brandScoreDetail2: "avg safety",
+    brandFssai: "FSSAI",
+    // Navigation
+    navHistory: "History", navFavorites: "Favorites",
+    // Features 11-20
+    safetyScoreTitle: "Safety Score",
+    breakdownSafeLabel: "Safe Additives",
+    breakdownWarnLabel: "Caution Additives",
+    breakdownAvoidLabel: "Avoid Additives",
+    breakdownAllergenLabel: "Allergen Match",
+    dataQualityLabel: "Data Quality",
+    categoryUltraProcessed: "Ultra-processed",
+    categoryProcessed: "Processed",
+    categoryFresh: "Fresh",
+    categoryOrganic: "Organic",
+    categoryCertified: "Certified",
+    timelineTitle: "Additive History",
+    alternativesTitle: "Better Alternatives",
+    altLoading: "Loading alternatives...",
+    settingsTitle: "Settings",
+    scanModeLabel: "Scan Mode",
+    scanModeFast: "Fast mode",
+    scanModeAccurate: "Accurate mode",
+    manualBarcodeLabel: "Manual barcode entry",
+    avoidedBrandsTitle: "Avoided Brands",
+    noAvoidedBrands: "No brands in avoid list",
+    removeBrand: "Remove",
+    brandWarningText: "This brand is in your avoid list!",
+    dismiss: "Dismiss",
+    removeFromAvoidList: "Remove from list",
+    addToAvoidList: "Add to avoid list",
+    weeklyReport: "Weekly Food Safety Report",
+    thisWeek: "इस सप्ताह",
+    compareWithLastWeek: "Compare with last week",
+    productsScanned: "Products scanned",
+    safetyTrend: "Safety trend",
+    topAllergens: "Top allergens",
+    newUnsafeAdditives: "New unsafe additives detected",
+    reportWeek: "Week",
+    noReportData: "No scan data for this week yet",
+    betterVsLastWeek: "Better vs last week",
+    worseVsLastWeek: "Worse vs last week",
+    sameVsLastWeek: "Same as last week",
+    viewReport: "View Report",
+    close: "Close",
+    ingredientDetail: "Ingredient Detail",
+    fullName: "Full Name",
+    description: "Description",
+    safetyRatings: "Safety Ratings",
+    dailyLimit: "Daily Limit",
+    sideEffects: "Side Effects",
+    allergenWarnings: "Allergen Warnings",
+    pregnancySafety: "Pregnancy Safety",
+    sources: "Sources",
+    safe: "Safe",
+    caution: "Caution",
+    avoid: "Avoid",
+    unknown: "Unknown",
+    generalPopulation: "Generally safe for general population",
+    limitedData: "Limited safety data available",
+    cautionPregnant: "Caution during pregnancy - consult doctor",
+    notRecommendedPregnant: "Not recommended during pregnancy",
+    tapForDetail: "Tap any additive for full details",
   },
   hi: {
     tagline: "किसी भी पैकेज्ड फूड का बारकोड स्कैन करें<br>और तुरंत जानें कि सुरक्षित है या नहीं",
@@ -512,6 +1273,120 @@ const I18 = {
     searchLoading: "खोज रहे हैं...", searchEmptyTitle: "कुछ नहीं मिला", searchEmptySub: "दूसरा नाम आज़माएं या बारकोड स्कैन करें",
     offline: "📴 ऑफलाइन — कैश्ड परिणाम दिखा रहे हैं",
     recentClear: "मिटाएं",
+    // New for features
+    historyTitle: "स्कैन इतिहास",
+    historyEmptyTitle: "कोई इतिहास नहीं",
+    historyEmptySub: "आपके स्कैन किए गए उत्पाद यहां दिखेंगे",
+    scannedOn: "स्कैन किया गया",
+    favoritesTitle: "पसंदीदा",
+    favoritesEmptyTitle: "अभी तक कोई पसंदीदा नहीं",
+    favoritesEmptySub: "किसी भी उत्पाद पर दिल का आइकन टैप करके सेव करें",
+    addToFavorites: "सेव करें",
+    removeFromFavorites: "हटाएं",
+    compareBtn: "तुलना",
+    compareTitle: "उत्पादों की तुलना",
+    compareLabel1: "वर्तमान उत्पाद",
+    compareLabel2: "उत्पाद चुनें",
+    comparePlaceholderText: "चुनने के लिए टैप करें",
+    comparePickerTitle: "तुलना के लिए उत्पाद चुनें",
+    allergensTitle: "⚠️ एलर्जी पाई गई",
+    containsAllergen: "शामिल है",
+    brandScore: "ब्रांड स्कोर",
+    calories: "कैलोरी",
+    protein: "प्रोटीन",
+    totalFat: "कुल वसा",
+    saturatedFat: "संतृप्त वसा",
+    transFat: "ट्रांस वसा",
+    cholesterol: "कोलेस्ट्रॉल",
+    carbohydrate: "कुल कार्बोहाइड्रेट",
+    dietaryFiber: "आहार फाइबर",
+    totalSugars: "कुल शर्करा",
+    servingSize: "सर्विंग साइज",
+    perServing: "प्रति सर्विंग",
+    perNServings: "प्रति",
+    servings: "सर्विंग",
+    servingsPerContainer: "प्रति कंटेनर सर्विंग",
+    viewFullNutrition: "पूर्ण पोषण देखें ↓",
+    hideFullNutrition: "पोषण छुपाएं ↑",
+    saltSugarFat: "नमक · चीनी · वसा",
+    percentDV: "% DV",
+    fssaiApproved: "FSSAI अनुमोदित",
+    unknownAdditives: "अज्ञात योजक",
+    tryTheseInstead: "इसे आज़माएं",
+    betterAlternatives: "बेहतर विकल्प",
+    copiedToClipboard: "क्लिपबोर्ड पर कॉपी किया गया!",
+    shareProduct: "उत्पाद साझा करें",
+    compareProducts: "उत्पादों की तुलना करें",
+    // Allergens
+    gluten: "ग्लूटेन", dairy: "डेयरी", nuts: "मेवे", soy: "सोया",
+    eggs: "अंडे", fish: "मछली", shellfish: "शेलफिश",
+    allergenGluten: "🌾 ग्लूटेन", allergenDairy: "🥛 डेयरी", allergenNuts: "🥜 मेवे",
+    allergenSoy: "🫘 सोया", allergenEggs: "🥚 अंडे", allergenFish: "🐟 मछली", allergenShellfish: "🦐 शेलफिश",
+    // Brand score detail
+    brandScoreDetail1: "योजक का उपयोग",
+    brandScoreDetail2: "औसत सुरक्षा",
+    brandFssai: "FSSAI",
+    // Navigation
+    navHistory: "इतिहास", navFavorites: "पसंदीदा",
+    // Features 11-20
+    safetyScoreTitle: "📊 सुरक्षा स्कोर",
+    breakdownSafeLabel: "सुरक्षित योजक",
+    breakdownWarnLabel: "सावधान योजक",
+    breakdownAvoidLabel: "बचें योजक",
+    breakdownAllergenLabel: "एलर्जी मैच",
+    dataQualityLabel: "डेटा गुणवत्ता",
+    categoryUltraProcessed: "अति-प्रोसेस्ड",
+    categoryProcessed: "प्रोसेस्ड",
+    categoryFresh: "ताज़ा",
+    categoryOrganic: "जैविक",
+    categoryCertified: "प्रमाणित",
+    timelineTitle: "योजक इतिहास",
+    alternativesTitle: "🔄 बेहतर विकल्प",
+    altLoading: "विकल्प खोज रहे हैं...",
+    settingsTitle: "सेटिंग्स",
+    scanModeLabel: "स्कैन मोड",
+    scanModeFast: "तेज़ मोड",
+    scanModeAccurate: "सटीक मोड",
+    manualBarcodeLabel: "मैन्युअल बारकोड एंट्री",
+    avoidedBrandsTitle: "बचने वाले ब्रांड",
+    noAvoidedBrands: "कोई ब्रांड नहीं",
+    removeBrand: "हटाएं",
+    brandWarningText: "यह ब्रांड आपकी बचने की सूची में है!",
+    dismiss: "नज़रअंदाज करें",
+    removeFromAvoidList: "सूची से हटाएं",
+    addToAvoidList: "बचने की सूची में जोड़ें",
+    weeklyReport: "साप्ताहिक फूड सेफ्टी रिपोर्ट",
+    thisWeek: "इस सप्ताह",
+    compareWithLastWeek: "पिछले सप्ताह से तुलना",
+    productsScanned: "स्कैन किए गए उत्पाद",
+    safetyTrend: "सुरक्षा रुझान",
+    topAllergens: "शीर्ष एलर्जी",
+    newUnsafeAdditives: "नए असुरक्षित योजक मिले",
+    reportWeek: "सप्ताह",
+    noReportData: "इस सप्ताह का कोई डेटा नहीं",
+    betterVsLastWeek: "पिछले सप्ताह से बेहतर",
+    worseVsLastWeek: "पिछले सप्ताह से खराब",
+    sameVsLastWeek: "पिछले सप्ताह जैसा",
+    viewReport: "रिपोर्ट देखें",
+    close: "बंद करें",
+    ingredientDetail: "योजक विवरण",
+    fullName: "पूरा नाम",
+    description: "विवरण",
+    safetyRatings: "सुरक्षा रेटिंग",
+    dailyLimit: "दैनिक सीमा",
+    sideEffects: "दुष्प्रभाव",
+    allergenWarnings: "एलर्जी चेतावनी",
+    pregnancySafety: "गर्भावस्था सुरक्षा",
+    sources: "स्रोत",
+    safe: "सुरक्षित",
+    caution: "सावधान",
+    avoid: "बचें",
+    unknown: "अज्ञात",
+    generalPopulation: "सामान्य आबादी के लिए सुरक्षित",
+    limitedData: "सीमित सुरक्षा डेटा",
+    cautionPregnant: "गर्भावस्था में सावधान - डॉक्टर से मिलें",
+    notRecommendedPregnant: "गर्भावस्था में अनुशंसित नहीं",
+    tapForDetail: "विवरण के लिए किसी भी योजक पर टैप करें",
   }
 };
 
@@ -539,13 +1414,26 @@ function applyTranslations() {
     aboutNote: 'textContent', searchLabel: 'textContent', searchBtnText: 'innerHTML',
     searchPlaceholder: 'placeholder', searchLoadingText: 'textContent',
     searchEmptyTitle: 'textContent', searchEmptySub: 'textContent', offline: 'textContent',
-    resultBackLabel: 'textContent', recentClear: 'textContent'
+    resultBackLabel: 'textContent', recentClear: 'textContent',
+    // New elements
+    historyBackLabel: 'textContent', historyTitleText: 'textContent', historyEmptyTitle: 'textContent', historyEmptySub: 'textContent',
+    favBackLabel: 'textContent', favTitleText: 'textContent', favEmptyTitle: 'textContent', favEmptySub: 'textContent',
+    compareBackLabel: 'textContent', compareTitleText: 'textContent', compareLabel1: 'textContent', compareLabel2: 'textContent',
+    comparePlaceholderText: 'textContent', comparePickerTitle: 'textContent',
+    favBtnLabel: 'textContent', compareBtnLabel: 'textContent', shareBtnLabel: 'textContent',
+    brandScoreLabel: 'textContent', allergenSectionTitle: 'textContent',
+    meterTitle: 'textContent', sodiumMeterLabel: 'textContent', sugarMeterLabel: 'textContent', fatMeterLabel: 'textContent',
+    nutritionToggleBtn: 'textContent', nfServingSize: 'textContent', nfServingAdjustLabel: 'textContent',
+    nfDisclaimer: 'textContent',
+    navHistoryLabel: 'textContent', navFavoritesLabel: 'textContent',
   };
   for (const [id, prop] of Object.entries(els)) {
     const el = document.getElementById(id);
     if (el) el[prop] = t(id);
   }
   renderRecentScans();
+  renderHistory();
+  renderFavorites();
 }
 
 // ============================================================
@@ -852,19 +1740,67 @@ function nutrLevel(val, warnThresh, avoidThresh) {
 }
 
 // ============================================================
-// HISTORY + CACHE
+// HISTORY + CACHE (Feature 1: Extended to 50 entries with timestamps)
 // ============================================================
 function getHistory() {
   try { return JSON.parse(localStorage.getItem('safe2eat_history') || '[]'); } catch(e) { return []; }
 }
 function addToHistory(item) {
   const hist = getHistory().filter(h => h.barcode !== item.barcode);
-  hist.unshift(item);
-  localStorage.setItem('safe2eat_history', JSON.stringify(hist.slice(0, 10)));
+  hist.unshift({ ...item, timestamp: Date.now() });
+  localStorage.setItem('safe2eat_history', JSON.stringify(hist.slice(0, 50)));
 }
 function clearHistory() {
   localStorage.removeItem('safe2eat_history');
   renderRecentScans();
+  renderHistory();
+}
+
+function timeAgo(timestamp) {
+  const seconds = Math.floor((Date.now() - timestamp) / 1000);
+  if (seconds < 60) return currentLang === 'hi' ? 'अभी' : 'Just now';
+  const minutes = Math.floor(seconds / 60);
+  if (minutes < 60) return currentLang === 'hi' ? `${minutes} मिनट पहले` : `${minutes}m ago`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return currentLang === 'hi' ? `${hours} घंटे पहले` : `${hours}h ago`;
+  const days = Math.floor(hours / 24);
+  if (days < 30) return currentLang === 'hi' ? `${days} दिन पहले` : `${days}d ago`;
+  const weeks = Math.floor(days / 7);
+  if (weeks < 4) return currentLang === 'hi' ? `${weeks} सप्ताह पहले` : `${weeks}w ago`;
+  const months = Math.floor(days / 30);
+  return currentLang === 'hi' ? `${months} महीने पहले` : `${months}mo ago`;
+}
+
+function formatScanDate(timestamp) {
+  const d = new Date(timestamp);
+  const dateStr = d.toLocaleDateString(currentLang === 'hi' ? 'hi-IN' : 'en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  const timeStr = d.toLocaleTimeString(currentLang === 'hi' ? 'hi-IN' : 'en-US', { hour: '2-digit', minute: '2-digit' });
+  if (currentLang === 'hi') {
+    return `${dateStr} को ${timeStr}`;
+  }
+  return `${dateStr} at ${timeStr}`;
+}
+
+function renderHistory() {
+  const hist = getHistory();
+  const list = document.getElementById('historyList');
+  const empty = document.getElementById('historyEmpty');
+
+  if (hist.length === 0) {
+    list.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+
+  empty.style.display = 'none';
+  list.innerHTML = hist.map(h => {
+    const badgeClass = h.overall === 'avoid' ? 'avoid' : h.overall === 'warning' ? 'warning' : 'safe';
+    const verdictText = h.overall === 'avoid' ? t('avoid') : h.overall === 'warning' ? t('warn') : t('safe');
+    const imgHtml = h.image_url
+      ? `<img class="history-img" src="${h.image_url}" alt="${h.name}" onerror="this.style.display='none'">`
+      : `<div class="history-img" style="display:flex;align-items:center;justify-content:center;font-size:20px">🥗</div>`;
+    return `<button class="history-item" onclick="lookupDemo('${h.barcode}')">${imgHtml}<div class="history-info"><div class="history-name">${h.name}</div><div class="history-brand">${h.brand || ''}</div></div><div><div class="history-time">${timeAgo(h.timestamp)}</div><span class="history-badge ${badgeClass}">${verdictText}</span></div></button>`;
+  }).join('');
 }
 
 // Cache for offline
@@ -955,11 +1891,609 @@ function copyToClipboard(text) {
 }
 
 // ============================================================
+// FAVORITES (Feature 2)
+// ============================================================
+function getFavorites() {
+  try { return JSON.parse(localStorage.getItem('safe2eat_favorites') || '[]'); } catch(e) { return []; }
+}
+
+function isFavorite(barcode) {
+  return getFavorites().some(f => f.barcode === barcode);
+}
+
+function addToFavorites(item) {
+  const favs = getFavorites().filter(f => f.barcode !== item.barcode);
+  favs.unshift(item);
+  localStorage.setItem('safe2eat_favorites', JSON.stringify(favs));
+}
+
+function removeFromFavorites(barcode) {
+  const favs = getFavorites().filter(f => f.barcode !== barcode);
+  localStorage.setItem('safe2eat_favorites', JSON.stringify(favs));
+}
+
+function toggleFavorite() {
+  const barcode = currentProductBarcode;
+  if (!barcode) return;
+  const name = document.getElementById('productName').textContent;
+  const brand = document.getElementById('productBrand').textContent;
+  const image_url = currentProductImage || null;
+  const overall = currentProductVerdict || 'unknown';
+
+  if (isFavorite(barcode)) {
+    removeFromFavorites(barcode);
+    showToast(t('removeFromFavorites'));
+  } else {
+    addToFavorites({ barcode, name, brand, image_url, overall, timestamp: Date.now() });
+    showToast(t('addToFavorites'));
+  }
+  updateFavoriteBtn();
+  renderFavorites();
+}
+
+function updateFavoriteBtn() {
+  const btn = document.getElementById('favBtn');
+  if (!btn) return;
+  const isFav = isFavorite(currentProductBarcode);
+  btn.classList.toggle('fav-active', isFav);
+  document.getElementById('favBtnIcon').textContent = isFav ? '❤️' : '🤍';
+  document.getElementById('favBtnLabel').textContent = isFav ? t('removeFromFavorites') : t('addToFavorites');
+}
+
+function renderFavorites() {
+  const favs = getFavorites();
+  const list = document.getElementById('favList');
+  const empty = document.getElementById('favEmpty');
+
+  if (favs.length === 0) {
+    list.innerHTML = '';
+    empty.style.display = 'block';
+    return;
+  }
+
+  empty.style.display = 'none';
+  list.innerHTML = favs.map(f => {
+    const badgeClass = f.overall === 'avoid' ? 'avoid' : f.overall === 'warning' ? 'warning' : 'safe';
+    const verdictText = f.overall === 'avoid' ? t('avoid') : f.overall === 'warning' ? t('warn') : t('safe');
+    const imgHtml = f.image_url
+      ? `<img class="fav-img" src="${f.image_url}" alt="${f.name}" onerror="this.style.display='none'">`
+      : `<div class="fav-img" style="display:flex;align-items:center;justify-content:center;font-size:20px">🥗</div>`;
+    return `<div class="fav-item"><button class="fav-item" onclick="lookupDemo('${f.barcode}')" style="flex:1">${imgHtml}<div class="fav-info"><div class="fav-name">${f.name}</div><div class="fav-brand">${f.brand || ''}</div></div><span class="fav-badge ${badgeClass}">${verdictText}</span></button><button class="fav-remove" onclick="event.stopPropagation();removeFavoriteFromList('${f.barcode}')">✕</button></div>`;
+  }).join('');
+}
+
+function removeFavoriteFromList(barcode) {
+  removeFromFavorites(barcode);
+  renderFavorites();
+  if (isFavorite(currentProductBarcode) === false && currentProductBarcode === barcode) {
+    updateFavoriteBtn();
+  }
+}
+
+function showFavorites() {
+  hideAllScreens();
+  document.getElementById('favScreen').classList.add('visible');
+  setActiveNav('favorites');
+  renderFavorites();
+}
+
+// ============================================================
+// ALLERGEN DETECTION (Feature 5)
+// ============================================================
+const ALLERGEN_KEYWORDS = {
+  gluten: ['gluten', 'wheat', 'barley', 'rye', 'oats', 'maida', 'atta', 'semolina', 'durum', 'spelt', 'kamut', 'triticale'],
+  dairy: ['milk', 'dairy', 'lactose', 'casein', 'whey', 'butter', 'cheese', 'cream', 'ghee', 'yogurt', 'curd', 'lactalbumin', 'lactoglobulin'],
+  nuts: ['nuts', 'almond', 'cashew', 'walnut', 'pistachio', 'hazelnut', 'pecan', 'macadamia', 'brazil nut', 'chestnut', 'peanut'],
+  soy: ['soy', 'soya', 'soybean', 'edamame', 'tofu', 'tempeh', 'miso', 'soy lecithin', 'soy protein'],
+  eggs: ['egg', 'albumin', 'globulin', 'lysozyme', 'mayonnaise', 'meringue'],
+  fish: ['fish', 'cod', 'salmon', 'tuna', 'anchovy', 'sardine', 'mackerel', 'fish oil', 'fish sauce'],
+  shellfish: ['shellfish', 'shrimp', 'prawn', 'crab', 'lobster', 'oyster', 'mussel', 'clam', 'scallop', 'squid', 'octopus', 'prawns'],
+};
+
+function detectAllergens(ingredientText, additives) {
+  const text = (ingredientText || '').toLowerCase();
+  const found = [];
+
+  for (const [allergen, keywords] of Object.entries(ALLERGEN_KEYWORDS)) {
+    for (const kw of keywords) {
+      if (text.includes(kw)) {
+        found.push(allergen);
+        break;
+      }
+    }
+    // Also check additives codes known for allergens
+    for (const a of (additives || [])) {
+      const ac = a.toLowerCase();
+      if (allergen === 'dairy' && ['e901', 'e904', 'e1105'].includes(ac)) found.push(allergen);
+      if (allergen === 'eggs' && ['e1105'].includes(ac)) found.push(allergen);
+    }
+  }
+
+  return [...new Set(found)];
+}
+
+function renderAllergenSection(allergens) {
+  const section = document.getElementById('allergenSection');
+  const strip = document.getElementById('allergenStrip');
+
+  if (!allergens || allergens.length === 0) {
+    section.style.display = 'none';
+    return;
+  }
+
+  section.style.display = 'block';
+  const allergenMap = {
+    gluten: t('allergenGluten'),
+    dairy: t('allergenDairy'),
+    nuts: t('allergenNuts'),
+    soy: t('allergenSoy'),
+    eggs: t('allergenEggs'),
+    fish: t('allergenFish'),
+    shellfish: t('allergenShellfish'),
+  };
+
+  strip.innerHTML = allergens.map(a =>
+    `<span class="allergen-badge ${a}">${allergenMap[a] || a}</span>`
+  ).join('');
+}
+
+// ============================================================
+// NUTRITION FACTS PANEL + SERVING SIZE (Features 6 & 8)
+// ============================================================
+let currentServings = 1;
+let currentNutritionData = null;
+
+const DV = {
+  calories: 2000,
+  totalFat: 78,
+  satFat: 20,
+  transFat: null,
+  cholesterol: 300,
+  sodium: 2300,
+  totalCarbs: 275,
+  dietaryFiber: 28,
+  totalSugars: null,
+  protein: 50,
+};
+
+function parseFullNutrition(p) {
+  const n = p.nutriments || {};
+  const toNum = v => v !== undefined && v !== null ? parseFloat(v) : null;
+  return {
+    servingSize: p.serving_size || '1 serving',
+    servingQty: p.serving_quantity ? parseFloat(p.serving_quantity) : 1,
+    calories: toNum(n['energy-kcal_100g']) || toNum(n['energy-kcal_serving']),
+    totalFat: toNum(n['fat_100g']) || toNum(n['fat_serving']),
+    satFat: toNum(n['saturated-fat_100g']) || toNum(n['saturated-fat_serving']),
+    transFat: toNum(n['trans-fat_100g']) || toNum(n['trans-fat_serving']),
+    cholesterol: toNum(n['cholesterol_100g']) || toNum(n['cholesterol_serving']),
+    sodium: toNum(n['sodium_100g']) || toNum(n['sodium_serving']),
+    totalCarbs: toNum(n['carbohydrates_100g']) || toNum(n['carbohydrates_serving']),
+    dietaryFiber: toNum(n['fiber_100g']) || toNum(n['fiber_serving']),
+    totalSugars: toNum(n['sugars_100g']) || toNum(n['sugars_serving']),
+    protein: toNum(n['proteins_100g']) || toNum(n['proteins_serving']),
+  };
+}
+
+function dvPercent(val, dvVal) {
+  if (val === null || dvVal === null) return null;
+  return Math.round((val / dvVal) * 100);
+}
+
+function updateNutritionFacts() {
+  if (!currentNutritionData) return;
+  const n = currentNutritionData;
+  const s = currentServings;
+
+  // Calories
+  const calVal = n.calories !== null ? (n.calories * s) : null;
+  document.getElementById('nfCalories').textContent = calVal !== null ? Math.round(calVal) : '—';
+  document.getElementById('nfServingSize').textContent = `${t('perNServings')} ${s} ${s === 1 ? t('servings').replace('s', '') : t('servings')}`;
+
+  // Total Fat
+  const tfVal = n.totalFat !== null ? (n.totalFat * s) : null;
+  document.getElementById('nfTotalFatVal').textContent = tfVal !== null ? tfVal.toFixed(1) + 'g' : '—';
+  document.getElementById('nfTotalFatDV').textContent = tfVal !== null && DV.totalFat ? dvPercent(tfVal, DV.totalFat) + '%' : '';
+
+  // Sat Fat
+  const sfVal = n.satFat !== null ? (n.satFat * s) : null;
+  document.getElementById('nfSatFatVal').textContent = sfVal !== null ? sfVal.toFixed(1) + 'g' : '—';
+  document.getElementById('nfSatFatDV').textContent = sfVal !== null && DV.satFat ? dvPercent(sfVal, DV.satFat) + '%' : '';
+
+  // Trans Fat
+  const ttfVal = n.transFat !== null ? (n.transFat * s) : null;
+  document.getElementById('nfTransFatVal').textContent = ttfVal !== null ? ttfVal.toFixed(1) + 'g' : '0g';
+
+  // Cholesterol
+  const cholVal = n.cholesterol !== null ? (n.cholesterol * s * 1000) : null;
+  document.getElementById('nfCholVal').textContent = cholVal !== null ? Math.round(cholVal) + 'mg' : '—';
+  document.getElementById('nfCholDV').textContent = cholVal !== null && DV.cholesterol ? dvPercent(cholVal, DV.cholesterol) + '%' : '';
+
+  // Sodium (stored as g per 100g, convert to mg)
+  const sodVal = n.sodium !== null ? (n.sodium * s * 1000) : null;
+  document.getElementById('nfSodiumVal').textContent = sodVal !== null ? Math.round(sodVal) + 'mg' : '—';
+  document.getElementById('nfSodiumDV').textContent = sodVal !== null && DV.sodium ? dvPercent(sodVal, DV.sodium) + '%' : '';
+
+  // Carbs
+  const carbVal = n.totalCarbs !== null ? (n.totalCarbs * s) : null;
+  document.getElementById('nfCarbsVal').textContent = carbVal !== null ? carbVal.toFixed(1) + 'g' : '—';
+  document.getElementById('nfCarbsDV').textContent = carbVal !== null && DV.totalCarbs ? dvPercent(carbVal, DV.totalCarbs) + '%' : '';
+
+  // Fiber
+  const fibVal = n.dietaryFiber !== null ? (n.dietaryFiber * s) : null;
+  document.getElementById('nfFiberVal').textContent = fibVal !== null ? fibVal.toFixed(1) + 'g' : '—';
+  document.getElementById('nfFiberDV').textContent = fibVal !== null && DV.dietaryFiber ? dvPercent(fibVal, DV.dietaryFiber) + '%' : '';
+
+  // Sugars
+  const sugVal = n.totalSugars !== null ? (n.totalSugars * s) : null;
+  document.getElementById('nfSugarsVal').textContent = sugVal !== null ? sugVal.toFixed(1) + 'g' : '—';
+
+  // Protein
+  const protVal = n.protein !== null ? (n.protein * s) : null;
+  document.getElementById('nfProteinVal').textContent = protVal !== null ? protVal.toFixed(1) + 'g' : '—';
+  document.getElementById('nfProteinDV').textContent = protVal !== null && DV.protein ? dvPercent(protVal, DV.protein) + '%' : '';
+
+  document.getElementById('nfServingCount').textContent = s;
+}
+
+function adjustServings(delta) {
+  currentServings = Math.max(1, Math.min(20, currentServings + delta));
+  updateNutritionFacts();
+  updateMeters();
+}
+
+function toggleNutritionFacts() {
+  const panel = document.getElementById('nutritionFacts');
+  const btn = document.getElementById('nutritionToggleBtn');
+  if (panel.style.display === 'none') {
+    panel.style.display = 'block';
+    btn.textContent = t('hideFullNutrition');
+  } else {
+    panel.style.display = 'none';
+    btn.textContent = t('viewFullNutrition');
+  }
+}
+
+// ============================================================
+// SALT/SUGAR/FAT METERS (Feature 7)
+// ============================================================
+function updateMeters() {
+  if (!currentNutritionData) return;
+  const n = currentNutritionData;
+  const s = currentServings;
+
+  // Sodium (stored as g/100g, convert to mg per serving)
+  const sodVal = n.sodium !== null ? (n.sodium * s * 1000) : null;
+  const sodDV = dvPercent(sodVal, DV.sodium);
+  renderMeter('sodium', sodVal, 'mg', sodDV, 2300);
+
+  // Sugar (stored as g/100g)
+  const sugVal = n.totalSugars !== null ? (n.totalSugars * s) : null;
+  const sugDV = dvPercent(sugVal, 50); // ~50g per day max for added sugars
+  renderMeter('sugar', sugVal, 'g', sugDV, 50);
+
+  // Total Fat (stored as g/100g)
+  const fatVal = n.totalFat !== null ? (n.totalFat * s) : null;
+  const fatDV = dvPercent(fatVal, DV.totalFat);
+  renderMeter('fat', fatVal, 'g', fatDV, 78);
+}
+
+function renderMeter(type, val, unit, dvPct, dvTotal) {
+  const bar = document.getElementById(`${type}MeterBar`);
+  const valEl = document.getElementById(`${type}MeterVal`);
+  const dvEl = document.getElementById(`${type}MeterDV`);
+
+  if (val === null) {
+    bar.style.width = '0%';
+    valEl.textContent = '—';
+    dvEl.textContent = '';
+    return;
+  }
+
+  valEl.textContent = (type === 'sodium' ? Math.round(val) : val.toFixed(1)) + unit;
+  dvEl.textContent = dvPct !== null ? dvPct + '%' : '';
+
+  let level = 'low';
+  let pct = dvPct !== null ? Math.min(100, dvPct) : 0;
+  if (dvPct !== null) {
+    if (dvPct > 30) level = 'high';
+    else if (dvPct >= 10) level = 'mid';
+  }
+  bar.className = `meter-bar ${level}`;
+  bar.style.width = pct + '%';
+}
+
+// ============================================================
+// BRAND REPUTATION SCORE (Feature 10)
+// ============================================================
+function computeBrandScore(brand, additives) {
+  if (!brand) return null;
+
+  // Get brand stats from localStorage
+  let brandStats;
+  try {
+    brandStats = JSON.parse(localStorage.getItem('safe2eat_brand_stats') || '{}');
+  } catch(e) { brandStats = {}; }
+
+  const brandKey = brand.toLowerCase().trim();
+  const existing = brandStats[brandKey] || { count: 0, safeCount: 0, warnCount: 0, avoidCount: 0 };
+
+  // Update with current product
+  existing.count = (existing.count || 0) + 1;
+  const overall = getOverallVerdict(additives);
+  if (overall === 'safe') existing.safeCount = (existing.safeCount || 0) + 1;
+  else if (overall === 'warning') existing.warnCount = (existing.warnCount || 0) + 1;
+  else if (overall === 'avoid') existing.avoidCount = (existing.avoidCount || 0) + 1;
+
+  brandStats[brandKey] = existing;
+  try { localStorage.setItem('safe2eat_brand_stats', JSON.stringify(brandStats)); } catch(e) {}
+
+  // Compute score 0-100
+  const additivePenalty = Math.min(30, additives.length * 3); // up to 30 penalty for additives
+  const safeRatio = existing.count > 0 ? (existing.safeCount / existing.count) : 0.5;
+  const baseScore = Math.round(safeRatio * 70); // 70 points for safety history
+  const score = Math.max(0, Math.min(100, baseScore + (30 - additivePenalty)));
+
+  let grade = 'F';
+  if (score >= 85) grade = 'A';
+  else if (score >= 70) grade = 'B';
+  else if (score >= 50) grade = 'C';
+  else if (score >= 30) grade = 'D';
+
+  const verdictLabel = score >= 85 ? t('safe') : score >= 50 ? t('warn') : t('avoid');
+
+  return { score, grade, brand: brandKey, additives: additives.length, existing };
+}
+
+function getOverallVerdict(additives) {
+  const safetyLevels = additives.map(a => {
+    const ing = lookupIngredient(a);
+    return ing ? ing.fssai : 'unknown';
+  }).filter(s => s !== 'unknown');
+
+  if (safetyLevels.includes('avoid')) return 'avoid';
+  if (safetyLevels.includes('warning')) return 'warning';
+  if (safetyLevels.every(l => l === 'safe')) return 'safe';
+  return 'warning';
+}
+
+function renderBrandScore(brand, additives) {
+  const scoreData = computeBrandScore(brand, additives);
+  if (!scoreData) {
+    document.getElementById('brandScore').style.display = 'none';
+    return;
+  }
+
+  document.getElementById('brandScore').style.display = 'flex';
+  document.getElementById('brandGrade').textContent = scoreData.grade;
+  document.getElementById('brandGrade').className = `brand-grade ${scoreData.grade}`;
+  document.getElementById('brandScoreVal').textContent = scoreData.score + '/100';
+  document.getElementById('brandScoreDetail').textContent = `${scoreData.additives} ${t('brandScoreDetail1')} · ${scoreData.grade !== 'F' ? t('brandScoreDetail2') : ''}`;
+  document.getElementById('brandScoreBar').style.width = scoreData.score + '%';
+}
+
+// ============================================================
+// COMPARE PRODUCTS (Feature 4)
+// ============================================================
+let currentCompareProduct = null;
+let compareProduct2 = null;
+
+function startCompare() {
+  currentCompareProduct = {
+    barcode: currentProductBarcode,
+    name: document.getElementById('productName').textContent,
+    brand: document.getElementById('productBrand').textContent,
+    image_url: currentProductImage,
+    overall: currentProductVerdict,
+    additives: currentProductAdditives || [],
+    nutr: currentNutritionData,
+  };
+
+  hideAllScreens();
+  document.getElementById('compareScreen').classList.add('visible');
+  setActiveNav(null);
+
+  // Populate first card
+  document.getElementById('compareImg1').src = currentCompareProduct.image_url || '';
+  document.getElementById('compareName1').textContent = currentCompareProduct.name;
+  document.getElementById('compareBrand1').textContent = currentCompareProduct.brand;
+  const v1 = document.getElementById('compareVerdict1');
+  v1.textContent = t(currentCompareProduct.overall) || currentCompareProduct.overall.toUpperCase();
+  v1.className = `compare-card-verdict ${currentCompareProduct.overall}`;
+
+  // Reset second card
+  document.getElementById('comparePlaceholder2').style.display = 'flex';
+  document.getElementById('compareImg2').style.display = 'none';
+  document.getElementById('compareName2').textContent = '';
+  document.getElementById('compareBrand2').textContent = '';
+  document.getElementById('compareVerdict2').style.display = 'none';
+  document.getElementById('compareRows').innerHTML = '';
+  document.getElementById('comparePicker').style.display = 'none';
+  compareProduct2 = null;
+}
+
+function openComparePicker() {
+  const picker = document.getElementById('comparePicker');
+  const hist = getHistory().filter(h => h.barcode !== currentCompareProduct.barcode);
+  const favs = getFavorites().filter(f => f.barcode !== currentCompareProduct.barcode);
+  const items = [...hist, ...favs];
+  const unique = items.filter((v, i, a) => a.findIndex(t => t.barcode === v.barcode) === i).slice(0, 20);
+
+  if (unique.length === 0) {
+    picker.innerHTML = `<p style="text-align:center;color:var(--text-dim);font-size:13px;padding:20px">${currentLang === 'hi' ? 'कोई उत्पाद नहीं मिला' : 'No products to compare'}</p>`;
+  } else {
+    picker.innerHTML = `<p class="section-title">${t('comparePickerTitle')}</p>` +
+      unique.map(h => {
+        const badgeClass = h.overall === 'avoid' ? 'avoid' : h.overall === 'warning' ? 'warning' : 'safe';
+        const imgHtml = h.image_url
+          ? `<img class="fav-img" src="${h.image_url}" alt="${h.name}" onerror="this.style.display='none'">`
+          : `<div class="fav-img" style="display:flex;align-items:center;justify-content:center;font-size:20px">🥗</div>`;
+        return `<button class="fav-item" onclick="selectCompareProduct('${h.barcode}')">${imgHtml}<div class="fav-info"><div class="fav-name">${h.name}</div><div class="fav-brand">${h.brand || ''}</div></div><span class="fav-badge ${badgeClass}">${t(h.overall) || h.overall}</span></button>`;
+      }).join('');
+  }
+  picker.style.display = 'block';
+}
+
+async function selectCompareProduct(barcode) {
+  // Fetch from cache or API
+  const cached = getCachedProduct(barcode);
+  let data;
+  if (cached) {
+    data = cached;
+  } else {
+    try {
+      const res = await fetch(`https://world.openfoodfacts.org/api/v2/product/${barcode}.json`);
+      data = await res.json();
+    } catch(e) {
+      showToast(currentLang === 'hi' ? 'उत्पाद लाने में त्रुटि' : 'Error loading product');
+      return;
+    }
+  }
+
+  if (data.status !== 1) {
+    showToast(currentLang === 'hi' ? 'उत्पाद नहीं मिला' : 'Product not found');
+    return;
+  }
+
+  const p = data.product;
+  const additives = (p.additives_tags || []).map(t => t.replace('en:', ''));
+  const overall = getOverallVerdict(additives);
+  const nutr = parseFullNutrition(p);
+
+  compareProduct2 = {
+    barcode: p.code || barcode,
+    name: p.product_name || p.product_name_en || 'Unknown',
+    brand: p.brands || '',
+    image_url: p.image_url || '',
+    overall,
+    additives,
+    nutr,
+  };
+
+  // Update UI
+  document.getElementById('comparePlaceholder2').style.display = 'none';
+  const img2 = document.getElementById('compareImg2');
+  img2.src = compareProduct2.image_url;
+  img2.style.display = 'block';
+  document.getElementById('compareName2').textContent = compareProduct2.name;
+  document.getElementById('compareBrand2').textContent = compareProduct2.brand;
+  const v2 = document.getElementById('compareVerdict2');
+  v2.textContent = t(overall) || overall.toUpperCase();
+  v2.className = `compare-card-verdict ${overall}`;
+  v2.style.display = 'inline-block';
+
+  document.getElementById('comparePicker').style.display = 'none';
+
+  // Render comparison rows
+  renderCompareRows();
+}
+
+function renderCompareRows() {
+  const rows = document.getElementById('compareRows');
+  const p1 = currentCompareProduct;
+  const p2 = compareProduct2;
+  if (!p1 || !p2) return;
+
+  const n1 = p1.nutr || {};
+  const n2 = p2.nutr || {};
+
+  const rowData = [
+    { label: t('safe') + ' Additives', v1: p1.additives.filter(a => lookupIngredient(a)?.fssai === 'safe').length, v2: p2.additives.filter(a => lookupIngredient(a)?.fssai === 'safe').length, better: 'high' },
+    { label: t('warn') + ' Additives', v1: p1.additives.filter(a => lookupIngredient(a)?.fssai === 'warning').length, v2: p2.additives.filter(a => lookupIngredient(a)?.fssai === 'warning').length, better: 'low' },
+    { label: t('avoid') + ' Additives', v1: p1.additives.filter(a => lookupIngredient(a)?.fssai === 'avoid').length, v2: p2.additives.filter(a => lookupIngredient(a)?.fssai === 'avoid').length, better: 'low' },
+    { label: t('calories'), v1: n1.calories, v2: n2.calories, unit: 'kcal', better: 'low' },
+    { label: t('totalFat'), v1: n1.totalFat, v2: n2.totalFat, unit: 'g', better: 'low' },
+    { label: t('saturatedFat'), v1: n1.satFat, v2: n2.satFat, unit: 'g', better: 'low' },
+    { label: t('sodium'), v1: n1.sodium !== null ? n1.sodium * 1000 : null, v2: n2.sodium !== null ? n2.sodium * 1000 : null, unit: 'mg', better: 'low' },
+    { label: t('totalSugars'), v1: n1.totalSugars, v2: n2.totalSugars, unit: 'g', better: 'low' },
+    { label: t('protein'), v1: n1.protein, v2: n2.protein, unit: 'g', better: 'high' },
+    { label: t('dietaryFiber'), v1: n1.dietaryFiber, v2: n2.dietaryFiber, unit: 'g', better: 'high' },
+  ];
+
+  rows.innerHTML = '<p class="section-title" style="margin-bottom:8px">' + t('compareProducts') + '</p>' +
+    rowData.map(r => {
+      const v1Str = r.v1 !== null && r.v1 !== undefined ? (r.unit ? r.v1.toFixed(1) + r.unit : r.v1) : '—';
+      const v2Str = r.v2 !== null && r.v2 !== undefined ? (r.unit ? r.v2.toFixed(1) + r.unit : r.v2) : '—';
+
+      let v1Class = '', v2Class = '';
+      if (r.v1 !== null && r.v2 !== null) {
+        if (r.better === 'high') {
+          v1Class = r.v1 > r.v2 ? 'safe' : r.v1 < r.v2 ? 'avoid' : '';
+          v2Class = r.v2 > r.v1 ? 'safe' : r.v2 < r.v1 ? 'avoid' : '';
+        } else {
+          v1Class = r.v1 < r.v2 ? 'safe' : r.v1 > r.v2 ? 'avoid' : '';
+          v2Class = r.v2 < r.v1 ? 'safe' : r.v2 > r.v1 ? 'avoid' : '';
+        }
+      }
+
+      return `<div class="compare-row"><span class="compare-row-label">${r.label}</span><span class="compare-row-val ${v1Class}">${v1Str}</span><span class="compare-row-val ${v2Class}">${v2Str}</span></div>`;
+    }).join('');
+}
+
+// ============================================================
+// SHARE (Feature 9 - Enhanced)
+// ============================================================
+async function shareResult() {
+  const name = document.getElementById('productName').textContent;
+  const brand = document.getElementById('productBrand').textContent;
+  const verdict = document.getElementById('verdictLabel').textContent;
+  const emoji = document.getElementById('verdictEmoji').textContent;
+
+  // Build allergen text
+  let allergenText = '';
+  const allergenSection = document.getElementById('allergenSection');
+  if (allergenSection.style.display !== 'none') {
+    const badges = document.querySelectorAll('#allergenStrip .allergen-badge');
+    const allergens = [];
+    badges.forEach(b => allergens.push(b.textContent.trim()));
+    if (allergens.length > 0) {
+      allergenText = currentLang === 'hi'
+        ? `\n⚠️ एलर्जी: ${allergens.join(', ')}`
+        : `\n⚠️ Allergens: ${allergens.join(', ')}`;
+    }
+  }
+
+  const text = `${emoji} *${name}*\n🏷️ ${brand}\n📊 ${verdict}${allergenText}\n\nChecked with Safe2Eat 🍽️`;
+
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: 'Safe2Eat', text });
+      return;
+    } catch(e) {
+      // fall through to clipboard
+    }
+  }
+  copyToClipboard(text);
+  showToast(t('copiedToClipboard'));
+}
+
+function copyToClipboard(text) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).catch(() => {});
+  }
+}
+
+function showToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.classList.add('visible');
+  setTimeout(() => toast.classList.remove('visible'), 2000);
+}
+
+// ============================================================
 // OFFLINE DETECTION
 // ============================================================
 let isOffline = false;
 window.addEventListener('online', () => { isOffline = false; document.getElementById('offlineBanner').classList.remove('visible'); });
 window.addEventListener('offline', () => { isOffline = true; });
+
+// ============================================================
+// GLOBAL STATE for current product
+// ============================================================
+let currentProductBarcode = null;
+let currentProductImage = null;
+let currentProductVerdict = null;
+let currentProductAdditives = null;
 
 // ============================================================
 // MAIN API LOOKUP
@@ -1009,14 +2543,22 @@ async function renderResult(data, fromCache) {
     const ing = lookupIngredient(a);
     return ing ? ing.fssai : 'unknown';
   }).filter(s => s !== 'unknown');
-  
-  const overall = safetyLevels.includes('avoid') ? 'avoid' 
-    : safetyLevels.includes('warning') ? 'warning' 
+
+  const overall = safetyLevels.includes('avoid') ? 'avoid'
+    : safetyLevels.includes('warning') ? 'warning'
     : safetyLevels.every(l => l === 'safe') ? 'safe' : 'warning';
-  
+
   const vegStatus = detectVegetarian(p.ingredients_text || '', additives);
   const nutr = parseNutrition(p);
-  
+
+  // Set global state
+  currentProductBarcode = p.code || document.getElementById('barcodeInput').value.trim();
+  currentProductImage = p.image_url || null;
+  currentProductVerdict = overall;
+  currentProductAdditives = additives;
+  currentServings = 1;
+  currentNutritionData = parseFullNutrition(p);
+
   const verdictMap = {
     safe: { emoji: '✅', label: t('verdictSafe'), sub: t('verdictSafeSub') },
     warning: { emoji: '⚠️', label: t('verdictWarn'), sub: t('verdictWarnSub') },
@@ -1024,22 +2566,22 @@ async function renderResult(data, fromCache) {
     unknown: { emoji: '❓', label: t('verdictUnknown'), sub: t('verdictUnknownSub') }
   };
   const v = verdictMap[overall];
-  
+
   // Offline banner
   document.getElementById('offlineBanner').classList.toggle('visible', fromCache);
-  
+
   // Verdict
   document.getElementById('verdict').className = `verdict ${overall}`;
   document.getElementById('verdictEmoji').textContent = v.emoji;
   document.getElementById('verdictLabel').textContent = v.label;
   document.getElementById('verdictLabel').className = `verdict-label ${overall}`;
   document.getElementById('verdictSub').textContent = v.sub;
-  
+
   // Product
   const productName = p.product_name || p.product_name_en || 'Unknown Product';
   document.getElementById('productName').textContent = productName;
   document.getElementById('productBrand').textContent = p.brands || '';
-  
+
   // Product image
   const imgWrap = document.getElementById('productImgWrap');
   if (p.image_url) {
@@ -1047,29 +2589,45 @@ async function renderResult(data, fromCache) {
   } else {
     imgWrap.innerHTML = `<div class="product-img-placeholder">🥗</div>`;
   }
-  
+
   // Vegetarian badge
   const vegBadge = document.getElementById('vegBadge');
   vegBadge.textContent = vegStatus === 'veg' ? t('veg') : vegStatus === 'nonveg' ? t('nonveg') : t('uncertain');
   vegBadge.className = `veg-badge ${vegStatus}`;
-  
-  // Nutrition strip
+
+  // Update favorite button
+  updateFavoriteBtn();
+
+  // Brand Reputation Score (Feature 10)
+  renderBrandScore(p.brands || '', additives);
+
+  // Allergen Warnings (Feature 5)
+  const allergens = detectAllergens(p.ingredients_text || '', additives);
+  renderAllergenSection(allergens);
+
+  // Salt/Sugar/Fat Meters (Feature 7)
+  updateMeters();
+
+  // Nutrition strip (quick view)
   const nutritionStrip = document.getElementById('nutritionStrip');
   const nutris = [
     nutr.sugar !== null ? { label: t('sugar'), val: nutr.sugar.toFixed(1) + 'g', level: nutrLevel(nutr.sugar, 10, 20) } : null,
     nutr.sodium !== null ? { label: t('sodium'), val: (nutr.sodium * 1000).toFixed(0) + 'mg', level: nutrLevel(nutr.sodium * 1000, 500, 1000) } : null,
     nutr.satFat !== null ? { label: t('satFat'), val: nutr.satFat.toFixed(1) + 'g', level: nutrLevel(nutr.satFat, 3, 6) } : null,
   ].filter(x => x !== null);
-  
+
   if (nutris.length > 0) {
-    nutritionStrip.innerHTML = nutris.map(n => 
+    nutritionStrip.innerHTML = nutris.map(n =>
       `<div class="nutrition-chip"><span class="n-value n-${n.level}">${n.val}</span><span class="n-label">${n.label}</span></div>`
     ).join('');
     nutritionStrip.style.display = 'flex';
   } else {
     nutritionStrip.style.display = 'none';
   }
-  
+
+  // Initialize nutrition facts panel
+  updateNutritionFacts();
+
   // Ingredients
   const list = document.getElementById('ingredientsList');
   if (additives.length === 0) {
@@ -1080,28 +2638,28 @@ async function renderResult(data, fromCache) {
       const safety = ing ? ing.fssai : 'unknown';
       const codeUpper = a.toUpperCase();
       const name = ing ? ing.name : codeUpper;
-      
+
       let explain = '';
       if (EXPLAIN[a]) {
         explain = currentLang === 'hi' && EXPLAIN[a].hi ? EXPLAIN[a].hi : EXPLAIN[a].en;
       }
-      
+
       const badgeMap = { safe: t('safe'), warning: t('warn'), avoid: t('avoid'), unknown: '?' };
-      
+
       // Non-veg badge
       let vegBadgeHtml = '';
       if (NON_VEG_CODES.includes(a)) {
         vegBadgeHtml = `<span class="ing-badge nonveg">🥩</span>`;
       }
-      
-      const expandHtml = explain 
+
+      const expandHtml = explain
         ? `<div class="ing-expand">${explain}</div><span class="ing-arrow">▼</span>`
         : `<span class="ing-arrow" style="opacity:0.2">▼</span>`;
-      
-      return `<div class="ingredient-row" onclick="this.classList.toggle('expanded')"><span class="ing-dot ${safety}"></span><div class="ing-main"><div class="ing-name">${name}</div><div class="ing-code">${codeUpper}</div></div><span class="ing-badge ${safety}">${badgeMap[safety] || '?'}</span>${vegBadgeHtml}${expandHtml}</div>`;
+
+      return `<div class="ingredient-row"><span class="ing-dot ${safety}"></span><div class="ing-main"><div class="ing-name">${name}</div><div class="ing-code">${codeUpper}</div></div><span class="ing-badge ${safety}">${badgeMap[safety] || '?'}</span>${vegBadgeHtml}${expandHtml}</div>`;
     }).join('');
   }
-  
+
   // Save to history
   addToHistory({
     barcode: p.code || document.getElementById('barcodeInput').value.trim(),
@@ -1111,9 +2669,36 @@ async function renderResult(data, fromCache) {
     image_url: p.image_url || null,
     timestamp: Date.now()
   });
-  
+
+  // === NEW FEATURES 11-20: Call all render functions ===
+  // Feature 11: Safety Score
+  renderSafetyScore(additives, allergens, vegStatus);
+
+  // Feature 12: Additive Timeline
+  renderAdditiveTimeline(additives);
+
+  // Feature 13: Product Category Tags
+  renderCategoryTags(p);
+
+  // Feature 14: Better Alternatives
+  if (overall === 'warning' || overall === 'avoid') {
+    loadBetterAlternatives(productName, overall);
+  }
+
+  // Feature 15: Data Quality Score
+  renderDataQuality(p);
+
+  // Feature 18: Brand Avoid Warning
+  checkBrandWarning(p.brands || '');
+
+  // Feature 18: Ask to add to avoid list after AVOID verdict
+  setTimeout(() => { askAddToAvoidList(overall, p.brands || ''); }, 1500);
+
   showResult();
   renderRecentScans();
+
+  // Update ingredient row tap handlers for modal
+  setTimeout(updateIngredientRowTapHandler, 100);
 }
 
 function lookupDemo(bc) {
@@ -1246,6 +2831,16 @@ function showLoading() {
   document.getElementById('notfoundScreen').classList.remove('visible');
   document.getElementById('aboutScreen').classList.remove('visible');
   document.getElementById('searchScreen').classList.remove('visible');
+  document.getElementById('historyScreen').classList.remove('visible');
+  document.getElementById('favScreen').classList.remove('visible');
+  document.getElementById('compareScreen').classList.remove('visible');
+}
+
+function showHistory() {
+  hideAllScreens();
+  document.getElementById('historyScreen').classList.add('visible');
+  setActiveNav('history');
+  renderHistory();
 }
 
 function showScan() {
@@ -1254,57 +2849,59 @@ function showScan() {
   document.getElementById('notfoundScreen').classList.remove('visible');
   document.getElementById('aboutScreen').classList.remove('visible');
   document.getElementById('searchScreen').classList.remove('visible');
+  document.getElementById('historyScreen').classList.remove('visible');
+  document.getElementById('favScreen').classList.remove('visible');
+  document.getElementById('compareScreen').classList.remove('visible');
   document.getElementById('scanScreen').style.display = 'flex';
-  document.getElementById('navScan').classList.add('active');
-  document.getElementById('navSearch').classList.remove('active');
-  document.getElementById('navAbout').classList.remove('active');
+  setActiveNav('scan');
   resetNotFoundForm();
 }
+
+function hideAllScreens() {
+  document.getElementById('loading').classList.remove('visible');
+  document.getElementById('resultScreen').classList.remove('visible');
+  document.getElementById('notfoundScreen').classList.remove('visible');
+  document.getElementById('aboutScreen').classList.remove('visible');
+  document.getElementById('searchScreen').classList.remove('visible');
+  document.getElementById('historyScreen').classList.remove('visible');
+  document.getElementById('favScreen').classList.remove('visible');
+  document.getElementById('compareScreen').classList.remove('visible');
+  document.getElementById('scanScreen').style.display = 'none';
+}
+
+function setActiveNav(which) {
+  const navMap = { scan: 'navScan', history: 'navHistory', favorites: 'navFavorites', about: 'navAbout' };
+  ['navScan', 'navHistory', 'navFavorites', 'navAbout'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle('active', id === navMap[which]);
+  });
+}
+
 function showResult() {
-  document.getElementById('loading').classList.remove('visible');
-  document.getElementById('scanScreen').style.display = 'none';
-  document.getElementById('notfoundScreen').classList.remove('visible');
-  document.getElementById('aboutScreen').classList.remove('visible');
-  document.getElementById('searchScreen').classList.remove('visible');
+  hideAllScreens();
   document.getElementById('resultScreen').classList.add('visible');
-  document.getElementById('navScan').classList.remove('active');
-  document.getElementById('navSearch').classList.remove('active');
-  document.getElementById('navAbout').classList.remove('active');
+  setActiveNav(null);
 }
+
 function showNotFound() {
-  document.getElementById('loading').classList.remove('visible');
-  document.getElementById('resultScreen').classList.remove('visible');
-  document.getElementById('scanScreen').style.display = 'none';
-  document.getElementById('aboutScreen').classList.remove('visible');
-  document.getElementById('searchScreen').classList.remove('visible');
+  hideAllScreens();
   document.getElementById('notfoundScreen').classList.add('visible');
-  document.getElementById('navScan').classList.remove('active');
-  document.getElementById('navSearch').classList.remove('active');
-  document.getElementById('navAbout').classList.remove('active');
+  setActiveNav(null);
 }
+
 function showAbout() {
-  document.getElementById('loading').classList.remove('visible');
-  document.getElementById('resultScreen').classList.remove('visible');
-  document.getElementById('notfoundScreen').classList.remove('visible');
-  document.getElementById('scanScreen').style.display = 'none';
-  document.getElementById('searchScreen').classList.remove('visible');
+  hideAllScreens();
   document.getElementById('aboutScreen').classList.add('visible');
-  document.getElementById('navScan').classList.remove('active');
-  document.getElementById('navSearch').classList.remove('active');
-  document.getElementById('navAbout').classList.add('active');
+  setActiveNav('about');
 }
+
 function showSearch() {
-  document.getElementById('loading').classList.remove('visible');
-  document.getElementById('resultScreen').classList.remove('visible');
-  document.getElementById('notfoundScreen').classList.remove('visible');
-  document.getElementById('scanScreen').style.display = 'none';
-  document.getElementById('aboutScreen').classList.remove('visible');
+  hideAllScreens();
   document.getElementById('searchScreen').classList.add('visible');
-  document.getElementById('navScan').classList.remove('active');
-  document.getElementById('navSearch').classList.add('active');
-  document.getElementById('navAbout').classList.remove('active');
+  setActiveNav(null);
   document.getElementById('searchInput').focus();
 }
+
 function showError(msg) {
   document.getElementById('loading').classList.remove('visible');
   document.getElementById('scanScreen').style.display = 'flex';
@@ -1317,6 +2914,761 @@ function showError(msg) {
 applyTheme(getStoredTheme() === 'light' ? false : true);
 if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(() => {}); }
 renderRecentScans();
+
+// ============================================================
+// FEATURE 11: SAFETY SCORE BREAKDOWN
+// ============================================================
+function computeSafetyScore(additives, allergens, vegStatus) {
+  const total = additives.length;
+  if (total === 0) return { score: 100, safe: 0, warn: 0, avoid: 0, allergenPenalty: 0, vegPenalty: 0 };
+
+  let safe = 0, warn = 0, avoid = 0;
+  for (const a of additives) {
+    const ing = lookupIngredient(a);
+    if (!ing) { warn++; continue; }
+    if (ing.fssai === 'avoid') avoid++;
+    else if (ing.fssai === 'warning') warn++;
+    else safe++;
+  }
+
+  const additiveScore = total > 0 ? (safe / total) * 100 : 100;
+  const allergenPenalty = Math.min(20, (allergens || []).length * 5);
+  const vegPenalty = vegStatus === 'nonveg' ? 10 : 0;
+  const avoidPenalty = avoid * 8;
+  const score = Math.max(0, Math.min(100, Math.round(additiveScore - allergenPenalty - vegPenalty - avoidPenalty)));
+  return { score, safe, warn, avoid, allergenPenalty, vegPenalty };
+}
+
+function renderSafetyScore(additives, allergens, vegStatus) {
+  const result = computeSafetyScore(additives, allergens, vegStatus);
+  const scoreEl = document.getElementById('safetyScoreValue');
+  const gaugeEl = document.getElementById('safetyGaugeFill');
+
+  scoreEl.textContent = result.score;
+  scoreEl.className = `safety-score-value ${result.score >= 70 ? 'high' : result.score >= 40 ? 'mid' : 'low'}`;
+  gaugeEl.style.width = result.score + '%';
+
+  const total = additives.length || 1;
+  document.getElementById('breakdownSafeBar').style.width = Math.round((result.safe / total) * 100) + '%';
+  document.getElementById('breakdownSafeVal').textContent = result.safe;
+  document.getElementById('breakdownWarnBar').style.width = Math.round((result.warn / total) * 100) + '%';
+  document.getElementById('breakdownWarnVal').textContent = result.warn;
+  document.getElementById('breakdownAvoidBar').style.width = Math.round((result.avoid / total) * 100) + '%';
+  document.getElementById('breakdownAvoidVal').textContent = result.avoid;
+  const allergenCount = (allergens || []).length;
+  document.getElementById('breakdownAllergenBar').style.width = Math.min(100, allergenCount * 30) + '%';
+  document.getElementById('breakdownAllergenVal').textContent = allergenCount;
+}
+
+// ============================================================
+// FEATURE 12: ADDITIVE TIMELINE
+// ============================================================
+const ADDITIVE_TIMELINE = {
+  'e250': [{ year: 1970, status: 'approved', desc: 'Approved as preservative in processed meats' }, { year: 2015, status: 'restricted', desc: 'EFSA reduced ADI due to cancer risk concerns' }],
+  'e251': [{ year: 1970, status: 'approved', desc: 'Approved as preservative' }, { year: 2017, status: 'restricted', desc: 'EFSA recommended reduction in use' }],
+  'e320': [{ year: 1978, status: 'approved', desc: 'FDA GRAS approval' }, { year: 2017, status: 'restricted', desc: 'IARC reclassified as "possibly carcinogenic"' }],
+  'e321': [{ year: 1978, status: 'approved', desc: 'FDA GRAS approval' }, { year: 2017, status: 'restricted', desc: 'IARC raised concerns' }],
+  'e150c': [{ year: 1970, status: 'approved', desc: 'Approved as caramel color' }, { year: 2012, status: 'restricted', desc: 'EU restricted use due to 4-MEI carcinogen concerns' }],
+  'e150d': [{ year: 1970, status: 'approved', desc: 'Approved for dark beverages' }, { year: 2013, status: 'restricted', desc: 'EU banned in beers and malt beverages due to 4-MEI' }],
+  'e952': [{ year: 1958, status: 'banned', desc: 'US FDA banned due to bladder tumors in rats' }, { year: 2019, status: 'restricted', desc: 'EU maintained ban; India allows limited use' }],
+  'e171': [{ year: 1966, status: 'approved', desc: 'Approved as whitening pigment' }, { year: 2022, status: 'restricted', desc: 'EU classified as "suspected of causing cancer" (on hold)' }],
+  'e553b': [{ year: 1970, status: 'approved', desc: 'Approved as anti-caking agent' }, { year: 2016, status: 'restricted', desc: 'EU requires purity standards; respiratory concern raised' }],
+  'e555': [{ year: 1970, status: 'approved', desc: 'Approved as bleaching agent' }, { year: 2014, status: 'restricted', desc: 'EFSA raised aluminium exposure concerns' }],
+  'e120': [{ year: 1980, status: 'approved', desc: 'Approved as natural red color' }, { year: 2012, status: 'restricted', desc: 'EU requires vegan labeling; insect-derived' }],
+  'e904': [{ year: 1980, status: 'approved', desc: 'Approved as glaze' }, { year: 2018, status: 'restricted', desc: 'EU requires veg/non-veg labeling; insect-derived' }],
+};
+
+function renderAdditiveTimeline(additives) {
+  const section = document.getElementById('additiveTimeline');
+  const content = document.getElementById('timelineContent');
+
+  const timelineAdditives = additives.filter(a => ADDITIVE_TIMELINE[a] || (lookupIngredient(a)?.fssai === 'avoid'));
+  if (timelineAdditives.length === 0) {
+    section.style.display = 'none';
+    return;
+  }
+
+  let html = '';
+  for (const a of timelineAdditives.slice(0, 5)) {
+    const events = ADDITIVE_TIMELINE[a] || [];
+    const ing = lookupIngredient(a);
+    const baseStatus = ing?.fssai === 'avoid' ? 'banned' : ing?.fssai === 'warning' ? 'restricted' : 'approved';
+    const name = ing?.name || a.toUpperCase();
+    const code = a.toUpperCase();
+
+    if (events.length === 0) {
+      html += `<div class="timeline-item ${baseStatus}">
+        <div class="timeline-item-date">—</div>
+        <div class="timeline-item-name">${name}</div>
+        <div class="timeline-item-code">${code}</div>
+        <div class="timeline-item-desc">${currentLang === 'hi' ? 'मानक रेटिंग' : 'Standard regulatory status'}</div>
+      </div>`;
+    } else {
+      for (const ev of events) {
+        html += `<div class="timeline-item ${ev.status}">
+          <div class="timeline-item-date">${ev.year}</div>
+          <div class="timeline-item-name">${name} <span class="timeline-item-code">${code}</span></div>
+          <div class="timeline-item-desc">${ev.desc}</div>
+        </div>`;
+      }
+    }
+  }
+  content.innerHTML = html;
+  section.style.display = 'block';
+}
+
+// ============================================================
+// FEATURE 13: PRODUCT CATEGORY TAGS (NOVA Classification)
+// ============================================================
+function detectCategories(p) {
+  const tags = [];
+  const novaMap = { 1: 'fresh', 2: 'processed', 3: 'ultra-processed', 4: 'ultra-processed' };
+  const nova = p.nova_group || p.nova_group_scientific;
+  if (nova) {
+    const novaNum = parseInt(nova.toString().replace(/\D/g, '')[0]) || 0;
+    if (novaNum === 1) tags.push({ key: 'fresh', label: t('categoryFresh'), color: 'fresh' });
+    else if (novaNum === 2) tags.push({ key: 'processed', label: t('categoryProcessed'), color: 'processed' });
+    else if (novaNum === 3 || novaNum === 4) tags.push({ key: 'ultra-processed', label: t('categoryUltraProcessed'), color: 'ultra-processed' });
+  }
+  if (p.labels_tags && p.labels_tags.some(l => l.includes('organic') || l.includes('bio') || l.includes('eco'))) {
+    tags.push({ key: 'organic', label: t('categoryOrganic'), color: 'organic' });
+  }
+  if (p.labels_tags && p.labels_tags.some(l => l.includes('halal') || l.includes('kosher') || l.includes('certified'))) {
+    tags.push({ key: 'certified', label: t('categoryCertified'), color: 'certified' });
+  }
+  if (tags.length === 0) {
+    const additives = (p.additives_tags || []).length;
+    if (additives >= 8) tags.push({ key: 'ultra-processed', label: t('categoryUltraProcessed'), color: 'ultra-processed' });
+    else if (additives >= 4) tags.push({ key: 'processed', label: t('categoryProcessed'), color: 'processed' });
+    else tags.push({ key: 'fresh', label: t('categoryFresh'), color: 'fresh' });
+  }
+  return tags;
+}
+
+function renderCategoryTags(p) {
+  const container = document.getElementById('categoryTags');
+  const cats = detectCategories(p);
+  container.innerHTML = cats.map(c =>
+    `<span class="category-tag ${c.color}">${c.label}</span>`
+  ).join('');
+}
+
+// ============================================================
+// FEATURE 14: BETTER ALTERNATIVES
+// ============================================================
+function loadBetterAlternatives(productName, verdict) {
+  const section = document.getElementById('alternativesSection');
+  if (!verdict || verdict === 'safe') {
+    section.style.display = 'none';
+    return;
+  }
+  section.style.display = 'block';
+  document.getElementById('altLoading').style.display = 'block';
+  document.getElementById('altList').innerHTML = '';
+
+  const brand = document.getElementById('productBrand').textContent;
+  const query = brand ? `${brand} ${productName}`.split(' ').slice(0, 3).join(' ') : productName;
+
+  fetch(`https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&search_simple=1&action=process&json=1&page_size=8`)
+    .then(r => r.json())
+    .then(data => {
+      document.getElementById('altLoading').style.display = 'none';
+      const products = (data.products || []).filter(p => p.code !== currentProductBarcode).slice(0, 5);
+      if (products.length === 0) {
+        section.style.display = 'none';
+        return;
+      }
+      const list = document.getElementById('altList');
+      list.innerHTML = products.map(p => {
+        const name = p.product_name || p.product_name_en || 'Unknown';
+        const addArr = (p.additives_tags || []).map(t => t.replace('en:', ''));
+        const score = computeSafetyScore(addArr, [], 'uncertain');
+        const verdictClass = score.score >= 70 ? 'safe' : score.score >= 40 ? 'warning' : 'avoid';
+        const verdictLabel = score.score >= 70 ? t('safe') : score.score >= 40 ? t('warn') : t('avoid');
+        const img = p.image_small_url || p.image_url || '';
+        const imgHtml = img
+          ? `<img class="alt-img" src="${img}" alt="${name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="alt-img-placeholder" style="display:none">🥗</div>`
+          : `<div class="alt-img-placeholder">🥗</div>`;
+        return `<button class="alt-item" onclick="lookupDemo('${p.code || p.barcode}')">${imgHtml}<div class="alt-info"><div class="alt-name">${name}</div><div class="alt-brand">${p.brands || ''}</div></div><span class="alt-score ${verdictClass}">${score.score}</span></button>`;
+      }).join('');
+    }).catch(() => {
+      document.getElementById('altLoading').textContent = currentLang === 'hi' ? 'त्रुटि' : 'Error loading alternatives';
+    });
+}
+
+// ============================================================
+// FEATURE 15: SCAN QUALITY / DATA QUALITY SCORE
+// ============================================================
+function computeDataQuality(p) {
+  let score = 100;
+  let details = [];
+
+  if (!p.image_url && !p.image_small_url) {
+    score -= 15;
+    details.push(currentLang === 'hi' ? 'कोई फोटो नहीं' : 'No photo');
+  }
+  if (!p.nutriments || Object.keys(p.nutriments).length === 0) {
+    score -= 20;
+    details.push(currentLang === 'hi' ? 'पोषण डेटा अधूरा' : 'Incomplete nutrition data');
+  }
+  if (!p.ingredients_text && (!p.additives_tags || p.additives_tags.length === 0)) {
+    score -= 30;
+    details.push(currentLang === 'hi' ? 'सामग्री सूचना अधूरी' : 'Incomplete ingredient info');
+  }
+  if (!p.brands) {
+    score -= 10;
+    details.push(currentLang === 'hi' ? 'ब्रांड जानकारी नहीं' : 'No brand info');
+  }
+  if (!p.serving_size && !p.serving_quantity) {
+    score -= 10;
+    details.push(currentLang === 'hi' ? 'सर्विंग साइज नहीं' : 'No serving size');
+  }
+  if (!p.nova_group) {
+    score -= 15;
+    details.push(currentLang === 'hi' ? 'NOVA प्रोसेसिंग डेटा नहीं' : 'No NOVA processing data');
+  }
+
+  const hasFullData = p.image_url && p.nutriments && Object.keys(p.nutriments).length > 5 && p.ingredients_text;
+  if (hasFullData) score = 100;
+
+  return { score: Math.max(0, score), details };
+}
+
+function renderDataQuality(p) {
+  const dq = computeDataQuality(p);
+  const valEl = document.getElementById('dqValue');
+  const barEl = document.getElementById('dqBar');
+  const detailEl = document.getElementById('dqDetail');
+
+  valEl.textContent = dq.score + '%';
+  barEl.style.width = dq.score + '%';
+  valEl.style.color = dq.score >= 80 ? 'var(--safe)' : dq.score >= 50 ? 'var(--warn)' : 'var(--avoid)';
+  barEl.style.background = dq.score >= 80 ? 'var(--safe)' : dq.score >= 50 ? 'var(--warn)' : 'var(--avoid)';
+  detailEl.textContent = dq.details.length > 0 ? dq.details.join(' · ') : (currentLang === 'hi' ? 'पूर्ण डेटा' : 'Complete data');
+}
+
+// ============================================================
+// FEATURE 16: ADDITIVE DETAIL MODAL
+// ============================================================
+const ADDITIVE_SIDE_EFFECTS = {
+  'e250': currentLang === 'hi' ? 'नाइट्रोसामाइन के रूप में कैंसरजनक बन सकता है।' : 'May form carcinogenic nitrosamines.',
+  'e251': currentLang === 'hi' ? 'मीट में अधिक उपयोग से कैंसर का खतरा।' : 'Cancer risk with high meat consumption.',
+  'e320': currentLang === 'hi' ? 'उच्च खुराक में कैंसर का खतरा बढ़ सकता है।' : 'May increase cancer risk at high doses.',
+  'e321': currentLang === 'hi' ? 'अंग विषाक्तता की चिंता।' : 'Organ toxicity concerns at high doses.',
+  'e621': currentLang === 'hi' ? 'कुछ लोगों में सिरदर्द (MSG综合征)।' : 'Headache in some people (Chinese Restaurant Syndrome).',
+  'e627': currentLang === 'hi' ? 'गाउट वाले लोगों के लिए अनुचित।' : 'Not suitable for people with gout.',
+  'e952': currentLang === 'hi' ? 'मूत्राशय ट्यूमर का खतरा।' : 'Bladder tumor concerns.',
+  'e171': currentLang === 'hi' ? 'नैनो कण जमाव की चिंता।' : 'Nano-particle accumulation concerns.',
+  'e553b': currentLang === 'hi' ? 'श्वसन स्वास्थ्य के लिए हानिकारक।' : 'Harmful to respiratory health.',
+  'e120': currentLang === 'hi' ? 'कीट-व्युत्पन्न; शाकाहारी नहीं।' : 'Insect-derived; not vegetarian.',
+  'e904': currentLang === 'hi' ? 'लाख कीड़े से; शाकाहारी नहीं।' : 'From lac bug; not vegetarian.',
+};
+
+const PREGNANCY_ADVICE = {
+  'e250': 'notRecommendedPregnant',
+  'e251': 'notRecommendedPregnant',
+  'e320': 'cautionPregnant',
+  'e321': 'cautionPregnant',
+  'e621': 'generalPopulation',
+  'e627': 'cautionPregnant',
+  'e952': 'notRecommendedPregnant',
+  'e171': 'limitedData',
+  'e120': 'generalPopulation',
+  'e904': 'generalPopulation',
+};
+
+const DAILY_LIMITS = {
+  'e250': currentLang === 'hi' ? '0.1 mg/kg/day' : '0.1 mg/kg/day',
+  'e251': currentLang === 'hi' ? '0.15 mg/kg/day' : '0.15 mg/kg/day',
+  'e320': currentLang === 'hi' ? '0.5 mg/kg/day' : '0.5 mg/kg/day',
+  'e321': currentLang === 'hi' ? '0.125 mg/kg/day' : '0.125 mg/kg/day',
+  'e621': currentLang === 'hi' ? '30 mg/kg/day' : '30 mg/kg/day',
+  'e627': currentLang === 'hi' ? '2 mg/kg/day' : '2 mg/kg/day',
+  'e631': currentLang === 'hi' ? '2 mg/kg/day' : '2 mg/kg/day',
+  'e635': currentLang === 'hi' ? '2 mg/kg/day (with MSG)' : '2 mg/kg/day (with MSG)',
+  'e952': currentLang === 'hi' ? '11 mg/kg/day (EU); US banned' : '11 mg/kg/day (EU); US banned',
+  'e171': currentLang === 'hi' ? 'Not specified' : 'Not specified',
+};
+
+function openAdditiveModal(code) {
+  const ing = lookupIngredient(code);
+  if (!ing) return;
+
+  const name = ing.name || code.toUpperCase();
+  const desc = EXPLAIN[code] ? (currentLang === 'hi' && EXPLAIN[code].hi ? EXPLAIN[code].hi : EXPLAIN[code].en) : t('limitedData');
+  const sideEffects = ADDITIVE_SIDE_EFFECTS[code] || t('generalPopulation');
+  const pregKey = PREGNANCY_ADVICE[code] || 'limitedData';
+  const pregAdvice = t(pregKey);
+  const dailyLimit = DAILY_LIMITS[code] || t('limitedData');
+
+  const safetyLabel = { safe: t('safe'), warning: t('caution'), avoid: t('avoid'), unknown: t('unknown') };
+
+  const ratingsHtml = `
+    <div class="modal-ratings">
+      <div class="modal-rating">
+        <span class="modal-rating-agency">FSSAI 🇮🇳</span>
+        <span class="modal-rating-val ${ing.fssai}">${safetyLabel[ing.fssai] || t('unknown')}</span>
+      </div>
+      <div class="modal-rating">
+        <span class="modal-rating-agency">EFSA 🇪🇺</span>
+        <span class="modal-rating-val ${ing.eu}">${safetyLabel[ing.eu] || t('unknown')}</span>
+      </div>
+      <div class="modal-rating">
+        <span class="modal-rating-agency">FDA 🇺🇸</span>
+        <span class="modal-rating-val ${ing.fda}">${safetyLabel[ing.fda] || t('unknown')}</span>
+      </div>
+    </div>`;
+
+  const body = document.getElementById('modalAdditiveBody');
+  body.innerHTML = `
+    <div class="modal-section">
+      <p class="modal-section-title">${t('fullName')}</p>
+      <div class="modal-row"><span class="modal-row-label">${name}</span></div>
+      <div class="modal-row"><span class="modal-row-label">${code.toUpperCase()}</span></div>
+    </div>
+    <div class="modal-section">
+      <p class="modal-section-title">${t('safetyRatings')}</p>
+      ${ratingsHtml}
+    </div>
+    <div class="modal-section">
+      <p class="modal-section-title">${t('description')}</p>
+      <p class="modal-desc">${desc}</p>
+    </div>
+    <div class="modal-section">
+      <p class="modal-section-title">${t('dailyLimit')}</p>
+      <div class="modal-row"><span class="modal-row-val">${dailyLimit}</span></div>
+    </div>
+    <div class="modal-section">
+      <p class="modal-section-title">${t('sideEffects')}</p>
+      <div class="modal-warning-item">⚠️ ${sideEffects}</div>
+    </div>
+    <div class="modal-section">
+      <p class="modal-section-title">${t('pregnancySafety')}</p>
+      <div class="modal-warning-item ${pregKey === 'notRecommendedPregnant' ? 'pregnancy' : ''}">${pregKey === 'notRecommendedPregnant' ? '🚫' : '⚠️'} ${pregAdvice}</div>
+    </div>
+    <div class="modal-section">
+      <p class="modal-section-title">${t('sources')}</p>
+      <p class="modal-sources">
+        <a href="https://www.efsa.europa.eu" target="_blank">EFSA</a> ·
+        <a href="https://www.fda.gov" target="_blank">FDA</a> ·
+        <a href="https://www.fssai.gov.in" target="_blank">FSSAI</a>
+      </p>
+    </div>`;
+
+  document.getElementById('additiveModal').classList.add('visible');
+}
+
+function closeAdditiveModal() {
+  document.getElementById('additiveModal').classList.remove('visible');
+}
+
+// ============================================================
+// FEATURE 17: DARK MODE TOGGLE WITH SYSTEM PREFERENCE
+// ============================================================
+let themeMode = 'dark'; // 'light', 'dark', 'system'
+
+function getStoredThemeMode() {
+  try { return localStorage.getItem('safe2eat_theme_mode') || 'dark'; } catch(e) { return 'dark'; }
+}
+
+function applyThemeMode(mode) {
+  themeMode = mode;
+  try { localStorage.setItem('safe2eat_theme_mode', mode); } catch(e) {}
+
+  if (mode === 'system') {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    applyTheme(prefersDark);
+    document.getElementById('themeToggle').textContent = '🖥️';
+  } else {
+    applyTheme(mode === 'dark');
+  }
+
+  // Update lang buttons visibility based on theme mode
+  const enBtn = document.getElementById('langEnBtn');
+  const hiBtn = document.getElementById('langHiBtn');
+  if (mode === 'system') {
+    enBtn.style.display = 'none';
+    hiBtn.style.display = 'none';
+  } else {
+    enBtn.style.display = '';
+    hiBtn.style.display = '';
+  }
+}
+
+function toggleTheme() {
+  const modes = ['light', 'dark', 'system'];
+  const currentIdx = modes.indexOf(themeMode);
+  const nextIdx = (currentIdx + 1) % 3;
+  applyThemeMode(modes[nextIdx]);
+}
+
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+  if (themeMode === 'system') applyTheme(e.matches);
+});
+
+// ============================================================
+// FEATURE 18: BRAND AVOID LIST & NOTIFICATIONS
+// ============================================================
+function getAvoidedBrands() {
+  try { return JSON.parse(localStorage.getItem('safe2eat_avoid_brands') || '[]'); } catch(e) { return []; }
+}
+
+function addToAvoidList(brand) {
+  if (!brand) return;
+  const list = getAvoidedBrands().filter(b => b.toLowerCase() !== brand.toLowerCase());
+  list.push(brand);
+  try { localStorage.setItem('safe2eat_avoid_brands', JSON.stringify(list)); } catch(e) {}
+  showToast(currentLang === 'hi' ? 'ब्रांड बचने की सूची में जोड़ा गया' : 'Brand added to avoid list');
+}
+
+function removeFromAvoidList(brand) {
+  const list = getAvoidedBrands().filter(b => b.toLowerCase() !== brand.toLowerCase());
+  try { localStorage.setItem('safe2eat_avoid_brands', JSON.stringify(list)); } catch(e) {}
+  showToast(currentLang === 'hi' ? 'ब्रांड हटा दिया गया' : 'Brand removed');
+}
+
+function isBrandAvoided(brand) {
+  if (!brand) return false;
+  return getAvoidedBrands().some(b => brand.toLowerCase().includes(b.toLowerCase()));
+}
+
+let currentAvoidedBrand = null;
+
+function checkBrandWarning(brand) {
+  const warning = document.getElementById('brandWarning');
+  if (isBrandAvoided(brand)) {
+    warning.style.display = 'flex';
+    currentAvoidedBrand = brand;
+    document.getElementById('brandWarningText').textContent = t('brandWarningText');
+  } else {
+    warning.style.display = 'none';
+    currentAvoidedBrand = null;
+  }
+}
+
+function dismissBrandWarning() {
+  document.getElementById('brandWarning').style.display = 'none';
+}
+
+function confirmRemoveBrand() {
+  if (currentAvoidedBrand) {
+    removeFromAvoidList(currentAvoidedBrand);
+    document.getElementById('brandWarning').style.display = 'none';
+  }
+}
+
+function openBrandWarningModal(brand) {
+  currentAvoidedBrand = brand;
+  const body = document.getElementById('brandWarningModalBody');
+  body.innerHTML = `
+    <div style="text-align:center;padding:10px">
+      <div style="font-size:48px;margin-bottom:12px">🚫</div>
+      <p style="font-size:15px;font-weight:600;margin-bottom:8px">${t('brandWarningText')}</p>
+      <p style="font-size:13px;color:var(--text-dim);margin-bottom:20px">${brand}</p>
+      <div style="display:flex;gap:8px">
+        <button class="brand-warning-btn cancel" onclick="closeBrandWarningModal()">${t('dismiss')}</button>
+        <button class="brand-warning-btn avoid" onclick="confirmRemoveBrand();closeBrandWarningModal()">${t('removeFromAvoidList')}</button>
+      </div>
+    </div>`;
+  document.getElementById('brandWarningModal').classList.add('visible');
+}
+
+function closeBrandWarningModal() {
+  document.getElementById('brandWarningModal').classList.remove('visible');
+}
+
+function askAddToAvoidList(verdict, brand) {
+  if (verdict !== 'avoid' || !brand) return;
+  const body = document.getElementById('brandWarningModalBody');
+  body.innerHTML = `
+    <div style="text-align:center;padding:10px">
+      <div style="font-size:48px;margin-bottom:12px">⚠️</div>
+      <p style="font-size:15px;font-weight:600;margin-bottom:8px">${currentLang === 'hi' ? 'इस ब्रांड से बचें' : 'Avoid this brand?'}</p>
+      <p style="font-size:13px;color:var(--text-dim);margin-bottom:20px">${brand}</p>
+      <div style="display:flex;gap:8px">
+        <button class="brand-warning-btn cancel" onclick="closeBrandWarningModal()">${t('dismiss')}</button>
+        <button class="brand-warning-btn avoid" onclick="addToAvoidList('${brand.replace(/'/g, "\\'")}');closeBrandWarningModal()">${t('addToAvoidList')}</button>
+      </div>
+    </div>`;
+  document.getElementById('brandWarningModal').classList.add('visible');
+}
+
+// ============================================================
+// FEATURE 19: SCANNER SETTINGS
+// ============================================================
+let scanMode = 'fast'; // 'fast' or 'accurate'
+let manualEntryAlwaysVisible = false;
+
+function getStoredScanMode() {
+  try { return localStorage.getItem('safe2eat_scan_mode') || 'fast'; } catch(e) { return 'fast'; }
+}
+
+function getStoredManualEntry() {
+  try { return localStorage.getItem('safe2eat_manual_entry') === 'true'; } catch(e) { return false; }
+}
+
+function setScanMode(mode) {
+  scanMode = mode;
+  try { localStorage.setItem('safe2eat_scan_mode', mode); } catch(e) {}
+  document.getElementById('modeFastBtn').classList.toggle('active', mode === 'fast');
+  document.getElementById('modeAccurateBtn').classList.toggle('active', mode === 'accurate');
+}
+
+function toggleManualEntry() {
+  manualEntryAlwaysVisible = !manualEntryAlwaysVisible;
+  try { localStorage.setItem('safe2eat_manual_entry', String(manualEntryAlwaysVisible)); } catch(e) {}
+  document.getElementById('manualEntryToggle').classList.toggle('active', manualEntryAlwaysVisible);
+  document.getElementById('barcodeInput').parentElement.style.display = manualEntryAlwaysVisible ? 'block' : '';
+}
+
+function openSettingsModal() {
+  scanMode = getStoredScanMode();
+  manualEntryAlwaysVisible = getStoredManualEntry();
+  setScanMode(scanMode);
+  document.getElementById('manualEntryToggle').classList.toggle('active', manualEntryAlwaysVisible);
+
+  // Render avoided brands list
+  const brands = getAvoidedBrands();
+  const listEl = document.getElementById('avoidedBrandsList');
+  if (brands.length === 0) {
+    listEl.innerHTML = `<p style="font-size:12px;color:var(--text-dim);padding:8px 0">${t('noAvoidedBrands')}</p>`;
+  } else {
+    listEl.innerHTML = brands.map(b =>
+      `<div class="settings-row"><span class="settings-row-label">${b}</span><button onclick="removeAvoidBrand('${b.replace(/'/g, "\\'")}')" style="background:none;border:none;color:var(--avoid);cursor:pointer;font-size:12px">✕</button></div>`
+    ).join('');
+  }
+
+  document.getElementById('settingsModal').classList.add('visible');
+}
+
+function closeSettingsModal() {
+  document.getElementById('settingsModal').classList.remove('visible');
+}
+
+function removeAvoidBrand(brand) {
+  removeFromAvoidList(brand);
+  openSettingsModal(); // refresh list
+}
+
+// ============================================================
+// FEATURE 20: WEEKLY FOOD SAFETY REPORT
+// ============================================================
+function getWeeklyData(weekOffset = 0) {
+  const now = new Date();
+  const startOfWeek = new Date(now);
+  startOfWeek.setDate(now.getDate() - now.getDay() - (weekOffset * 7));
+  startOfWeek.setHours(0, 0, 0, 0);
+
+  const hist = getHistory();
+  const weekScans = hist.filter(h => {
+    const t = new Date(h.timestamp);
+    return t >= startOfWeek && t < new Date(startOfWeek.getTime() + 7 * 24 * 60 * 60 * 1000);
+  });
+
+  // Collect stats
+  let safeCount = 0, warnCount = 0, avoidCount = 0;
+  const allergensSeen = {};
+  const newAdditives = {};
+  const brandsSeen = {};
+
+  for (const scan of weekScans) {
+    if (scan.overall === 'safe') safeCount++;
+    else if (scan.overall === 'warning') warnCount++;
+    else if (scan.overall === 'avoid') avoidCount++;
+
+    const cached = getCachedProduct(scan.barcode);
+    if (cached && cached.product) {
+      const p = cached.product;
+      if (p.brands) brandsSeen[p.brands] = (brandsSeen[p.brands] || 0) + 1;
+      const addArr = (p.additives_tags || []).map(t => t.replace('en:', ''));
+      for (const a of addArr) {
+        const ing = lookupIngredient(a);
+        if (ing?.fssai === 'avoid') newAdditives[a] = (newAdditives[a] || 0) + 1;
+      }
+    }
+  }
+
+  // Top allergens
+  const allergenKeywords = { gluten: 0, dairy: 0, nuts: 0, soy: 0, eggs: 0, fish: 0, shellfish: 0 };
+  for (const scan of weekScans) {
+    const cached = getCachedProduct(scan.barcode);
+    if (cached && cached.product) {
+      const text = (cached.product.ingredients_text || '').toLowerCase();
+      for (const [k, kwList] of Object.entries(ALLERGEN_KEYWORDS)) {
+        for (const kw of kwList) {
+          if (text.includes(kw)) allergenKeywords[k] = (allergenKeywords[k] || 0) + 1;
+        }
+      }
+    }
+  }
+
+  return {
+    scans: weekScans,
+    total: weekScans.length,
+    safe: safeCount,
+    warn: warnCount,
+    avoid: avoidCount,
+    topAllergens: Object.entries(allergenKeywords).filter(([k, v]) => v > 0).sort((a, b) => b[1] - a[1]).slice(0, 3),
+    newUnsafeAdditives: Object.entries(newAdditives).sort((a, b) => b[1] - a[1]).slice(0, 5),
+  };
+}
+
+function getReportWeekLabel(weekOffset = 0) {
+  const now = new Date();
+  const startOfWeek = new Date(now);
+  startOfWeek.setDate(now.getDate() - now.getDay() - (weekOffset * 7));
+  const endOfWeek = new Date(startOfWeek.getTime() + 6 * 24 * 60 * 60 * 1000);
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  if (startOfWeek.getMonth() === endOfWeek.getMonth()) {
+    return `${startOfWeek.getDate()}–${endOfWeek.getDate()} ${months[startOfWeek.getMonth()]} ${startOfWeek.getFullYear()}`;
+  }
+  return `${startOfWeek.getDate()} ${months[startOfWeek.getMonth()]} – ${endOfWeek.getDate()} ${months[endOfWeek.getMonth()]} ${startOfWeek.getFullYear()}`;
+}
+
+function openReportModal() {
+  const data = getWeeklyData(0);
+  const lastWeekData = getWeeklyData(1);
+
+  const body = document.getElementById('reportModalBody');
+  const trend = data.total > 0 && lastWeekData.total > 0
+    ? (data.avoid / data.total) < (lastWeekData.avoid / lastWeekData.total)
+      ? { icon: '📈', text: t('betterVsLastWeek'), sub: currentLang === 'hi' ? 'बेहतर रुझान' : 'Improving trend', positive: true }
+      : (data.avoid / data.total) > (lastWeekData.avoid / lastWeekData.total)
+      ? { icon: '📉', text: t('worseVsLastWeek'), sub: currentLang === 'hi' ? 'खराब रुझान' : 'Worsening trend', positive: false }
+      : { icon: '➡️', text: t('sameVsLastWeek'), sub: currentLang === 'hi' ? 'समान' : 'No change', positive: null }
+    : { icon: '📊', text: t('thisWeek'), sub: currentLang === 'hi' ? 'पहला सप्ताह' : 'First week', positive: null };
+
+  const allergenLabels = { gluten: '🌾 Gluten', dairy: '🥛 Dairy', nuts: '🥜 Nuts', soy: '🫘 Soy', eggs: '🥚 Eggs', fish: '🐟 Fish', shellfish: '🦐 Shellfish' };
+
+  body.innerHTML = `
+    <div class="report-header">
+      <div>
+        <div class="report-title">${t('thisWeek')}</div>
+        <div class="report-meta">${getReportWeekLabel(0)}</div>
+      </div>
+    </div>
+    <div class="report-trend">
+      <span class="report-trend-icon">${trend.icon}</span>
+      <div>
+        <div class="report-trend-text">${trend.text}</div>
+        <div class="report-trend-sub">${trend.sub}</div>
+      </div>
+    </div>
+    ${data.total === 0 ? `<div class="report-empty">${t('noReportData')}</div>` : `
+    <div class="report-stat-row">
+      <span class="report-stat-label">${t('productsScanned')}</span>
+      <span class="report-stat-val">${data.total}</span>
+    </div>
+    <div class="report-stat-row">
+      <span class="report-stat-label">${t('safe')}</span>
+      <span class="report-stat-val" style="color:var(--safe)">${data.safe}</span>
+    </div>
+    <div class="report-stat-row">
+      <span class="report-stat-label">${t('caution')}</span>
+      <span class="report-stat-val" style="color:var(--warn)">${data.warn}</span>
+    </div>
+    <div class="report-stat-row">
+      <span class="report-stat-label">${t('avoid')}</span>
+      <span class="report-stat-val" style="color:var(--avoid)">${data.avoid}</span>
+    </div>
+    ${data.topAllergens.length > 0 ? `
+    <div style="margin-top:12px">
+      <p class="section-title">${t('topAllergens')}</p>
+      <div class="report-allergens">${data.topAllergens.map(([k, v]) => `<span class="report-allergen-chip">${allergenLabels[k] || k} (${v})</span>`).join('')}</div>
+    </div>` : ''}
+    ${data.newUnsafeAdditives.length > 0 ? `
+    <div class="report-new-additives">
+      <p class="section-title" style="margin-bottom:6px">${t('newUnsafeAdditives')}</p>
+      ${data.newUnsafeAdditives.map(([a, count]) => {
+        const ing = lookupIngredient(a);
+        return `<div class="report-new-add">⚠️ ${ing?.name || a.toUpperCase()} (${count}x)</div>`;
+      }).join('')}
+    </div>` : ''}
+    `}
+    <div style="display:flex;gap:8px;margin-top:14px">
+      <button class="report-nav-btn" onclick="showPrevWeek()">← ${currentLang === 'hi' ? 'पिछला' : 'Prev'}</button>
+      <button class="report-nav-btn" onclick="closeReportModal()">${t('close')}</button>
+      <button class="report-nav-btn" onclick="showNextWeek()">${currentLang === 'hi' ? 'अगला' : 'Next'} →</button>
+    </div>`;
+
+  document.getElementById('reportModal').classList.add('visible');
+}
+
+let reportWeekOffset = 0;
+function showPrevWeek() {
+  reportWeekOffset++;
+  const data = getWeeklyData(reportWeekOffset);
+  updateReportContent(data);
+}
+
+function showNextWeek() {
+  if (reportWeekOffset <= 0) return;
+  reportWeekOffset--;
+  const data = getWeeklyData(reportWeekOffset);
+  updateReportContent(data);
+}
+
+function updateReportContent(data) {
+  const lastWeekData = getWeeklyData(reportWeekOffset + 1);
+  const trend = data.total > 0 && lastWeekData.total > 0
+    ? (data.avoid / data.total) < (lastWeekData.avoid / lastWeekData.total)
+      ? { icon: '📈', text: t('betterVsLastWeek'), sub: currentLang === 'hi' ? 'बेहतर' : 'Better', positive: true }
+      : (data.avoid / data.total) > (lastWeekData.avoid / lastWeekData.total)
+      ? { icon: '📉', text: t('worseVsLastWeek'), sub: currentLang === 'hi' ? 'खराब' : 'Worse', positive: false }
+      : { icon: '➡️', text: t('sameVsLastWeek'), sub: currentLang === 'hi' ? 'समान' : 'Same', positive: null }
+    : { icon: '📊', text: t('reportWeek') + ' ' + (reportWeekOffset + 1), sub: '', positive: null };
+
+  const allergenLabels = { gluten: '🌾', dairy: '🥛', nuts: '🥜', soy: '🫘', eggs: '🥚', fish: '🐟', shellfish: '🦐' };
+
+  const body = document.getElementById('reportModalBody');
+  const existingContent = body.querySelector('.report-header') ? body.innerHTML : body.innerHTML;
+
+  // Update metadata
+  const metaEl = body.querySelector('.report-meta');
+  if (metaEl) metaEl.textContent = getReportWeekLabel(reportWeekOffset);
+  const trendEl = body.querySelector('.report-trend');
+  if (trendEl) {
+    trendEl.innerHTML = `
+      <span class="report-trend-icon">${trend.icon}</span>
+      <div>
+        <div class="report-trend-text">${trend.text}</div>
+        <div class="report-trend-sub">${trend.sub}</div>
+      </div>`;
+  }
+}
+
+function closeReportModal() {
+  reportWeekOffset = 0;
+  document.getElementById('reportModal').classList.remove('visible');
+}
+
+// Update ingredient rows to use modal on tap
+function updateIngredientRowTapHandler() {
+  document.querySelectorAll('.ingredient-row').forEach(row => {
+    row.onclick = function(e) {
+      // Check if clicking the expand arrow - if so, just toggle
+      if (e.target.classList.contains('ing-arrow') || e.target.classList.contains('ing-expand')) {
+        this.classList.toggle('expanded');
+        return;
+      }
+      // Find additive code from the row
+      const codeEl = this.querySelector('.ing-code');
+      if (codeEl) {
+        const code = codeEl.textContent.trim().toLowerCase();
+        openAdditiveModal(code);
+      }
+    };
+  });
+}
+
+// Initialize scanner settings
+scanMode = getStoredScanMode();
+manualEntryAlwaysVisible = getStoredManualEntry();
+if (!manualEntryAlwaysVisible) {
+  // Hide manual entry by default if setting is off
+} else {
+  document.getElementById('barcodeInput').parentElement.style.display = 'block';
+}
 </script>
 </body>
 </html>
