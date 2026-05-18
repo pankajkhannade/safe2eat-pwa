@@ -1,0 +1,133 @@
+{
+  "color": {
+    "description": "Food colorants \u2014 natural and synthetic pigments that give color to food products",
+    "typicalAdditives": [
+      "e100",
+      "e101",
+      "e102",
+      "e110",
+      "e120",
+      "e129",
+      "e133",
+      "e150a",
+      "e150d",
+      "e160c",
+      "e162",
+      "e163"
+    ]
+  },
+  "preservative": {
+    "description": "Substances that inhibit microbial growth and extend shelf life",
+    "typicalAdditives": [
+      "e200",
+      "e202",
+      "e210",
+      "e211",
+      "e220",
+      "e250",
+      "e270",
+      "e280",
+      "e300",
+      "e330"
+    ]
+  },
+  "antioxidant": {
+    "description": "Substances that prevent oxidation and rancidity in fats and oils",
+    "typicalAdditives": [
+      "e306",
+      "e310",
+      "e320",
+      "e321",
+      "e330"
+    ]
+  },
+  "sweetener": {
+    "description": "Substances that sweeten food with fewer calories than sugar, or zero calories",
+    "typicalAdditives": [
+      "e950",
+      "e951",
+      "e952",
+      "e954",
+      "e955",
+      "e960",
+      "e964",
+      "e965",
+      "e967",
+      "e969"
+    ]
+  },
+  "flavor": {
+    "description": "Substances that enhance or modify the taste and aroma of food",
+    "typicalAdditives": [
+      "e620",
+      "e621",
+      "e627",
+      "e631",
+      "e635",
+      "ina001",
+      "ina005",
+      "ina009",
+      "ina021",
+      "ina022"
+    ]
+  },
+  "emulsifier": {
+    "description": "Substances that help mix oil and water phases in food",
+    "typicalAdditives": [
+      "e322",
+      "e432",
+      "e433",
+      "e450",
+      "e451",
+      "e452",
+      "e470",
+      "e471",
+      "e472e",
+      "e476"
+    ]
+  },
+  "thickener": {
+    "description": "Substances that increase viscosity and give body to food products",
+    "typicalAdditives": [
+      "e400",
+      "e406",
+      "e407",
+      "e410",
+      "e412",
+      "e415",
+      "e440",
+      "e461",
+      "e464",
+      "e466"
+    ]
+  },
+  "acidity": {
+    "description": "Substances that regulate acidity or alkalinity of food",
+    "typicalAdditives": [
+      "e260",
+      "e270",
+      "e330",
+      "e507",
+      "e509",
+      "e524",
+      "e526",
+      "e541",
+      "e553a"
+    ]
+  },
+  "other": {
+    "description": "Miscellaneous additives including anti-caking agents, gases, coating agents, enzymes",
+    "typicalAdditives": [
+      "e551",
+      "e572",
+      "e901",
+      "e903",
+      "e904",
+      "e941",
+      "e942",
+      "e1100",
+      "e1101",
+      "e1204"
+    ]
+  }
+}
