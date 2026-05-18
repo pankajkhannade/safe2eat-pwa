@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0a0a0a" id="metaTheme">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect width='180' height='180' fill='%230a0a0a' rx='40'/><text x='90' y='130' font-size='100' text-anchor='middle'>🥗</text></svg>">
+  <title>Safe2Eat</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style id="themeBase">
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0a; --surface: #141414; --surface2: #1e1e1e; --border: #2a2a2a;
+      --text: #f0ede6; --text-dim: #888; --safe: #22c55e; --warn: #f59e0b; --avoid: #ef4444;
+      --accent: #a78bfa; --veg: #4ade80; --nonveg: #f87171;
+    }
+    body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100dvh; overflow-x: hidden; }
+    .app { max-width: 480px; margin: 0 auto; min-height: 100dvh; position: relative; padding-bottom: 88px; }
+
+    /* Scan Screen */
+    .scan-screen { display: flex; flex-direction: column; align-items: center; justify-content: flex-start; padding: 20px 20px 24px; min-height: calc(100dvh - 88px); text-align: center; }
+    .top-bar { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 20px; }
+    .top-bar-left { display: flex; gap: 8px; }
+    .top-bar-right { display: flex; gap: 6px; }
+    .icon-btn { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; color: var(--text); flex-shrink: 0; }
+    .icon-btn:active { background: var(--surface); }
+    .logo { font-size: 56px; margin-bottom: 12px; }
+    .tagline { font-size: 13px; color: var(--text-dim); margin-bottom: 20px; line-height: 1.5; }
+    .toggle-row { display: flex; gap: 6px; margin-bottom: 16px; }
+    .toggle-btn { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 5px 12px; font-size: 12px; color: var(--text-dim); cursor: pointer; display: flex; align-items: center; gap: 4px; }
+    .toggle-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .toggle-btn:active { opacity: 0.8; }
+    .scan-btn-wrap { position: relative; }
+    .scan-btn { width: 160px; height: 160px; border-radius: 50%; background: var(--accent); border: none; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; transition: transform 0.1s, box-shadow 0.2s; box-shadow: 0 0 0 0 rgba(167,139,250,0.4); }
+    .scan-btn:active { transform: scale(0.96); }
+    .scan-btn.scanning { animation: pulse 1.5s infinite; }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(167,139,250,0.5); } 70% { box-shadow: 0 0 0 20px rgba(167,139,250,0); } 100% { box-shadow: 0 0 0 0 rgba(167,139,250,0); } }
+    .scan-btn-icon { font-size: 40px; }
+    .scan-btn-label { font-size: 13px; font-weight: 600; color: #fff; }
+    .scan-hint { font-size: 11px; color: var(--text-dim); margin-top: 10px; }
+    .manual-entry { margin-top: 20px; width: 100%; }
+    .manual-entry input { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; color: var(--text); font-size: 16px; width: 100%; text-align: center; outline: none; }
+    .manual-entry input::placeholder { color: var(--text-dim); }
+    .manual-entry input:focus { border-color: var(--accent); }
+    .demo-barcodes { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+    .demo-chip { background: var(--surface2); border: 1px solid var(--border); border-radius: 20px; padding: 5px 12px; font-size: 11px; color: var(--text-dim); cursor: pointer; }
+    .demo-chip:active { background: var(--surface); }
+    .search-btn { display: flex; align-items: center; gap: 8px; background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 10px 14px; width: 100%; cursor: pointer; margin-top: 16px; text-align: left; }
+    .search-btn:active { background: var(--surface); }
+    .search-btn-icon { font-size: 18px; }
+    .search-btn-text { font-size: 13px; color: var(--text-dim); }
+    .search-btn-text span { color: var(--text); }
+
+    /* Recent Scans */
+    .recent-scans { width: 100%; margin-top: 24px; text-align: left; }
+    .recent-title { font-size: 12px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; display: flex; align-items: center; justify-content: space-between; }
+    .recent-clear { font-size: 11px; color: var(--text-dim); cursor: pointer; text-transform: none; letter-spacing: 0; }
+    .recent-clear:active { color: var(--avoid); }
+    .recent-list { display: flex; flex-direction: column; gap: 6px; }
+    .recent-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; background: var(--surface); border-radius: 12px; cursor: pointer; text-align: left; border: none; width: 100%; }
+    .recent-item:active { background: var(--surface2); }
+    .recent-img { width: 38px; height: 38px; border-radius: 8px; background: var(--surface2); object-fit: cover; flex-shrink: 0; }
+    .recent-img-placeholder { width: 38px; height: 38px; border-radius: 8px; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+    .recent-info { flex: 1; min-width: 0; }
+    .recent-name { font-size: 13px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .recent-brand { font-size: 11px; color: var(--text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .recent-badge { font-size: 10px; padding: 3px 8px; border-radius: 10px; font-weight: 600; flex-shrink: 0; }
+    .recent-badge.safe { background: rgba(34,197,94,0.15); color: var(--safe); }
+    .recent-badge.warning { background: rgba(245,158,11,0.15); color: var(--warn); }
+    .recent-badge.avoid { background: rgba(239,68,68,0.15); color: var(--avoid); }
+    .recent-empty { font-size: 12px; color: var(--text-dim); text-align: center; padding: 12px; }
+
+    /* Search Screen */
+    .search-screen { display: none; padding: 20px; }
+    .search-screen.visible { display: block; }
+    .search-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .search-back { background: none; border: none; color: var(--text-dim); font-size: 14px; cursor: pointer; padding: 4px; }
+    .search-input-wrap { flex: 1; position: relative; }
+    .search-input-wrap input { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; color: var(--text); font-size: 15px; width: 100%; outline: none; }
+    .search-input-wrap input::placeholder { color: var(--text-dim); }
+    .search-input-wrap input:focus { border-color: var(--accent); }
+    .search-results { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+    .search-result-item { display: flex; align-items: center; gap: 12px; padding: 12px; background: var(--surface); border-radius: 12px; cursor: pointer; border: none; width: 100%; text-align: left; }
+    .search-result-item:active { background: var(--surface2); }
+    .search-result-img { width: 48px; height: 48px; border-radius: 8px; object-fit: cover; background: var(--surface2); flex-shrink: 0; }
+    .search-result-info { flex: 1; min-width: 0; }
+    .search-result-name { font-size: 14px; font-weight: 500; }
+    .search-result-brand { font-size: 11px; color: var(--text-dim); }
+    .search-loading { text-align: center; padding: 40px; color: var(--text-dim); font-size: 14px; display: none; }
+    .search-loading.visible { display: block; }
+    .search-empty { text-align: center; padding: 40px 20px; }
+    .search-empty-icon { font-size: 48px; margin-bottom: 12px; }
+    .search-empty-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+    .search-empty-sub { font-size: 13px; color: var(--text-dim); }
+
+    /* Loading */
+    .loading { display: none; text-align: center; padding: 48px; }
+    .loading.visible { display: block; }
+    .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 14px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text { color: var(--text-dim); font-size: 14px; }
+
+    /* Result Screen */
+    .result-screen { display: none; padding: 16px 18px 20px; }
+    .result-screen.visible { display: block; }
+    .back-btn { display: flex; align-items: center; gap: 6px; background: none; border: none; color: var(--text-dim); font-size: 14px; cursor: pointer; margin-bottom: 14px; padding: 4px 0; }
+    .product-header { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 14px; }
+    .product-img-wrap { flex-shrink: 0; }
+    .product-img { width: 68px; height: 68px; border-radius: 12px; object-fit: cover; background: var(--surface2); }
+    .product-img-placeholder { width: 68px; height: 68px; border-radius: 12px; background: var(--surface2); display: flex; align-items: center; justify-content: center; font-size: 28px; }
+    .product-text { flex: 1; min-width: 0; }
+    .product-name { font-size: 17px; font-weight: 600; margin-bottom: 2px; line-height: 1.3; }
+    .product-brand { font-size: 12px; color: var(--text-dim); margin-bottom: 6px; }
+    .veg-badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 20px; margin-top: 2px; }
+    .veg-badge.veg { background: rgba(74,222,128,0.15); color: var(--veg); }
+    .veg-badge.nonveg { background: rgba(248,113,113,0.15); color: var(--nonveg); }
+    .veg-badge.uncertain { background: rgba(245,158,11,0.15); color: var(--warn); }
+    .verdict { text-align: center; padding: 20px 16px; border-radius: 16px; margin-bottom: 16px; }
+    .verdict.safe { background: rgba(34,197,94,0.10); border: 1px solid rgba(34,197,94,0.25); }
+    .verdict.warning { background: rgba(245,158,11,0.10); border: 1px solid rgba(245,158,11,0.25); }
+    .verdict.avoid { background: rgba(239,68,68,0.10); border: 1px solid rgba(239,68,68,0.25); }
+    .verdict-emoji { font-size: 44px; margin-bottom: 8px; }
+    .verdict-label { font-size: 20px; font-weight: 700; margin-bottom: 3px; }
+    .verdict-label.safe { color: var(--safe); }
+    .verdict-label.warning { color: var(--warn); }
+    .verdict-label.avoid { color: var(--avoid); }
+    .verdict-sub { font-size: 12px; color: var(--text-dim); }
+
+    /* Nutrition Strip */
+    .nutrition-strip { display: flex; gap: 8px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 2px; }
+    .nutrition-chip { display: flex; flex-direction: column; align-items: center; gap: 3px; background: var(--surface); border-radius: 12px; padding: 9px 12px; min-width: 68px; flex-shrink: 0; }
+    .n-value { font-size: 16px; font-weight: 700; }
+    .n-label { font-size: 10px; color: var(--text-dim); text-transform: uppercase; }
+    .n-high { color: var(--avoid); } .n-mid { color: var(--warn); } .n-low { color: var(--safe); }
+
+    /* Ingredients */
+    .section-title { font-size: 12px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
+    .ingredients-list { display: flex; flex-direction: column; gap: 7px; margin-bottom: 16px; }
+    .ingredient-row { display: flex; align-items: flex-start; gap: 10px; padding: 11px 13px; background: var(--surface); border-radius: 12px; cursor: pointer; }
+    .ingredient-row:active { background: var(--surface2); }
+    .ing-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+    .ing-dot.safe { background: var(--safe); } .ing-dot.warning { background: var(--warn); } .ing-dot.avoid { background: var(--avoid); } .ing-dot.unknown { background: var(--text-dim); }
+    .ing-main { flex: 1; min-width: 0; }
+    .ing-name { font-size: 13px; font-weight: 500; }
+    .ing-code { font-size: 11px; color: var(--text-dim); margin-top: 1px; }
+    .ing-badge { font-size: 10px; padding: 3px 7px; border-radius: 10px; font-weight: 600; flex-shrink: 0; }
+    .ing-badge.safe { background: rgba(34,197,94,0.15); color: var(--safe); }
+    .ing-badge.warning { background: rgba(245,158,11,0.15); color: var(--warn); }
+    .ing-badge.avoid { background: rgba(239,68,68,0.15); color: var(--avoid); }
+    .ing-badge.nonveg { background: rgba(248,113,113,0.15); color: var(--nonveg); }
+    .ing-expand { display: none; font-size: 12px; color: var(--text-dim); line-height: 1.5; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); }
+    .ingredient-row.expanded .ing-expand { display: block; }
+    .ing-arrow { color: var(--text-dim); font-size: 11px; transition: transform 0.2s; flex-shrink: 0; margin-top: 2px; }
+    .ingredient-row.expanded .ing-arrow { transform: rotate(180deg); }
+    .no-add { font-size: 13px; color: var(--text-dim); text-align: center; padding: 14px; background: var(--surface); border-radius: 12px; margin-bottom: 16px; }
+
+    /* API Note + Disclaimer */
+    .disclaimer { font-size: 11px; color: var(--text-dim); text-align: center; padding: 10px 12px; line-height: 1.5; background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); border-radius: 10px; margin-bottom: 12px; }
+    .api-note { font-size: 11px; color: var(--text-dim); text-align: center; padding: 8px; line-height: 1.5; margin-bottom: 12px; }
+
+    /* Share button */
+    .share-btn { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 12px; font-size: 14px; font-weight: 500; color: var(--text); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 10px; }
+    .share-btn:active { background: var(--surface); }
+
+    /* Offline Banner */
+    .offline-banner { display: none; background: rgba(245,158,11,0.15); border: 1px solid rgba(245,158,11,0.3); border-radius: 10px; padding: 8px 12px; font-size: 12px; color: var(--warn); text-align: center; margin-bottom: 12px; }
+    .offline-banner.visible { display: block; }
+
+    /* Not Found Screen */
+    .notfound-screen { display: none; padding: 24px; text-align: center; }
+    .notfound-screen.visible { display: block; }
+    .notfound-icon { font-size: 52px; margin-bottom: 14px; }
+    .notfound-title { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+    .notfound-sub { font-size: 13px; color: var(--text-dim); line-height: 1.5; margin-bottom: 28px; }
+    .notfound-form { text-align: left; }
+    .notfound-form label { font-size: 12px; font-weight: 600; color: var(--text-dim); display: block; margin-bottom: 6px; }
+    .notfound-form input[type="email"] { background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; color: var(--text); font-size: 14px; width: 100%; outline: none; margin-bottom: 10px; }
+    .notfound-form input[type="email"]::placeholder { color: var(--text-dim); }
+    .notfound-form input[type="email"]:focus { border-color: var(--accent); }
+    .notfound-form input[type="file"] { display: none; }
+    .photo-upload-btn { width: 100%; background: var(--surface2); border: 2px dashed var(--border); border-radius: 12px; padding: 20px; font-size: 13px; color: var(--text-dim); cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 6px; margin-bottom: 10px; transition: border-color 0.2s; }
+    .photo-upload-btn:active { border-color: var(--accent); }
+    .photo-preview { width: 100%; max-height: 200px; object-fit: contain; border-radius: 12px; margin-bottom: 10px; display: none; border: 1px solid var(--border); }
+    .photo-preview.visible { display: block; }
+    .submit-btn { width: 100%; background: var(--accent); border: none; border-radius: 12px; padding: 13px; font-size: 14px; font-weight: 600; color: #fff; cursor: pointer; }
+    .submit-btn:active { opacity: 0.9; }
+    .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .submit-success { font-size: 13px; color: var(--safe); margin-top: 10px; display: none; }
+    .notfound-skip { font-size: 12px; color: var(--text-dim); margin-top: 14px; cursor: pointer; text-decoration: underline; }
+
+    /* About Screen */
+    .about-screen { display: none; padding: 24px; }
+    .about-screen.visible { display: block; }
+    .about-header { text-align: center; margin-bottom: 20px; }
+    .about-logo { font-size: 52px; margin-bottom: 10px; }
+    .about-title { font-size: 20px; font-weight: 700; margin-bottom: 3px; }
+    .about-ver { font-size: 12px; color: var(--text-dim); }
+    .about-desc { font-size: 13px; color: var(--text-dim); line-height: 1.6; margin-bottom: 20px; }
+    .about-section { margin-bottom: 18px; }
+    .about-section-title { font-size: 11px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 8px; }
+    .about-source { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+    .about-source-icon { font-size: 16px; }
+    .about-note { font-size: 11px; color: var(--text-dim); line-height: 1.6; padding: 10px; background: rgba(245,158,11,0.08); border: 1px solid rgba(245,158,11,0.2); border-radius: 10px; margin-top: 14px; }
+
+    /* Bottom Nav */
+    .bottom-nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 480px; background: var(--bg); border-top: 1px solid var(--border); display: flex; padding: 6px 0; }
+    .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; background: none; border: none; color: var(--text-dim); font-size: 11px; cursor: pointer; padding: 8px; }
+    .nav-item.active { color: var(--accent); }
+    .nav-icon { font-size: 20px; }
+  </style>
+</head>
+<body>
+<div class="app">
+  <!-- Scan Screen -->
+  <div class="scan-screen" id="scanScreen">
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <button class="icon-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+        <button class="icon-btn" onclick="setLang('en')" id="langEn" style="display:none">EN</button>
+        <button class="icon-btn" onclick="setLang('hi')" id="langHi" style="display:none">हि</button>
+      </div>
+      <div class="top-bar-right">
+        <button class="icon-btn" onclick="showAbout()">ℹ️</button>
+      </div>
+    </div>
+    <div class="logo">🥗</div>
+    <p class="tagline" id="tagline">Scan any packaged food barcode<br>to check ingredient safety instantly</p>
+    <div class="toggle-row">
+      <button class="toggle-btn" id="langEnBtn" onclick="setLang('en')">English</button>
+      <button class="toggle-btn" id="langHiBtn" onclick="setLang('hi')">हिन्दी</button>
+    </div>
+    <div class="scan-btn-wrap">
+      <button class="scan-btn" id="scanBtn" onclick="startScan()">
+        <span class="scan-btn-icon">📷</span>
+        <span class="scan-btn-label" id="scanLabel">SCAN</span>
+      </button>
+      <p class="scan-hint" id="scanHint">Point camera at barcode</p>
+    </div>
+    <div class="manual-entry">
+      <input type="text" id="barcodeInput" placeholder="Or type barcode manually" onkeydown="if(event.key==='Enter')lookupBarcode()">
+    </div>
+    <button class="search-btn" id="searchBtn" onclick="showSearch()">
+      <span class="search-btn-icon">🔍</span>
+      <span class="search-btn-text" id="searchBtnText">Search by <span>product name</span></span>
+    </button>
+    <div class="demo-barcodes">
+      <div class="demo-chip" onclick="lookupDemo('5449000000996')">Coke Original</div>
+      <div class="demo-chip" onclick="lookupDemo('5449000214799')">Coke Zero</div>
+      <div class="demo-chip" onclick="lookupDemo('3017620422003')">Nutella</div>
+      <div class="demo-chip" onclick="lookupDemo('5000112611762')">Coca Cola Zero</div>
+    </div>
+    <div class="recent-scans" id="recentScansSection">
+      <p class="recent-title"><span id="recentTitle">Recent Scans</span><span class="recent-clear" id="recentClear" onclick="clearHistory()">Clear</span></p>
+      <div class="recent-list" id="recentList"></div>
+    </div>
+  </div>
+
+  <!-- Search Screen -->
+  <div class="search-screen" id="searchScreen">
+    <div class="search-header">
+      <button class="search-back" onclick="showScan()">← <span id="backLabel">Back</span></button>
+      <div class="search-input-wrap">
+        <input type="text" id="searchInput" placeholder="Search by product name..." onkeydown="if(event.key==='Enter')doSearch()" autocomplete="off" autocorrect="off" autocapitalize="off">
+      </div>
+    </div>
+    <button class="toggle-btn" onclick="doSearch()" style="margin:0 auto 16px" id="searchSubmitBtn">
+      🔍 <span id="searchLabel">Search</span>
+    </button>
+    <div class="search-loading" id="searchLoading">
+      <div class="spinner" style="margin:0 auto 10px"></div>
+      <span id="searchLoadingText">Searching...</span>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+    <div class="search-empty" id="searchEmpty" style="display:none">
+      <div class="search-empty-icon">🔍</div>
+      <p class="search-empty-title" id="searchEmptyTitle">No products found</p>
+      <p class="search-empty-sub" id="searchEmptySub">Try a different name or scan the barcode directly</p>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading" id="loading">
+    <div class="spinner"></div>
+    <p class="loading-text" id="loadingText">Checking ingredients...</p>
+  </div>
+
+  <!-- Result Screen -->
+  <div class="result-screen" id="resultScreen">
+    <div class="offline-banner" id="offlineBanner">📴 You're offline — showing cached result</div>
+    <button class="back-btn" onclick="showScan()">← <span id="resultBackLabel">Back</span></button>
+    <div class="product-header">
+      <div class="product-img-wrap" id="productImgWrap">
+        <div class="product-img-placeholder" id="productImgPlaceholder">🥗</div>
+      </div>
+      <div class="product-text">
+        <p class="product-name" id="productName">Product Name</p>
+        <p class="product-brand" id="productBrand">Brand</p>
+        <span class="veg-badge" id="vegBadge"></span>
+      </div>
+    </div>
+    <div class="verdict" id="verdict">
+      <div class="verdict-emoji" id="verdictEmoji">✅</div>
+      <div class="verdict-label" id="verdictLabel">Safe</div>
+      <div class="verdict-sub" id="verdictSub">No concerning additives</div>
+    </div>
+    <div class="nutrition-strip" id="nutritionStrip"></div>
+    <p class="section-title" id="ingredientsSectionTitle">Ingredients</p>
+    <div class="ingredients-list" id="ingredientsList"></div>
+    <div class="disclaimer" id="disclaimer">⚠️ Safety ratings are algorithmic estimates based on EU standards. FSSAI-specific data is being built. For medical advice, consult a healthcare professional.</div>
+    <button class="share-btn" id="shareBtn" onclick="shareResult()">📤 <span id="shareLabel">Share Result</span></button>
+    <p class="api-note">Data from <a href="https://world.openfoodfacts.org" target="_blank" style="color:var(--accent)">Open Food Facts</a> (open source, CC BY-SA 4.0)</p>
+  </div>
+
+  <!-- Not Found Screen -->
+  <div class="notfound-screen" id="notfoundScreen">
+    <div class="notfound-icon">🔍</div>
+    <p class="notfound-title" id="notfoundTitle">Product Not Found</p>
+    <p class="notfound-sub" id="notfoundSub">We don't have this product yet. Help us build our database by submitting a photo of the barcode and packaging.</p>
+    <div class="notfound-form">
+      <label id="notfoundEmailLabel">Your email (optional — we'll notify you when it's added)</label>
+      <input type="email" id="notfoundEmail" placeholder="you@email.com">
+      <label id="notfoundPhotoLabel">Take a photo of the product</label>
+      <div class="photo-upload-btn" id="photoUploadBtn" onclick="document.getElementById('photoInput').click()">
+        <span id="photoUploadIcon">📷</span>
+        <span id="photoUploadText">Tap to take photo</span>
+      </div>
+      <img class="photo-preview" id="photoPreview" alt="Product photo preview">
+      <input type="file" id="photoInput" accept="image/*" capture="environment" onchange="handlePhotoSelect(this)">
+      <button class="submit-btn" id="notfoundSubmitBtn" onclick="submitNotFound()" disabled><span id="submitBtnText">Submit Product</span></button>
+      <p class="submit-success" id="submitSuccess">✅ Thank you! We'll add this product soon.</p>
+    </div>
+    <p class="notfound-skip" onclick="showScan()" id="notfoundSkip">→ Skip and try another barcode</p>
+  </div>
+
+  <!-- About Screen -->
+  <div class="about-screen" id="aboutScreen">
+    <div class="about-header">
+      <div class="about-logo">🥗</div>
+      <p class="about-title" id="aboutTitle">Safe2Eat</p>
+      <p class="about-ver" id="aboutVer">Version 1.1 — MVP</p>
+    </div>
+    <p class="about-desc" id="aboutDesc">Open source food safety checker. Scan a barcode → get ingredient analysis against FSSAI, EU, and FDA standards. Built for Indian families.</p>
+    <div class="about-section">
+      <p class="about-section-title" id="aboutSourcesTitle">Data Sources</p>
+      <div class="about-source"><span class="about-source-icon">🌍</span><span>Open Food Facts — 3M+ products, CC BY-SA 4.0</span></div>
+      <div class="about-source"><span class="about-source-icon">🇪🇺</span><span>EU Food Safety Authority (EFSA) — additive classifications</span></div>
+      <div class="about-source"><span class="about-source-icon">🇺🇸</span><span>US FDA — GRAS list &amp; food additive regulations</span></div>
+      <div class="about-source"><span class="about-source-icon">🇮🇳</span><span id="aboutFssai">FSSAI India — EU proxy used for MVP (FSSAI data being compiled)</span></div>
+      <div class="about-source"><span class="about-source-icon">🥬</span><span>Vegetarian Society UK — animal-derived ingredient guide</span></div>
+    </div>
+    <div class="about-section">
+      <p class="about-section-title">Key Features</p>
+      <div class="about-source"><span class="about-source-icon">📷</span><span>Barcode scanning (Android Chrome), manual entry, search by name</span></div>
+      <div class="about-source"><span class="about-source-icon">🌙</span><span>Light / Dark theme with persistent preference</span></div>
+      <div class="about-source"><span class="about-source-icon">📴</span><span>Offline mode — cached results when no connection</span></div>
+      <div class="about-source"><span class="about-source-icon">🌐</span><span>Hindi + English interface</span></div>
+    </div>
+    <p class="about-note" id="aboutNote">⚠️ Safety ratings are algorithmic estimates based on publicly available regulatory data. Always verify with official sources. This app advises, it does not diagnose. For medical advice, consult a healthcare professional.</p>
+  </div>
+
+  <!-- Bottom Nav -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="showScan()" id="navScan">
+      <span class="nav-icon">📷</span><span id="navScanLabel">Scan</span>
+    </button>
+    <button class="nav-item" onclick="showSearch()" id="navSearch">
+      <span class="nav-icon">🔍</span><span id="navSearchLabel">Search</span>
+    </button>
+    <button class="nav-item" onclick="showAbout()" id="navAbout">
+      <span class="nav-icon">ℹ️</span><span id="navAboutLabel">About</span>
+    </button>
+  </nav>
+</div>
+
+<script>
+// ============================================================
+// THEME
+// ============================================================
+let isDark = true;
+
+function getStoredTheme() {
+  try { return localStorage.getItem('safe2eat_theme') || 'dark'; } catch(e) { return 'dark'; }
+}
+
+function applyTheme(dark) {
+  isDark = dark;
+  const root = document.documentElement;
+  if (dark) {
+    root.style.setProperty('--bg', '#0a0a0a');
+    root.style.setProperty('--surface', '#141414');
+    root.style.setProperty('--surface2', '#1e1e1e');
+    root.style.setProperty('--border', '#2a2a2a');
+    root.style.setProperty('--text', '#f0ede6');
+    root.style.setProperty('--text-dim', '#888');
+    root.style.setProperty('--safe', '#22c55e');
+    root.style.setProperty('--warn', '#f59e0b');
+    root.style.setProperty('--avoid', '#ef4444');
+    root.style.setProperty('--accent', '#a78bfa');
+    root.style.setProperty('--veg', '#4ade80');
+    root.style.setProperty('--nonveg', '#f87171');
+    document.getElementById('themeToggle').textContent = '🌙';
+    document.getElementById('metaTheme').content = '#0a0a0a';
+    document.body.style.background = '#0a0a0a';
+  } else {
+    root.style.setProperty('--bg', '#f4f1ec');
+    root.style.setProperty('--surface', '#ffffff');
+    root.style.setProperty('--surface2', '#ede9e2');
+    root.style.setProperty('--border', '#ddd8cf');
+    root.style.setProperty('--text', '#1a1a1a');
+    root.style.setProperty('--text-dim', '#777');
+    root.style.setProperty('--safe', '#16a34a');
+    root.style.setProperty('--warn', '#d97706');
+    root.style.setProperty('--avoid', '#dc2626');
+    root.style.setProperty('--accent', '#7c3aed');
+    root.style.setProperty('--veg', '#16a34a');
+    root.style.setProperty('--nonveg', '#dc2626');
+    document.getElementById('themeToggle').textContent = '☀️';
+    document.getElementById('metaTheme').content = '#f4f1ec';
+    document.body.style.background = '#f4f1ec';
+  }
+  try { localStorage.setItem('safe2eat_theme', dark ? 'dark' : 'light'); } catch(e) {}
+}
+
+function toggleTheme() {
+  applyTheme(!isDark);
+}
+
+// ============================================================
+// TRANSLATIONS
+// ============================================================
+const I18 = {
+  en: {
+    tagline: "Scan any packaged food barcode<br>to check ingredient safety instantly",
+    scanLabel: "SCAN", scanHint: "Point camera at barcode",
+    backLabel: "Back",
+    loadingText: "Checking ingredients...",
+    recentTitle: "Recent Scans", noRecent: "No recent scans",
+    ingredientsTitle: "Ingredients",
+    shareLabel: "Share Result",
+    disclaimer: "⚠️ Safety ratings are algorithmic estimates based on EU standards. FSSAI-specific data is being built. For medical advice, consult a healthcare professional.",
+    verdictSafe: "Looks Safe", verdictSafeSub: "No harmful additives detected",
+    verdictWarn: "Caution", verdictWarnSub: "Some ingredients need attention",
+    verdictAvoid: "Best Avoid", verdictAvoidSub: "One or more harmful additives found",
+    verdictUnknown: "Limited Data", verdictUnknownSub: "Check ingredients manually",
+    safe: "SAFE", warn: "CAUTION", avoid: "AVOID", unknown: "UNKNOWN",
+    veg: "🥬 Vegetarian", nonveg: "🥩 Non-Veg", uncertain: "❓ Check Label",
+    sugar: "Sugar", sodium: "Sodium", satFat: "Sat Fat",
+    notFoundTitle: "Product Not Found",
+    notFoundSub: "We don't have this product yet. Help us build our database by submitting a photo of the barcode and packaging.",
+    notFoundEmailLabel: "Your email (optional — we'll notify you when it's added)",
+    notFoundPhotoLabel: "Take a photo of the product",
+    photoUploadText: "Tap to take photo",
+    submitBtnText: "Submit Product",
+    submitSuccess: "✅ Thank you! We'll add this product soon.",
+    notFoundSkip: "→ Skip and try another barcode",
+    navScan: "Scan", navSearch: "Search", navAbout: "About",
+    noAdditives: "No additives detected in this product.",
+    networkError: "Network error. Check your connection.",
+    cameraNotSupported: "Camera scanning needs Chrome on Android. Use manual entry or search instead.",
+    cameraDenied: "Camera access denied. Try manual entry.",
+    aboutTitle: "Safe2Eat", aboutVer: "Version 1.1 — MVP",
+    aboutDesc: "Open source food safety checker. Scan a barcode → get ingredient analysis against FSSAI, EU, and FDA standards. Built for Indian families.",
+    aboutFssai: "FSSAI India — EU proxy used for MVP (FSSAI data being compiled)",
+    aboutSourcesTitle: "Data Sources",
+    aboutNote: "⚠️ Safety ratings are algorithmic estimates — always verify with official sources. This app advises, it does not diagnose.",
+    searchLabel: "Search", searchBtnText: "Search by <span>product name</span>",
+    searchPlaceholder: "Search by product name...",
+    searchLoading: "Searching...", searchEmptyTitle: "No products found", searchEmptySub: "Try a different name or scan the barcode",
+    offline: "📴 You're offline — showing cached result",
+    recentClear: "Clear",
+  },
+  hi: {
+    tagline: "किसी भी पैकेज्ड फूड का बारकोड स्कैन करें<br>और तुरंत जानें कि सुरक्षित है या नहीं",
+    scanLabel: "स्कैन", scanHint: "बारकोड पर कैमरा लगाएं",
+    backLabel: "वापस",
+    loadingText: "सामग्री जांच रहे हैं...",
+    recentTitle: "हाल की जांच", noRecent: "अभी तक कोई जांच नहीं",
+    ingredientsTitle: "सामग्री",
+    shareLabel: "परिणाम शेयर करें",
+    disclaimer: "⚠️ सुरक्षा रेटिंग अनुमानित है। चिकित्सा सलाह के लिए डॉक्टर से मिलें।",
+    verdictSafe: "सुरक्षित है", verdictSafeSub: "कोई हानिकारक योजक नहीं मिला",
+    verdictWarn: "सावधान", verdictWarnSub: "कुछ सामग्री पर ध्यान दें",
+    verdictAvoid: "बचें", verdictAvoidSub: "एक या अधिक हानिकारक योजक मिले",
+    verdictUnknown: "सीमित डेटा", verdictUnknownSub: "सामग्री स्वयं जांचें",
+    safe: "सुरक्षित", warn: "सावधान", avoid: "बचें", unknown: "अज्ञात",
+    veg: "🥬 शाकाहारी", nonveg: "🥩 मांसाहारी", uncertain: "❓ लेबल जांचें",
+    sugar: "चीनी", sodium: "सोडियम", satFat: "वसा",
+    notFoundTitle: "उत्पाद नहीं मिला",
+    notFoundSub: "हमारे पास यह उत्पाद अभी नहीं है। बारकोड और पैकेजिंग की फोटो भेजकर मदद करें।",
+    notFoundEmailLabel: "ईमेल (वैकल्पिक — जोड़ते ही सूचित करेंगे)",
+    notFoundPhotoLabel: "उत्पाद की फोटो लें",
+    photoUploadText: "फोटो लेने के लिए टैप करें",
+    submitBtnText: "भेजें",
+    submitSuccess: "✅ धन्यवाद! जल्द ही जोड़ेंगे।",
+    notFoundSkip: "→ छोड़ें, दूसरा बारकोड आज़माएं",
+    navScan: "स्कैन", navSearch: "खोज", navAbout: "जानकारी",
+    noAdditives: "इस उत्पाद में कोई योजक नहीं मिला।",
+    networkError: "नेटवर्क त्रुटि। कनेक्शन जांचें।",
+    cameraNotSupported: "कैमरा स्कैनिंग केवल Chrome पर एंड्रॉइड में। मैन्युअल एंट्री या खोजें।",
+    cameraDenied: "कैमरा एक्सेस नहीं मिला। मैन्युअल एंट्री आज़माएं।",
+    aboutTitle: "Safe2Eat", aboutVer: "संस्करण 1.1",
+    aboutDesc: "ओपन सोर्स फूड सेफ्टी चेकर। बारकोड स्कैन करें → FSSAI, EU, FDA में सामग्री विश्लेषण पाएं।",
+    aboutFssai: "FSSAI इंडिया — EU प्रॉक्सी का उपयोग किया गया (FSSAI डेटा इकट्ठा हो रहा है)",
+    aboutSourcesTitle: "डेटा स्रोत",
+    aboutNote: "⚠️ सुरक्षा रेटिंग अनुमानित है। आधिकारिक स्रोतों से जांचें।",
+    searchLabel: "खोजें", searchBtnText: "<span>उत्पाद नाम</span> से खोजें",
+    searchPlaceholder: "उत्पाद नाम से खोजें...",
+    searchLoading: "खोज रहे हैं...", searchEmptyTitle: "कुछ नहीं मिला", searchEmptySub: "दूसरा नाम आज़माएं या बारकोड स्कैन करें",
+    offline: "📴 ऑफलाइन — कैश्ड परिणाम दिखा रहे हैं",
+    recentClear: "मिटाएं",
+  }
+};
+
+let currentLang = 'en';
+
+function setLang(lang) {
+  currentLang = lang;
+  document.getElementById('langEnBtn').classList.toggle('active', lang === 'en');
+  document.getElementById('langHiBtn').classList.toggle('active', lang === 'hi');
+  applyTranslations();
+}
+
+function t(key) { return I18[currentLang][key] || I18['en'][key] || key; }
+
+function applyTranslations() {
+  const els = {
+    tagline: 'innerHTML', scanLabel: 'textContent', scanHint: 'textContent',
+    backLabel: 'textContent', loadingText: 'textContent', recentTitle: 'textContent',
+    ingredientsSectionTitle: 'textContent', shareLabel: 'textContent', disclaimer: 'textContent',
+    notfoundTitle: 'textContent', notfoundSub: 'textContent', notfoundEmailLabel: 'textContent',
+    notfoundPhotoLabel: 'textContent', photoUploadText: 'textContent', submitBtnText: 'textContent',
+    notfoundSkip: 'textContent', navScanLabel: 'textContent', navSearchLabel: 'textContent',
+    navAboutLabel: 'textContent', aboutTitle: 'textContent', aboutVer: 'textContent',
+    aboutDesc: 'textContent', aboutFssai: 'textContent', aboutSourcesTitle: 'textContent',
+    aboutNote: 'textContent', searchLabel: 'textContent', searchBtnText: 'innerHTML',
+    searchPlaceholder: 'placeholder', searchLoadingText: 'textContent',
+    searchEmptyTitle: 'textContent', searchEmptySub: 'textContent', offline: 'textContent',
+    resultBackLabel: 'textContent', recentClear: 'textContent'
+  };
+  for (const [id, prop] of Object.entries(els)) {
+    const el = document.getElementById(id);
+    if (el) el[prop] = t(id);
+  }
+  renderRecentScans();
+}
+
+// ============================================================
+// ADDITIVE DATABASE (93 E-numbers)
+// ============================================================
+const DB = {
+  "e150a": { name: "Caramel (Plain)", fssai: "safe", eu: "safe", fda: "safe" },
+  "e150b": { name: "Caramel (Sulphite)", fssai: "warning", eu: "warning", fda: "warning" },
+  "e150c": { name: "Caramel (Ammonia)", fssai: "warning", eu: "avoid", fda: "warning" },
+  "e150d": { name: "Caramel (Sulphite Ammonia)", fssai: "warning", eu: "avoid", fda: "warning" },
+  "e220": { name: "Sulphur Dioxide", fssai: "warning", eu: "warning", fda: "warning" },
+  "e250": { name: "Sodium Nitrite", fssai: "avoid", eu: "avoid", fda: "warning" },
+  "e251": { name: "Sodium Nitrate", fssai: "avoid", eu: "avoid", fda: "warning" },
+  "e320": { name: "BHA", fssai: "warning", eu: "warning", fda: "safe" },
+  "e321": { name: "BHT", fssai: "warning", eu: "warning", fda: "safe" },
+  "e322": { name: "Lecithin", fssai: "safe", eu: "safe", fda: "safe" },
+  "e330": { name: "Citric Acid", fssai: "safe", eu: "safe", fda: "safe" },
+  "e331": { name: "Sodium Citrate", fssai: "safe", eu: "safe", fda: "safe" },
+  "e340": { name: "Potassium Phosphates", fssai: "safe", eu: "warning", fda: "safe" },
+  "e401": { name: "Sodium Alginate", fssai: "safe", eu: "safe", fda: "safe" },
+  "e410": { name: "Locust Bean Gum", fssai: "safe", eu: "safe", fda: "safe" },
+  "e412": { name: "Guar Gum", fssai: "safe", eu: "safe", fda: "safe" },
+  "e414": { name: "Acacia Gum", fssai: "safe", eu: "safe", fda: "safe" },
+  "e415": { name: "Xanthan Gum", fssai: "safe", eu: "safe", fda: "safe" },
+  "e416": { name: "Karaya Gum", fssai: "safe", eu: "safe", fda: "safe" },
+  "e417": { name: "Tara Gum", fssai: "safe", eu: "safe", fda: "safe" },
+  "e418": { name: "Gellan Gum", fssai: "safe", eu: "safe", fda: "safe" },
+  "e420": { name: "Sorbitol", fssai: "safe", eu: "safe", fda: "safe" },
+  "e425": { name: "Konjac", fssai: "safe", eu: "safe", fda: "safe" },
+  "e440": { name: "Pectin", fssai: "safe", eu: "safe", fda: "safe" },
+  "e450": { name: "Sodium Pyrophosphate", fssai: "warning", eu: "warning", fda: "safe" },
+  "e451": { name: "Sodium Polyphosphate", fssai: "warning", eu: "warning", fda: "safe" },
+  "e452": { name: "Sodium Polyphosphate", fssai: "warning", eu: "warning", fda: "safe" },
+  "e460": { name: "Microcrystalline Cellulose", fssai: "safe", eu: "safe", fda: "safe" },
+  "e461": { name: "Methyl Cellulose", fssai: "safe", eu: "safe", fda: "safe" },
+  "e464": { name: "HPMC", fssai: "safe", eu: "safe", fda: "safe" },
+  "e466": { name: "CMC", fssai: "safe", eu: "safe", fda: "safe" },
+  "e471": { name: "Mono- and Diglycerides", fssai: "safe", eu: "safe", fda: "safe" },
+  "e472a": { name: "Acetylated Mono- and Diglycerides", fssai: "safe", eu: "safe", fda: "safe" },
+  "e472c": { name: "Citric Acid Esters", fssai: "safe", eu: "warning", fda: "safe" },
+  "e472e": { name: "DATEM", fssai: "safe", eu: "warning", fda: "safe" },
+  "e473": { name: "Sucrose Esters", fssai: "safe", eu: "safe", fda: "safe" },
+  "e474": { name: "Sucroglycerides", fssai: "safe", eu: "safe", fda: "safe" },
+  "e475": { name: "Polyglycerol Esters", fssai: "safe", eu: "warning", fda: "safe" },
+  "e476": { name: "PGPR", fssai: "safe", eu: "warning", fda: "safe" },
+  "e477": { name: "Propylene Glycol Esters", fssai: "safe", eu: "warning", fda: "safe" },
+  "e481": { name: "Sodium Stearoyl Lactylate", fssai: "safe", eu: "warning", fda: "safe" },
+  "e482": { name: "Calcium Stearoyl Lactylate", fssai: "safe", eu: "warning", fda: "safe" },
+  "e491": { name: "Sorbitan Tristearate", fssai: "safe", eu: "safe", fda: "safe" },
+  "e492": { name: "Sorbitan Tristearate", fssai: "safe", eu: "safe", fda: "safe" },
+  "e500": { name: "Sodium Carbonate", fssai: "safe", eu: "safe", fda: "safe" },
+  "e501": { name: "Potassium Carbonate", fssai: "safe", eu: "safe", fda: "safe" },
+  "e503": { name: "Ammonium Carbonate", fssai: "safe", eu: "safe", fda: "safe" },
+  "e504": { name: "Magnesium Carbonate", fssai: "safe", eu: "safe", fda: "safe" },
+  "e507": { name: "Hydrochloric Acid", fssai: "safe", eu: "safe", fda: "safe" },
+  "e508": { name: "Potassium Chloride", fssai: "safe", eu: "safe", fda: "safe" },
+  "e509": { name: "Calcium Chloride", fssai: "safe", eu: "safe", fda: "safe" },
+  "e510": { name: "Ammonium Chloride", fssai: "warning", eu: "safe", fda: "safe" },
+  "e513": { name: "Sulphuric Acid", fssai: "safe", eu: "safe", fda: "safe" },
+  "e514": { name: "Sodium Sulphate", fssai: "safe", eu: "safe", fda: "safe" },
+  "e516": { name: "Calcium Sulphate", fssai: "safe", eu: "safe", fda: "safe" },
+  "e517": { name: "Ammonium Sulphate", fssai: "safe", eu: "safe", fda: "safe" },
+  "e524": { name: "Sodium Hydroxide", fssai: "safe", eu: "safe", fda: "safe" },
+  "e525": { name: "Potassium Hydroxide", fssai: "safe", eu: "safe", fda: "safe" },
+  "e526": { name: "Calcium Hydroxide", fssai: "safe", eu: "safe", fda: "safe" },
+  "e529": { name: "Calcium Oxide", fssai: "safe", eu: "safe", fda: "safe" },
+  "e530": { name: "Magnesium Oxide", fssai: "safe", eu: "safe", fda: "safe" },
+  "e535": { name: "Sodium Ferrocyanide", fssai: "safe", eu: "safe", fda: "safe" },
+  "e536": { name: "Potassium Ferrocyanide", fssai: "safe", eu: "safe", fda: "safe" },
+  "e541": { name: "Sodium Acid Pyrophosphate", fssai: "warning", eu: "warning", fda: "safe" },
+  "e551": { name: "Silicon Dioxide", fssai: "safe", eu: "safe", fda: "safe" },
+  "e552": { name: "Calcium Silicate", fssai: "safe", eu: "safe", fda: "safe" },
+  "e553b": { name: "Talc", fssai: "warning", eu: "warning", fda: "safe" },
+  "e554": { name: "Sodium Aluminosilicate", fssai: "warning", eu: "warning", fda: "safe" },
+  "e555": { name: "Potassium Aluminium Silicate", fssai: "avoid", eu: "avoid", fda: "safe" },
+  "e558": { name: "Bentonite", fssai: "safe", eu: "safe", fda: "safe" },
+  "e570": { name: "Fatty Acids", fssai: "safe", eu: "safe", fda: "safe" },
+  "e572": { name: "Magnesium Stearate", fssai: "safe", eu: "safe", fda: "safe" },
+  "e574": { name: "Gluconic Acid", fssai: "safe", eu: "safe", fda: "safe" },
+  "e575": { name: "Glucono Delta-Lactone", fssai: "safe", eu: "safe", fda: "safe" },
+  "e576": { name: "Sodium Gluconate", fssai: "safe", eu: "safe", fda: "safe" },
+  "e620": { name: "Glutamic Acid", fssai: "safe", eu: "safe", fda: "safe" },
+  "e621": { name: "Monosodium Glutamate", fssai: "safe", eu: "warning", fda: "safe" },
+  "e622": { name: "Potassium Glutamate", fssai: "safe", eu: "warning", fda: "safe" },
+  "e623": { name: "Calcium Glutamate", fssai: "safe", eu: "warning", fda: "safe" },
+  "e624": { name: "Ammonium Glutamate", fssai: "safe", eu: "warning", fda: "safe" },
+  "e625": { name: "Magnesium Glutamate", fssai: "safe", eu: "warning", fda: "safe" },
+  "e627": { name: "Disodium Guanylate", fssai: "warning", eu: "avoid", fda: "warning" },
+  "e628": { name: "Dipotassium Guanylate", fssai: "warning", eu: "avoid", fda: "warning" },
+  "e631": { name: "Disodium Inosinate", fssai: "warning", eu: "avoid", fda: "warning" },
+  "e632": { name: "Dipotassium Inosinate", fssai: "warning", eu: "avoid", fda: "warning" },
+  "e635": { name: "Ribonucleotides", fssai: "warning", eu: "avoid", fda: "warning" },
+  "e640": { name: "Glycine", fssai: "safe", eu: "safe", fda: "safe" },
+  "e920": { name: "L-Cysteine", fssai: "safe", eu: "safe", fda: "safe" },
+  "e950": { name: "Acesulfame K", fssai: "safe", eu: "safe", fda: "safe" },
+  "e951": { name: "Aspartame", fssai: "warning", eu: "warning", fda: "safe" },
+  "e952": { name: "Cyclamate", fssai: "warning", eu: "avoid", fda: "avoid" },
+  "e954": { name: "Saccharin", fssai: "safe", eu: "warning", fda: "safe" },
+  "e955": { name: "Sucralose", fssai: "safe", eu: "safe", fda: "safe" },
+  "e960c": { name: "Steviol Glycosides (Stevia)", fssai: "safe", eu: "safe", fda: "safe" },
+  "e961": { name: "Neotame", fssai: "warning", eu: "warning", fda: "safe" },
+  "e962": { name: "Salt of Acesulfame K", fssai: "safe", eu: "warning", fda: "safe" },
+  "e964": { name: "Erythritol", fssai: "safe", eu: "safe", fda: "safe" },
+  "e965": { name: "Maltitol", fssai: "safe", eu: "safe", fda: "safe" },
+  "e966": { name: "Lactitol", fssai: "safe", eu: "safe", fda: "safe" },
+  "e967": { name: "Xylitol", fssai: "safe", eu: "safe", fda: "safe" },
+  "e968": { name: "Erythritol", fssai: "safe", eu: "safe", fda: "safe" },
+  "e1103": { name: "Invertase", fssai: "safe", eu: "safe", fda: "safe" },
+  "e120": { name: "Cochineal / Carmine", fssai: "warning", eu: "avoid", fda: "safe" },
+  "e1202": { name: "PVPP", fssai: "safe", eu: "safe", fda: "safe" },
+  "e1203": { name: "Polyvinylpyrrolidone", fssai: "safe", eu: "safe", fda: "safe" },
+  "e1404": { name: "Oxidised Starch", fssai: "safe", eu: "safe", fda: "safe" },
+  "e1410": { name: "Monostarch Phosphate", fssai: "safe", eu: "safe", fda: "safe" },
+  "e1412": { name: "Distarch Phosphate", fssai: "safe", eu: "safe", fda: "safe" },
+  "e1414": { name: "Acetylated Distarch Phosphate", fssai: "safe", eu: "safe", fda: "safe" },
+  "e1420": { name: "Acetylated Starch", fssai: "safe", eu: "safe", fda: "safe" },
+  "e1422": { name: "Acetylated Distarch Adipate", fssai: "safe", eu: "safe", fda: "safe" },
+  "e1440": { name: "Hydroxypropyl Starch", fssai: "safe", eu: "safe", fda: "safe" },
+  "e1442": { name: "Hydroxypropyl Distarch Phosphate", fssai: "safe", eu: "safe", fda: "safe" },
+  "e1450": { name: "Starch Sodium Octenyl Succinate", fssai: "safe", eu: "safe", fda: "safe" },
+  "e1451": { name: "Acetylated Oxidised Starch", fssai: "safe", eu: "safe", fda: "safe" },
+  "e1518": { name: "Triacetin", fssai: "safe", eu: "safe", fda: "safe" },
+  "e1520": { name: "Propylene Glycol", fssai: "warning", eu: "warning", fda: "safe" },
+  "e160a": { name: "Beta-Carotene", fssai: "safe", eu: "safe", fda: "safe" },
+  "e160b": { name: "Annatto", fssai: "safe", eu: "warning", fda: "safe" },
+  "e160c": { name: "Paprika Extract", fssai: "safe", eu: "safe", fda: "safe" },
+  "e160d": { name: "Lycopene", fssai: "safe", eu: "safe", fda: "safe" },
+  "e160e": { name: "apo-8-Carotenal", fssai: "safe", eu: "safe", fda: "safe" },
+  "e161b": { name: "Astaxanthin", fssai: "safe", eu: "safe", fda: "safe" },
+  "e162": { name: "Beetroot Red", fssai: "safe", eu: "safe", fda: "safe" },
+  "e163": { name: "Grape Skin Extract", fssai: "safe", eu: "safe", fda: "safe" },
+  "e170": { name: "Calcium Carbonate", fssai: "safe", eu: "safe", fda: "safe" },
+  "e171": { name: "Titanium Dioxide", fssai: "warning", eu: "warning", fda: "safe" },
+  "e172": { name: "Iron Oxides", fssai: "warning", eu: "warning", fda: "safe" },
+  "e173": { name: "Aluminium", fssai: "avoid", eu: "avoid", fda: "avoid" },
+  "e180": { name: "Lithol Rubine BK", fssai: "warning", eu: "warning", fda: "safe" },
+  "e200": { name: "Sorbic Acid", fssai: "safe", eu: "safe", fda: "safe" },
+  "e202": { name: "Potassium Sorbate", fssai: "safe", eu: "safe", fda: "safe" },
+  "e203": { name: "Calcium Sorbate", fssai: "safe", eu: "safe", fda: "safe" },
+  "e210": { name: "Benzoic Acid", fssai: "warning", eu: "warning", fda: "safe" },
+  "e211": { name: "Sodium Benzoate", fssai: "safe", eu: "warning", fda: "safe" },
+  "e212": { name: "Potassium Benzoate", fssai: "safe", eu: "warning", fda: "safe" },
+  "e213": { name: "Calcium Benzoate", fssai: "safe", eu: "warning", fda: "safe" },
+  "e214": { name: "Ethylparaben", fssai: "warning", eu: "warning", fda: "safe" },
+  "e215": { name: "Sodium Ethylparaben", fssai: "warning", eu: "warning", fda: "safe" },
+  "e216": { name: "Propylparaben", fssai: "warning", eu: "warning", fda: "safe" },
+  "e218": { name: "Methylparaben", fssai: "warning", eu: "warning", fda: "safe" },
+  "e219": { name: "Sodium Methylparaben", fssai: "warning", eu: "warning", fda: "safe" },
+  "e223": { name: "Sodium Metabisulphite", fssai: "warning", eu: "warning", fda: "warning" },
+  "e224": { name: "Potassium Metabisulphite", fssai: "warning", eu: "warning", fda: "warning" },
+  "e316": { name: "Sodium Erythorbate", fssai: "safe", eu: "safe", fda: "safe" },
+  "e903": { name: "Carnauba Wax", fssai: "safe", eu: "safe", fda: "safe" },
+  "e904": { name: "Shellac / Confectioner's Glaze", fssai: "warning", eu: "warning", fda: "safe" },
+  "e920": { name: "L-Cysteine", fssai: "safe", eu: "safe", fda: "safe" },
+  "e927b": { name: "Carbamide", fssai: "safe", eu: "safe", fda: "safe" },
+  "e950": { name: "Acesulfame Potassium", fssai: "safe", eu: "safe", fda: "safe" },
+  "e951": { name: "Aspartame", fssai: "warning", eu: "warning", fda: "safe" },
+  "e952": { name: "Cyclamic Acid", fssai: "warning", eu: "avoid", fda: "avoid" },
+  "e954": { name: "Saccharin", fssai: "safe", eu: "warning", fda: "safe" },
+  "e955": { name: "Sucralose", fssai: "safe", eu: "safe", fda: "safe" },
+  "e959": { name: "Neohesperidine DC", fssai: "safe", eu: "warning", fda: "safe" },
+  "e961": { name: "Neotame", fssai: "warning", eu: "warning", fda: "safe" },
+  "e962": { name: "Advantame", fssai: "safe", eu: "warning", fda: "safe" },
+  "e964": { name: "Erythritol", fssai: "safe", eu: "safe", fda: "safe" },
+  "e965": { name: "Maltitol", fssai: "safe", eu: "safe", fda: "safe" },
+  "e966": { name: "Lactitol", fssai: "safe", eu: "safe", fda: "safe" },
+  "e967": { name: "Xylitol", fssai: "safe", eu: "safe", fda: "safe" },
+  "e968": { name: "Erythritol", fssai: "safe", eu: "safe", fda: "safe" },
+  "e1105": { name: "Lysozyme", fssai: "safe", eu: "safe", fda: "safe" },
+  "e1204": { name: "Pullulan", fssai: "safe", eu: "safe", fda: "safe" },
+  "e1505": { name: "Calcium Citrate", fssai: "safe", eu: "safe", fda: "safe" },
+  "e1517": { name: "Diacetyltartaric Acid Esters", fssai: "safe", eu: "safe", fda: "safe" },
+  "e1519": { name: "Benzyl Alcohol", fssai: "warning", eu: "warning", fda: "safe" },
+  "e1525": { name: "Propylene Glycol", fssai: "warning", eu: "warning", fda: "safe" },
+  "e322i": { name: "Lecithin (Soy)", fssai: "safe", eu: "safe", fda: "safe" },
+  "e338": { name: "Phosphoric Acid", fssai: "warning", eu: "warning", fda: "safe" },
+  "e450i": { name: "Sodium Pyrophosphate", fssai: "warning", eu: "warning", fda: "safe" },
+  "e450iii": { name: "Tetrasodium Pyrophosphate", fssai: "warning", eu: "warning", fda: "safe" },
+  "e452i": { name: "Sodium Polyphosphate", fssai: "warning", eu: "warning", fda: "safe" },
+  "e553a": { name: "Magnesium Trisilicate", fssai: "safe", eu: "safe", fda: "safe" },
+  "e901": { name: "Beeswax (White)", fssai: "warning", eu: "safe", fda: "safe" },
+  "e902": { name: "Candellila Wax", fssai: "safe", eu: "safe", fda: "safe" },
+};
+
+function lookupIngredient(code) {
+  const c = (code || '').toLowerCase().replace('en:', '').replace('e', 'e');
+  return DB[c] || null;
+}
+
+// ============================================================
+// INGREDIENT EXPLANATIONS
+// ============================================================
+const EXPLAIN = {
+  "e150d": { en: "Sulphite ammonia caramel — used in colas. Contains 4-MEI, a potential carcinogen. Restricted in EU for beverages.", hi: "अमोनिया कैरामेल — कोला में रंग। 4-MEI कैंसरजनक हो सकता है। EU में प्रतिबंधित।" },
+  "e150c": { en: "Ammonia caramel — used in beers, soy sauce. Linked to hyperactivity in children. Restricted in EU.", hi: "अमोनिया कैरामेल — बियर, सोया सॉस में। बच्चों में हाइपरएक्टिविटी से जुड़ा। EU में प्रतिबंधित।" },
+  "e250": { en: "Sodium nitrite — preservative for processed meats. Converts to nitrosamines (carcinogens) when heated. Regularly associated with cancer risk.", hi: "सोडियम नाइट्राइट — प्रोसेस्ड मीट में प्रिजर्वेटिव। गर्म करने पर कैंसरजनक नाइट्रोसामाइन बनता है।" },
+  "e320": { en: "BHA — antioxidant preservative. Generally safe but high doses linked to cancer in animal studies. Classified as 'generally recognized as safe' by FDA.", hi: "BHA — ऑक्सीडेंट प्रिजर्वेटिव। सामान्यतः सुरक्षित लेकिन उच्च खुराक से कैंसर का खतरा।" },
+  "e321": { en: "BHT — similar to BHA. Some organ toxicity concerns at very high doses. Still considered safe by FDA in small amounts.", hi: "BHT — BHA के समान। बहुत उच्च खुराक में अंग विषाक्तता की चिंता।" },
+  "e322": { en: "Lecithin — emulsifier from soy or eggs. Helps mix oil and water in food. Completely safe, also found in human body.", hi: "लेसिथिन — सोय या अंडे से इमल्सीफायर। पूर्णतः सुरक्षित।" },
+  "e330": { en: "Citric acid — natural acid from citrus fruits. Used as preservative and flavoring. Completely safe, found naturally in many fruits.", hi: "सिट्रिक एसिड — खट्टे फलों से प्राकृतिक एसिड। पूर्णतः सुरक्षित।" },
+  "e338": { en: "Phosphoric acid — used in soft drinks for tanginess. High intake may affect bone density. Small amounts in cola are considered safe.", hi: "फॉस्फोरिक एसिड — कोला में खट्टापन। अधिक मात्रा में हड्डी घनत्व प्रभावित कर सकता है।" },
+  "e621": { en: "Monosodium glutamate (MSG) — flavor enhancer. Safe for most people. Some report headaches or flushing (Chinese Restaurant Syndrome).", hi: "मोनोसोडियम ग्लूटामेट — फ्लेवर एन्हांसर। अधिकांश के लिए सुरक्षित। कुछ लोगों में सिरदर्द हो सकता है।" },
+  "e627": { en: "Disodium guanylate — flavor enhancer often paired with MSG. Not suitable for people with gout or uric acid issues.", hi: "डाइसोडियम ग्वानिलेट — MSG के साथ फ्लेवर एन्हांसर। गाउट के मरीजों के लिए उपयुक्त नहीं।" },
+  "e631": { en: "Disodium inosinate — flavor enhancer, often from animal sources. Check source if vegetarian.", hi: "डाइसोडियम इनोसिनेट — फ्लेवर एन्हांसर। प्रायः पशु स्रोत से। शाकाहारी जांचें।" },
+  "e635": { en: "Ribonucleotides — flavor enhancer blend. Contains MSG. Associated with hyperactivity in children in some studies.", hi: "राइबोन्यूक्लियोटाइड्स — फ्लेवर एन्हांसर। MSG होता है। बच्चों में हाइपरएक्टिविटी से जुड़ा।" },
+  "e951": { en: "Aspartame — artificial sweetener. FDA approved but contested. Contains phenylalanine — dangerous for people with phenylketonuria (PKU).", hi: "एस्पार्टेम — कृत्रिम स्वीटनर। FDA से मंजूर। फीनाइलएलानिन होता है — PKU बीमारी वालों के लिए खतरनाक।" },
+  "e952": { en: "Cyclamate — banned in US since 1969 due to bladder tumor concerns in rats. Still used in EU and India.", hi: "साइक्लामेट — US में 1969 से प्रतिबंधित। EU और भारत में अभी भी उपयोग होता है।" },
+  "e954": { en: "Saccharin — artificial sweetener discovered in 1879. Early concerns about bladder tumors, now considered safe in moderate amounts.", hi: "सैकरिन — 1879 में खोजा गया। मूत्राशय ट्यूमर की चिंता, अब सीमित मात्रा में सुरक्षित माना जाता है।" },
+  "e955": { en: "Sucralose — artificial sweetener from sucrose. One of the most studied. FDA approved in 1999. Considered very safe.", hi: "सुक्रालोज — सूक्रोज से कृत्रिम स्वीटनर। बहुत अधिक अध्ययन किया गया। FDA से मंजूर।" },
+  "e120": { en: "Cochineal (Carmine) — vivid red color from crushed cochineal insects. NOT vegetarian. Used in candies, yogurts, juices.", hi: "कोचीनियल (कार्माइन) — कीटों से लाल रंग। शाकाहारी नहीं।" },
+  "e904": { en: "Shellac / Confectioner's Glaze — coating from lac bug secretions. Used on candy, fruits, furniture polish. NOT vegetarian.", hi: "शेलक / कनफेक्शनर्स ग्लेज़ — लाख कीड़े के राल से। शाकाहारी नहीं।" },
+  "e211": { en: "Sodium benzoate — preservative. Safe in small amounts. Can form benzene (carcinogen) when mixed with vitamin C and exposed to heat/light.", hi: "सोडियम बेंजोएट — प्रिजर्वेटिव। छोटी मात्रा में सुरक्षित। विटामिन C के साथ गर्म करने पर बेंजीन बनता है।" },
+  "e200": { en: "Sorbic acid — natural preservative found in berries. Generally safe. Used as alternative to artificial preservatives.", hi: "सॉर्बिक एसिड — बेरी में प्राकृतिक प्रिजर्वेटिव। सामान्यतः सुरक्षित।" },
+  "e160c": { en: "Paprika extract — natural color from red peppers. Completely safe. Also provides vitamin A.", hi: "पाप्रिका एक्सट्रैक्ट — लाल मिर्च से प्राकृतिक रंग। पूर्णतः सुरक्षित, विटामिन A भी।" },
+  "e410": { en: "Locust bean gum — natural fiber from carob seeds. Used in ice cream, cheese, sauces. Completely safe. Vegetarian.", hi: "लोकस्ट बीन गम — खरबूजे के बीज से प्राकृतिक फाइबर। शाकाहारी।" },
+  "e412": { en: "Guar gum — thickener from guar beans. Used in ice cream, sauces, baked goods. Safe but may cause bloating in large amounts.", hi: "ग्वार गम — ग्वार बीन से थिकनर। बड़ी मात्रा में पेट फूलने का कारण बन सकता है।" },
+  "e415": { en: "Xanthan gum — fermented sugar by bacteria. Excellent thickener. Widely used in gluten-free baking. Vegetarian.", hi: "जैंथन गम — बैक्टीरिया से किण्वित चीनी। शाकाहारी।" },
+  "e420": { en: "Sorbitol — sugar alcohol from glucose. Safe for diabetics but causes digestive upset if consumed in large quantities.", hi: "सोर्बिटोल — ग्लूकोज से शुगर अल्कोहल। मधुमेह के लिए सुरक्षित लेकिन बड़ी मात्रा में पेट परेशानी।" },
+  "e967": { en: "Xylitol — sugar alcohol. Safe for teeth (reduces cavities). Extremely toxic to dogs — keep away from pets.", hi: "जाइलिटोल — शुगर अल्कोहल। दांतों के लिए सुरक्षित लेकिन कुत्तों के लिए बहुत खतरनाक।" },
+  "e553b": { en: "Talc — anti-caking agent. Generally safe but not recommended for respiratory health. Banned as food additive in some countries.", hi: "टैल्क — एंटीकेकिंग एजेंट। श्वसन स्वास्थ्य के लिए अनुशंसित नहीं। कुछ देशों में प्रतिबंधित।" },
+  "e171": { en: "Titanium dioxide — whitening pigment. Used in paints, toothpaste. Some concerns about nano-particle accumulation in the body.", hi: "टाइटेनियम डाइऑक्साइड — सफेद करने वाला पिगमेंट। नैनो-कण जमाव की चिंता।" },
+  "e555": { en: "Potassium aluminium silicate — used in some processed cheese. Contains aluminium — debated neurotoxicity concerns.", hi: "पोटैशियम एल्युमिनियम सिलिकेट — कुछ प्रोसेस्ड चीज़ में। एल्युमिनियम — स्नायु विषाक्तता की चिंता।" },
+  "e452": { en: "Sodium polyphosphate — water retention agent in processed meats. Safe in moderate amounts. Raises phosphorus intake.", hi: "सोडियम पॉलीफॉस्फेट — प्रोसेस्ड मीट में पानी रोकने वाला। मध्यम मात्रा में सुरक्षित।" },
+  "e541": { en: "Sodium acid pyrophosphate — leavening agent in baked goods. Safe. Some phosphorus content.", hi: "सोडियम एसिड पायरोफॉस्फेट — बेकरी में लीवनिंग एजेंट। सुरक्षित।" },
+  "e1520": { en: "Propylene glycol — anti-caking in seasonings. FDA considered safe in small amounts. Restricted in EU for fine bakery wares.", hi: "प्रोपाइलीन ग्लाइकोल — सीज़निंग में एंटीकेकिंग। EU में सीमित।" },
+  "e903": { en: "Carnauba wax — natural wax from Copernicia palm leaves. Used as coating for candy, fruit. Vegetarian.", hi: "कार्नौबा वैक्स — पाम पत्ते से प्राकृतिक मोम। शाकाहारी।" },
+  "e901": { en: "Beeswax — natural wax from honeybees. Used as coating. Not strictly vegetarian (some vegetarians accept it).", hi: "बीज वैक्स — मधुमक्खी से। शाकाहारी नहीं (कुछ शाकाहारी स्वीकार करते हैं)।" },
+};
+
+// ============================================================
+// NON-VEG DETECTION
+// ============================================================
+const NON_VEG_CODES = ['e120','e904','e441','e542','e1105'];
+
+function detectVegetarian(ingredientText, additives) {
+  const text = (ingredientText || '').toLowerCase();
+  const codes = (additives || []).map(a => a.toLowerCase().replace('en:', ''));
+  
+  // Check explicit non-veg codes
+  for (const c of codes) {
+    if (NON_VEG_CODES.includes(c)) return 'nonveg';
+  }
+  
+  // Check ingredient text patterns
+  const nonVegPatterns = [
+    /gelatin(?!.*synthetic)/i, /rennet/i, /carmine/i, /cochineal/i,
+    /lactose(?!.*powder)/i, /whey\s*powder/i, /casein(?!.*plant)/i,
+    /isinglass/i, /shellac/i, /confectioner.*glaze/i,
+    /animal.*fat(?!.*plant)/i, /lard/i, /tallow/i, /bone.*phosphate/i,
+    /ghee/i, /butter.*oil(?!.*vegetable)/i, /chicken.*fat/i,
+    /pork/i, /beef/i, /lamb/i, /fish.*oil(?!.*vegetable)/i,
+    /egg.*white(?!.*plant)/i, /egg.*yolk(?!.*plant)/i,
+  ];
+  
+  const vegPatterns = [
+    /vegetable.*oil/i, /plant.*oil/i, /palm.*oil/i, /sunflower.*oil/i,
+    /soy.*lecithin/i, /sunflower.*lecithin/i, /rapeseed.*oil/i,
+    /microbial.*origin/i, /fermentation/i, /bacterial/i, /fungal/i,
+    /gellan.*gum/i, /xanthan.*gum/i, /guar.*gum/i, /locust.*bean/i,
+    /cellulose.*fiber/i, /corn.*starch/i, /potato.*starch/i,
+    /tapioca.*starch/i, /wheat.*starch/i, /rice.*starch/i,
+  ];
+  
+  let nvScore = 0, vScore = 0;
+  
+  for (const p of nonVegPatterns) {
+    if (p.test(text)) nvScore++;
+  }
+  for (const c of codes) {
+    // e322 (lecithin) is typically veg unless from egg
+    if (c === 'e322') continue; // skip, usually veg
+    if (NON_VEG_CODES.includes(c)) nvScore++;
+  }
+  for (const p of vegPatterns) {
+    if (p.test(text)) vScore++;
+  }
+  
+  if (nvScore > 0 && vScore === 0) return 'nonveg';
+  if (vScore > 0 && nvScore === 0) return 'veg';
+  if (nvScore > 0 && vScore > 0) return 'uncertain';
+  return 'uncertain';
+}
+
+// ============================================================
+// NUTRITION PARSING
+// ============================================================
+function parseNutrition(p) {
+  const n = p.nutriments || {};
+  const toNum = v => v !== undefined && v !== null ? parseFloat(v) : null;
+  return {
+    sugar: toNum(n.sugars_100g ?? n.sugars_serving),
+    sodium: toNum(n.sodium_100g ?? n.sodium_serving),
+    satFat: toNum(n['saturated-fat_100g'] ?? n['saturated-fat_serving']),
+    protein: toNum(n.proteins_100g ?? n.proteins_serving),
+    energy: toNum(n['energy-kcal_100g'] ?? n['energy-kcal'] ?? n['energy-kj_100g']),
+  };
+}
+
+function nutrLevel(val, warnThresh, avoidThresh) {
+  if (val === null || isNaN(val)) return 'low';
+  if (val >= avoidThresh) return 'high';
+  if (val >= warnThresh) return 'mid';
+  return 'low';
+}
+
+// ============================================================
+// HISTORY + CACHE
+// ============================================================
+function getHistory() {
+  try { return JSON.parse(localStorage.getItem('safe2eat_history') || '[]'); } catch(e) { return []; }
+}
+function addToHistory(item) {
+  const hist = getHistory().filter(h => h.barcode !== item.barcode);
+  hist.unshift(item);
+  localStorage.setItem('safe2eat_history', JSON.stringify(hist.slice(0, 10)));
+}
+function clearHistory() {
+  localStorage.removeItem('safe2eat_history');
+  renderRecentScans();
+}
+
+// Cache for offline
+function cacheProduct(barcode, data) {
+  try {
+    const cache = JSON.parse(localStorage.getItem('safe2eat_cache') || '{}');
+    cache[barcode] = { data, timestamp: Date.now() };
+    // Keep only last 20 products
+    const keys = Object.keys(cache).sort((a, b) => cache[b].timestamp - cache[a].timestamp);
+    if (keys.length > 20) {
+      keys.slice(20).forEach(k => delete cache[k]);
+    }
+    localStorage.setItem('safe2eat_cache', JSON.stringify(cache));
+  } catch(e) {}
+}
+function getCachedProduct(barcode) {
+  try {
+    const cache = JSON.parse(localStorage.getItem('safe2eat_cache') || '{}');
+    return cache[barcode] ? cache[barcode].data : null;
+  } catch(e) { return null; }
+}
+
+// ============================================================
+// PHOTO UPLOAD
+// ============================================================
+let photoFile = null;
+function handlePhotoSelect(input) {
+  if (input.files && input.files[0]) {
+    photoFile = input.files[0];
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      const preview = document.getElementById('photoPreview');
+      preview.src = e.target.result;
+      preview.classList.add('visible');
+      document.getElementById('photoUploadText').textContent = photoFile.name;
+      document.getElementById('notfoundSubmitBtn').disabled = false;
+    };
+    reader.readAsDataURL(photoFile);
+  }
+}
+
+async function submitNotFound() {
+  const email = document.getElementById('notfoundEmail').value.trim();
+  const barcode = document.getElementById('barcodeInput').value.trim();
+  const submissions = JSON.parse(localStorage.getItem('safe2eat_submissions') || '[]');
+  submissions.push({ barcode, email, timestamp: Date.now(), hadPhoto: !!photoFile });
+  localStorage.setItem('safe2eat_submissions', JSON.stringify(submissions));
+  document.getElementById('submitSuccess').style.display = 'block';
+  document.getElementById('notfoundSubmitBtn').style.display = 'none';
+  setTimeout(() => { resetNotFoundForm(); showScan(); }, 2500);
+}
+
+function resetNotFoundForm() {
+  photoFile = null;
+  document.getElementById('photoPreview').src = '';
+  document.getElementById('photoPreview').classList.remove('visible');
+  document.getElementById('notfoundEmail').value = '';
+  document.getElementById('photoUploadText').textContent = t('photoUploadText');
+  document.getElementById('submitSuccess').style.display = 'none';
+  document.getElementById('notfoundSubmitBtn').style.display = '';
+  document.getElementById('notfoundSubmitBtn').disabled = true;
+}
+
+// ============================================================
+// SHARE
+// ============================================================
+async function shareResult() {
+  const name = document.getElementById('productName').textContent;
+  const brand = document.getElementById('productBrand').textContent;
+  const verdict = document.getElementById('verdictLabel').textContent;
+  const emoji = document.getElementById('verdictEmoji').textContent;
+  const text = `${emoji} *${name}*\n🏷️ ${brand}\n📊 ${verdict}\n\nChecked with Safe2Eat`;
+  
+  if (navigator.share) {
+    try { await navigator.share({ text, title: 'Safe2Eat Result' }); } catch(e) { copyToClipboard(text); }
+  } else { copyToClipboard(text); }
+}
+
+function copyToClipboard(text) {
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.getElementById('shareBtn');
+      const orig = btn.innerHTML;
+      btn.innerHTML = '✅ ' + (currentLang === 'hi' ? 'कॉपी हो गया!' : 'Copied!');
+      setTimeout(() => { btn.innerHTML = orig; }, 2000);
+    });
+  }
+}
+
+// ============================================================
+// OFFLINE DETECTION
+// ============================================================
+let isOffline = false;
+window.addEventListener('online', () => { isOffline = false; document.getElementById('offlineBanner').classList.remove('visible'); });
+window.addEventListener('offline', () => { isOffline = true; });
+
+// ============================================================
+// MAIN API LOOKUP
+// ============================================================
+async function lookupBarcode(barcode) {
+  const bc = barcode || document.getElementById('barcodeInput').value.trim();
+  if (!bc) return;
+  showLoading();
+  
+  // Try offline cache first if offline
+  if (!navigator.onLine) {
+    const cached = getCachedProduct(bc);
+    if (cached) {
+      await renderResult(cached, true);
+      return;
+    }
+  }
+  
+  try {
+    const res = await fetch(`https://world.openfoodfacts.org/api/v2/product/${bc}.json`);
+    const data = await res.json();
+    
+    if (data.status !== 1) {
+      showNotFound();
+      return;
+    }
+    
+    // Cache for offline
+    cacheProduct(bc, data);
+    await renderResult(data, false);
+  } catch(e) {
+    console.error('API fetch error:', e);
+    // Try cache on error
+    const cached = getCachedProduct(bc);
+    if (cached) {
+      await renderResult(cached, true);
+    } else {
+      showError(t('networkError'));
+    }
+  }
+}
+
+async function renderResult(data, fromCache) {
+  const p = data.product;
+  const additives = (p.additives_tags || []).map(t => t.replace('en:', ''));
+  const safetyLevels = additives.map(a => {
+    const ing = lookupIngredient(a);
+    return ing ? ing.fssai : 'unknown';
+  }).filter(s => s !== 'unknown');
+  
+  const overall = safetyLevels.includes('avoid') ? 'avoid' 
+    : safetyLevels.includes('warning') ? 'warning' 
+    : safetyLevels.every(l => l === 'safe') ? 'safe' : 'warning';
+  
+  const vegStatus = detectVegetarian(p.ingredients_text || '', additives);
+  const nutr = parseNutrition(p);
+  
+  const verdictMap = {
+    safe: { emoji: '✅', label: t('verdictSafe'), sub: t('verdictSafeSub') },
+    warning: { emoji: '⚠️', label: t('verdictWarn'), sub: t('verdictWarnSub') },
+    avoid: { emoji: '🚫', label: t('verdictAvoid'), sub: t('verdictAvoidSub') },
+    unknown: { emoji: '❓', label: t('verdictUnknown'), sub: t('verdictUnknownSub') }
+  };
+  const v = verdictMap[overall];
+  
+  // Offline banner
+  document.getElementById('offlineBanner').classList.toggle('visible', fromCache);
+  
+  // Verdict
+  document.getElementById('verdict').className = `verdict ${overall}`;
+  document.getElementById('verdictEmoji').textContent = v.emoji;
+  document.getElementById('verdictLabel').textContent = v.label;
+  document.getElementById('verdictLabel').className = `verdict-label ${overall}`;
+  document.getElementById('verdictSub').textContent = v.sub;
+  
+  // Product
+  const productName = p.product_name || p.product_name_en || 'Unknown Product';
+  document.getElementById('productName').textContent = productName;
+  document.getElementById('productBrand').textContent = p.brands || '';
+  
+  // Product image
+  const imgWrap = document.getElementById('productImgWrap');
+  if (p.image_url) {
+    imgWrap.innerHTML = `<img class="product-img" src="${p.image_url}" alt="${productName}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="product-img-placeholder" style="display:none">🥗</div>`;
+  } else {
+    imgWrap.innerHTML = `<div class="product-img-placeholder">🥗</div>`;
+  }
+  
+  // Vegetarian badge
+  const vegBadge = document.getElementById('vegBadge');
+  vegBadge.textContent = vegStatus === 'veg' ? t('veg') : vegStatus === 'nonveg' ? t('nonveg') : t('uncertain');
+  vegBadge.className = `veg-badge ${vegStatus}`;
+  
+  // Nutrition strip
+  const nutritionStrip = document.getElementById('nutritionStrip');
+  const nutris = [
+    nutr.sugar !== null ? { label: t('sugar'), val: nutr.sugar.toFixed(1) + 'g', level: nutrLevel(nutr.sugar, 10, 20) } : null,
+    nutr.sodium !== null ? { label: t('sodium'), val: (nutr.sodium * 1000).toFixed(0) + 'mg', level: nutrLevel(nutr.sodium * 1000, 500, 1000) } : null,
+    nutr.satFat !== null ? { label: t('satFat'), val: nutr.satFat.toFixed(1) + 'g', level: nutrLevel(nutr.satFat, 3, 6) } : null,
+  ].filter(x => x !== null);
+  
+  if (nutris.length > 0) {
+    nutritionStrip.innerHTML = nutris.map(n => 
+      `<div class="nutrition-chip"><span class="n-value n-${n.level}">${n.val}</span><span class="n-label">${n.label}</span></div>`
+    ).join('');
+    nutritionStrip.style.display = 'flex';
+  } else {
+    nutritionStrip.style.display = 'none';
+  }
+  
+  // Ingredients
+  const list = document.getElementById('ingredientsList');
+  if (additives.length === 0) {
+    list.innerHTML = `<p class="no-add">${t('noAdditives')}</p>`;
+  } else {
+    list.innerHTML = additives.map(a => {
+      const ing = lookupIngredient(a);
+      const safety = ing ? ing.fssai : 'unknown';
+      const codeUpper = a.toUpperCase();
+      const name = ing ? ing.name : codeUpper;
+      
+      let explain = '';
+      if (EXPLAIN[a]) {
+        explain = currentLang === 'hi' && EXPLAIN[a].hi ? EXPLAIN[a].hi : EXPLAIN[a].en;
+      }
+      
+      const badgeMap = { safe: t('safe'), warning: t('warn'), avoid: t('avoid'), unknown: '?' };
+      
+      // Non-veg badge
+      let vegBadgeHtml = '';
+      if (NON_VEG_CODES.includes(a)) {
+        vegBadgeHtml = `<span class="ing-badge nonveg">🥩</span>`;
+      }
+      
+      const expandHtml = explain 
+        ? `<div class="ing-expand">${explain}</div><span class="ing-arrow">▼</span>`
+        : `<span class="ing-arrow" style="opacity:0.2">▼</span>`;
+      
+      return `<div class="ingredient-row" onclick="this.classList.toggle('expanded')"><span class="ing-dot ${safety}"></span><div class="ing-main"><div class="ing-name">${name}</div><div class="ing-code">${codeUpper}</div></div><span class="ing-badge ${safety}">${badgeMap[safety] || '?'}</span>${vegBadgeHtml}${expandHtml}</div>`;
+    }).join('');
+  }
+  
+  // Save to history
+  addToHistory({
+    barcode: p.code || document.getElementById('barcodeInput').value.trim(),
+    name: productName,
+    brand: p.brands || '',
+    overall,
+    image_url: p.image_url || null,
+    timestamp: Date.now()
+  });
+  
+  showResult();
+  renderRecentScans();
+}
+
+function lookupDemo(bc) {
+  document.getElementById('barcodeInput').value = bc;
+  lookupBarcode(bc);
+}
+
+// ============================================================
+// BARCODE SCANNING
+// ============================================================
+async function startScan() {
+  const btn = document.getElementById('scanBtn');
+  btn.classList.add('scanning');
+  
+  // iOS fallback — use file input
+  const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+  if (!('BarcodeDetector' in window) || isIOS) {
+    btn.classList.remove('scanning');
+    // Show file picker for iOS
+    if (isIOS || /Safari/.test(navigator.userAgent)) {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/*';
+      input.onchange = async (e) => {
+        if (e.target.files && e.target.files[0]) {
+          // Try to decode barcode from image via OFF API or just show alert
+          alert('Barcode scanning works best on Android Chrome. Try entering the barcode number manually, or search for the product name.');
+        }
+      };
+      input.click();
+      return;
+    }
+    alert(t('cameraNotSupported'));
+    return;
+  }
+  
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+    const video = document.createElement('video');
+    video.srcObject = stream;
+    video.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:9999;background:#000';
+    document.body.appendChild(video);
+    video.play();
+    
+    const detector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e'] });
+    const scan = () => {
+      detector.detect(video).then(codes => {
+        if (codes.length > 0) {
+          stream.getTracks().forEach(t => t.stop());
+          video.remove();
+          btn.classList.remove('scanning');
+          lookupBarcode(codes[0].rawValue);
+        } else {
+          requestAnimationFrame(scan);
+        }
+      }).catch(() => { setTimeout(scan, 200); });
+    };
+    scan();
+  } catch(e) {
+    btn.classList.remove('scanning');
+    alert(t('cameraDenied'));
+  }
+}
+
+// ============================================================
+// SEARCH
+// ============================================================
+async function doSearch() {
+  const query = document.getElementById('searchInput').value.trim();
+  if (!query) return;
+  
+  document.getElementById('searchLoading').classList.add('visible');
+  document.getElementById('searchResults').innerHTML = '';
+  document.getElementById('searchEmpty').style.display = 'none';
+  
+  try {
+    const res = await fetch(`https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&search_simple=1&action=process&json=1&page_size=12`);
+    const data = await res.json();
+    const products = data.products || [];
+    
+    document.getElementById('searchLoading').classList.remove('visible');
+    
+    if (products.length === 0) {
+      document.getElementById('searchEmpty').style.display = 'block';
+      return;
+    }
+    
+    document.getElementById('searchResults').innerHTML = products.map(p => {
+      const name = p.product_name || p.product_name_en || 'Unknown';
+      const brand = p.brands || '';
+      const barcode = p.code || '';
+      const img = p.image_small_url || p.image_url || '';
+      return `<button class="search-result-item" onclick="lookupDemo('${barcode}')"><img class="search-result-img" src="${img}" alt="${name}" onerror="this.style.display='none'"><div class="search-result-info"><div class="search-result-name">${name}</div><div class="search-result-brand">${brand}</div></div></button>`;
+    }).join('');
+  } catch(e) {
+    document.getElementById('searchLoading').classList.remove('visible');
+    document.getElementById('searchEmpty').style.display = 'block';
+  }
+}
+
+// ============================================================
+// RECENT SCANS
+// ============================================================
+function renderRecentScans() {
+  const hist = getHistory();
+  const list = document.getElementById('recentList');
+  
+  if (hist.length === 0) {
+    list.innerHTML = `<p class="recent-empty">${t('noRecent')}</p>`;
+    return;
+  }
+  
+  list.innerHTML = hist.slice(0, 5).map(h => {
+    const badgeClass = h.overall === 'avoid' ? 'avoid' : h.overall === 'warning' ? 'warning' : 'safe';
+    const verdictText = h.overall === 'avoid' ? t('avoid') : h.overall === 'warning' ? t('warn') : t('safe');
+    const imgHtml = h.image_url 
+      ? `<img class="recent-img" src="${h.image_url}" alt="${h.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><div class="recent-img-placeholder" style="display:none">🥗</div>`
+      : `<div class="recent-img-placeholder">🥗</div>`;
+    return `<button class="recent-item" onclick="lookupDemo('${h.barcode}')">${imgHtml}<div class="recent-info"><div class="recent-name">${h.name}</div><div class="recent-brand">${h.brand || ''}</div></div><span class="recent-badge ${badgeClass}">${verdictText}</span></button>`;
+  }).join('');
+}
+
+// ============================================================
+// NAVIGATION
+// ============================================================
+function showLoading() {
+  document.getElementById('loading').classList.add('visible');
+  document.getElementById('scanScreen').style.display = 'none';
+  document.getElementById('resultScreen').classList.remove('visible');
+  document.getElementById('notfoundScreen').classList.remove('visible');
+  document.getElementById('aboutScreen').classList.remove('visible');
+  document.getElementById('searchScreen').classList.remove('visible');
+}
+
+function showScan() {
+  document.getElementById('loading').classList.remove('visible');
+  document.getElementById('resultScreen').classList.remove('visible');
+  document.getElementById('notfoundScreen').classList.remove('visible');
+  document.getElementById('aboutScreen').classList.remove('visible');
+  document.getElementById('searchScreen').classList.remove('visible');
+  document.getElementById('scanScreen').style.display = 'flex';
+  document.getElementById('navScan').classList.add('active');
+  document.getElementById('navSearch').classList.remove('active');
+  document.getElementById('navAbout').classList.remove('active');
+  resetNotFoundForm();
+}
+function showResult() {
+  document.getElementById('loading').classList.remove('visible');
+  document.getElementById('scanScreen').style.display = 'none';
+  document.getElementById('notfoundScreen').classList.remove('visible');
+  document.getElementById('aboutScreen').classList.remove('visible');
+  document.getElementById('searchScreen').classList.remove('visible');
+  document.getElementById('resultScreen').classList.add('visible');
+  document.getElementById('navScan').classList.remove('active');
+  document.getElementById('navSearch').classList.remove('active');
+  document.getElementById('navAbout').classList.remove('active');
+}
+function showNotFound() {
+  document.getElementById('loading').classList.remove('visible');
+  document.getElementById('resultScreen').classList.remove('visible');
+  document.getElementById('scanScreen').style.display = 'none';
+  document.getElementById('aboutScreen').classList.remove('visible');
+  document.getElementById('searchScreen').classList.remove('visible');
+  document.getElementById('notfoundScreen').classList.add('visible');
+  document.getElementById('navScan').classList.remove('active');
+  document.getElementById('navSearch').classList.remove('active');
+  document.getElementById('navAbout').classList.remove('active');
+}
+function showAbout() {
+  document.getElementById('loading').classList.remove('visible');
+  document.getElementById('resultScreen').classList.remove('visible');
+  document.getElementById('notfoundScreen').classList.remove('visible');
+  document.getElementById('scanScreen').style.display = 'none';
+  document.getElementById('searchScreen').classList.remove('visible');
+  document.getElementById('aboutScreen').classList.add('visible');
+  document.getElementById('navScan').classList.remove('active');
+  document.getElementById('navSearch').classList.remove('active');
+  document.getElementById('navAbout').classList.add('active');
+}
+function showSearch() {
+  document.getElementById('loading').classList.remove('visible');
+  document.getElementById('resultScreen').classList.remove('visible');
+  document.getElementById('notfoundScreen').classList.remove('visible');
+  document.getElementById('scanScreen').style.display = 'none';
+  document.getElementById('aboutScreen').classList.remove('visible');
+  document.getElementById('searchScreen').classList.add('visible');
+  document.getElementById('navScan').classList.remove('active');
+  document.getElementById('navSearch').classList.add('active');
+  document.getElementById('navAbout').classList.remove('active');
+  document.getElementById('searchInput').focus();
+}
+function showError(msg) {
+  document.getElementById('loading').classList.remove('visible');
+  document.getElementById('scanScreen').style.display = 'flex';
+  alert(msg);
+}
+
+// ============================================================
+// INIT
+// ============================================================
+applyTheme(getStoredTheme() === 'light' ? false : true);
+if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(() => {}); }
+renderRecentScans();
+</script>
+</body>
+</html>
