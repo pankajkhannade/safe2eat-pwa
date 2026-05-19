@@ -4898,12 +4898,11 @@ function toggleScannerDarkMode() { saveScannerDarkMode(!scannerDarkMode); showTo
 // Init
 if (document.readyState==='loading') { document.addEventListener('DOMContentLoaded',()=>{initScannerDarkMode();loadRedditProducts().catch(()=>{});}); }
 else { initScannerDarkMode(); loadRedditProducts().catch(()=>{}); }
-
+</script>
 <script>
 // FEATURES 31-40
 // ============================================================
 // FEATURES 31-40: ADVANCED FOOD SAFETY PLATFORM
-// Injected at end of index.html before </body>
 // ============================================================
 
 // ─────────────────────────────────────────
@@ -5517,9 +5516,6 @@ if (document.readyState === 'loading') {
 } else {
   injectFeatureContainers();
 }
-
-</script>
-
 </script>
 </body>
 </html>
