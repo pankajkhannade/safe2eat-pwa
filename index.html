@@ -3226,23 +3226,52 @@ function lookupDemo(bc) {
 // ============================================================
 // BARCODE SCANNING
 // ============================================================
+// Camera scanner state
+let _scannerStream = null;
+let _scannerVideo = null;
+let _scannerDetecting = false;
+
+function _closeScanner() {
+  if (_scannerStream) {
+    _scannerStream.getTracks().forEach(t => t.stop());
+    _scannerStream = null;
+  }
+  if (_scannerVideo) {
+    _scannerVideo.remove();
+    _scannerVideo = null;
+  }
+  const overlay = document.getElementById('scannerOverlay');
+  if (overlay) overlay.remove();
+  const btn = document.getElementById('scanBtn');
+  if (btn) btn.classList.remove('scanning');
+  _scannerDetecting = false;
+}
+
 async function startScan() {
   const btn = document.getElementById('scanBtn');
   btn.classList.add('scanning');
-  
+
   // iOS fallback — use file input
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
   if (!('BarcodeDetector' in window) || isIOS) {
     btn.classList.remove('scanning');
-    // Show file picker for iOS
     if (isIOS || /Safari/.test(navigator.userAgent)) {
       const input = document.createElement('input');
       input.type = 'file';
       input.accept = 'image/*';
       input.onchange = async (e) => {
         if (e.target.files && e.target.files[0]) {
-          // Try to decode barcode from image via OFF API or just show alert
-          alert('Barcode scanning works best on Android Chrome. Try entering the barcode number manually, or search for the product name.');
+          // Try to decode via OFF API from uploaded image
+          const formData = new FormData();
+          formData.append('image', e.target.files[0]);
+          try {
+            showLoading('Identifying barcode...');
+            const res = await fetch('https://world.openfoodfacts.org/cgi/code_search.pl?code_type=1&json=1', { method: 'POST', body: formData });
+            alert('Image uploaded. If the barcode was not recognized, please enter it manually or search by product name.');
+          } catch(err) {
+            alert('Could not process image. Try entering the barcode number manually, or search by product name.');
+          }
+          hideLoading();
         }
       };
       input.click();
@@ -3251,32 +3280,111 @@ async function startScan() {
     alert(t('cameraNotSupported'));
     return;
   }
-  
+
   try {
-    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+    // Build scanner overlay UI first
+    const overlay = document.createElement('div');
+    overlay.id = 'scannerOverlay';
+    overlay.style.cssText = [
+      'position:fixed;top:0;left:0;width:100%;height:100%;',
+      'background:#000;z-index:9999;display:flex;flex-direction:column;',
+      'align-items:center;justify-content:space-between;',
+      'font-family:system-ui,-apple-system,sans-serif'
+    ].join('');
+
+    overlay.innerHTML = `
+      <div style="display:flex;align-items:center;justify-content:space-between;width:100%;padding:16px;box-sizing:border-box;">
+        <button id="scannerClose" style="background:rgba(0,0,0,0.5);border:none;color:#fff;font-size:18px;width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+        <span style="color:#fff;font-size:14px;font-weight:600;">${t('scanLabel') || 'SCAN'}</span>
+        <div style="width:40px;"></div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;padding:20px;box-sizing:border-box;">
+        <div style="position:relative;width:280px;height:160px;margin-bottom:16px;">
+          <div id="viewfinderFrame" style="position:absolute;inset:0;border:2px solid rgba(255,255,255,0.6);border-radius:12px;pointer-events:none;"></div>
+          <div id="scanLine" style="position:absolute;left:4px;right:4px;height:2px;background:linear-gradient(90deg,transparent,#4ade80,transparent);top:50%;animation:scanMove 2s ease-in-out infinite;opacity:0.7;"></div>
+        </div>
+        <p id="scannerStatus" style="color:rgba(255,255,255,0.9);font-size:16px;margin:0 0 8px;text-align:center;">Point camera at barcode</p>
+        <p style="color:rgba(255,255,255,0.5);font-size:13px;margin:0;text-align:center;">Hold steady — scanning for EAN/UPC codes</p>
+      </div>
+      <div style="width:100%;padding:0 20px 40px;box-sizing:border-box;display:flex;flex-direction:column;gap:12px;align-items:center;">
+        <button id="manualCaptureBtn" style="width:100%;max-width:280px;padding:14px 24px;background:#4ade80;color:#000;font-size:16px;font-weight:700;border:none;border-radius:12px;cursor:pointer;">📷 Manual Capture</button>
+        <button id="enterBarcodeBtn" style="width:100%;max-width:280px;padding:12px 24px;background:transparent;color:#fff;font-size:14px;border:1px solid rgba(255,255,255,0.3);border-radius:12px;cursor:pointer;">Enter barcode manually</button>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+
+    // Add scan animation CSS
+    if (!document.getElementById('scannerAnimStyle')) {
+      const style = document.createElement('style');
+      style.id = 'scannerAnimStyle';
+      style.textContent = '@keyframes scanMove{0%,100%{top:20%}50%{top:80%}}';
+      document.head.appendChild(style);
+    }
+
+    // Wire up close button
+    document.getElementById('scannerClose').onclick = _closeScanner;
+    document.getElementById('enterBarcodeBtn').onclick = () => {
+      _closeScanner();
+      document.getElementById('barcodeInput').focus();
+    };
+    document.getElementById('manualCaptureBtn').onclick = () => {
+      // Take a photo and decode it
+      if (!_scannerVideo) return;
+      const canvas = document.createElement('canvas');
+      canvas.width = _scannerVideo.videoWidth;
+      canvas.height = _scannerVideo.videoHeight;
+      canvas.getContext('2d').drawImage(_scannerVideo, 0, 0);
+      const detector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e'] });
+      detector.detect(canvas).then(codes => {
+        if (codes.length > 0) {
+          _closeScanner();
+          lookupBarcode(codes[0].rawValue);
+        } else {
+          document.getElementById('scannerStatus').textContent = 'No barcode found — try again';
+          document.getElementById('scannerStatus').style.color = '#f87171';
+        }
+      });
+    };
+
+    // Start camera
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } }
+    });
+    _scannerStream = stream;
+
     const video = document.createElement('video');
+    video.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;';
     video.srcObject = stream;
-    video.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;object-fit:cover;z-index:9999;background:#000';
-    document.body.appendChild(video);
     video.play();
-    
+    _scannerVideo = video;
+    overlay.insertBefore(video, overlay.firstChild);
+
+    // Put top bar above video
+    const topBar = overlay.firstChild;
+    topBar.style.position = 'absolute';
+    topBar.style.top = '0';
+    topBar.style.left = '0';
+    topBar.style.zIndex = '10';
+
     const detector = new BarcodeDetector({ formats: ['ean_13', 'ean_8', 'upc_a', 'upc_e'] });
+    const statusEl = document.getElementById('scannerStatus');
     const scan = () => {
+      if (!_scannerVideo || !stream.active) return;
+      _scannerDetecting = true;
       detector.detect(video).then(codes => {
         if (codes.length > 0) {
-          stream.getTracks().forEach(t => t.stop());
-          video.remove();
-          btn.classList.remove('scanning');
+          _closeScanner();
           lookupBarcode(codes[0].rawValue);
         } else {
           requestAnimationFrame(scan);
         }
-      }).catch(() => { setTimeout(scan, 200); });
+      }).catch(() => { setTimeout(scan, 300); });
     };
     scan();
   } catch(e) {
     btn.classList.remove('scanning');
-    alert(t('cameraDenied'));
+    const msg = e.name === 'NotAllowedError' ? t('cameraDenied') : t('cameraNotSupported');
+    alert(msg);
   }
 }
 
