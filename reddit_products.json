@@ -1,0 +1,44 @@
+{
+  "products": [
+    {
+      "id": "1tfuxa1",
+      "subreddit": "india",
+      "query_used": " BIS standard food india",
+      "title": "Public Safety Warning Regarding The Big Barbeque Group Restaurants",
+      "selftext": "People visiting buffet restaurants often focus on ambience, unlimited food offers, and social media popularity, but very few actually check food safety records, hygiene complaints, or operational practices behind the scenes.\n\nRecently, multiple documents and customer complaints circulating online have raised serious concerns regarding different branches associated with The Big Barbeque group in Bangalore. These include FSSAI-related notices issued on more than one occasion, and in at least one i",
+      "brands": [
+        "ITC"
+      ],
+      "concerns": [
+        "fssai_alert"
+      ],
+      "score": 87,
+      "reddit_score": 2,
+      "comments": 5,
+      "permalink": "https://reddit.com/r/india/comments/1tfuxa1/public_safety_warning_regarding_the_big_barbeque/",
+      "url": "https://www.reddit.com/r/india/comments/1tfuxa1/public_safety_warning_regarding_the_big_barbeque/",
+      "created": "2026-05-17",
+      "discovered_at": "2026-05-19T13:00:41.691076+00:00"
+    },
+    {
+      "id": "1tcwkss",
+      "subreddit": "indianfood",
+      "query_used": "harmful packaged food india",
+      "title": "Chatpata snack suggestions",
+      "selftext": "I crave for chatpata Khana everyday. helppp!!! \n\nI also don't like packaged food, like kurkure which has excessive amount of masalas on it, any suggestions? \nAnd anything healthy that I can make for a snack?",
+      "brands": [
+        "Kurkure"
+      ],
+      "concerns": [],
+      "score": 39,
+      "reddit_score": 7,
+      "comments": 14,
+      "permalink": "https://reddit.com/r/IndianFood/comments/1tcwkss/chatpata_snack_suggestions/",
+      "url": "https://www.reddit.com/r/IndianFood/comments/1tcwkss/chatpata_snack_suggestions/",
+      "created": "2026-05-14",
+      "discovered_at": "2026-05-19T13:00:30.162527+00:00"
+    }
+  ],
+  "last_run": "2026-05-19T13:01:15.440351+00:00",
+  "total_found": 2
+}
