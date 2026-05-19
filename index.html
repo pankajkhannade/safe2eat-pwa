@@ -119,6 +119,7 @@
     .veg-badge.veg { background: rgba(74,222,128,0.15); color: var(--veg); }
     .veg-badge.nonveg { background: rgba(248,113,113,0.15); color: var(--nonveg); }
     .veg-badge.uncertain { background: rgba(245,158,11,0.15); color: var(--warn); }
+    .veg-note { font-size: 11px; color: var(--warn); margin-top: 4px; line-height: 1.4; max-width: 260px; }
     .verdict { text-align: center; padding: 20px 16px; border-radius: 16px; margin-bottom: 16px; }
     .verdict.safe { background: rgba(34,197,94,0.10); border: 1px solid rgba(34,197,94,0.25); }
     .verdict.warning { background: rgba(245,158,11,0.10); border: 1px solid rgba(245,158,11,0.25); }
@@ -1095,6 +1096,8 @@ const I18 = {
     verdictUnknown: "Limited Data", verdictUnknownSub: "Check ingredients manually",
     safe: "SAFE", warn: "CAUTION", avoid: "AVOID", unknown: "UNKNOWN",
     veg: "🥬 Vegetarian", nonveg: "🥩 Non-Veg", uncertain: "❓ Check Label",
+    vegNoteGroundnut: "Contains groundnut + plant protein — check label",
+    vegNoteMixed: "Contains both veg and non-veg ingredients — check label",
     sugar: "Sugar", sodium: "Sodium", satFat: "Sat Fat",
     notFoundTitle: "Product Not Found",
     notFoundSub: "We don't have this product yet. Help us build our database by submitting a photo of the barcode and packaging.",
@@ -1249,6 +1252,8 @@ const I18 = {
     verdictUnknown: "सीमित डेटा", verdictUnknownSub: "सामग्री स्वयं जांचें",
     safe: "सुरक्षित", warn: "सावधान", avoid: "बचें", unknown: "अज्ञात",
     veg: "🥬 शाकाहारी", nonveg: "🥩 मांसाहारी", uncertain: "❓ लेबल जांचें",
+    vegNoteGroundnut: "मूंगफली + पौध प्रोटीन है — लेबल जांचें",
+    vegNoteMixed: "शाकाहारी और मांसाहारी दोनों सामग्री — लेबल जांचें",
     sugar: "चीनी", sodium: "सोडियम", satFat: "वसा",
     notFoundTitle: "उत्पाद नहीं मिला",
     notFoundSub: "हमारे पास यह उत्पाद अभी नहीं है। बारकोड और पैकेजिंग की फोटो भेजकर मदद करें।",
@@ -3120,6 +3125,19 @@ async function renderResult(data, fromCache) {
   const vegBadge = document.getElementById('vegBadge');
   vegBadge.textContent = vegStatus === 'veg' ? t('veg') : vegStatus === 'nonveg' ? t('nonveg') : t('uncertain');
   vegBadge.className = `veg-badge ${vegStatus}`;
+
+  // Show plain-English explanation for uncertain veg status
+  const hasGroundnut = allergens.includes('nuts');
+  const existingVegNote = document.getElementById('vegNote');
+  if (existingVegNote) existingVegNote.remove();
+  if (vegStatus === 'uncertain') {
+    const vegNote = document.createElement('div');
+    vegNote.id = 'vegNote';
+    vegNote.className = 'veg-note';
+    const noteKey = hasGroundnut ? 'vegNoteGroundnut' : 'vegNoteMixed';
+    vegNote.textContent = t(noteKey);
+    vegBadge.insertAdjacentElement('afterend', vegNote);
+  }
 
   // Update favorite button
   updateFavoriteBtn();
