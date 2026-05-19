@@ -3126,6 +3126,10 @@ async function renderResult(data, fromCache) {
   vegBadge.textContent = vegStatus === 'veg' ? t('veg') : vegStatus === 'nonveg' ? t('nonveg') : t('uncertain');
   vegBadge.className = `veg-badge ${vegStatus}`;
 
+  // Allergen detection (needed before veg note logic)
+  const allergens = detectAllergens(p.ingredients_text || '', additives);
+  renderAllergenSection(allergens);
+
   // Show plain-English explanation for uncertain veg status
   const hasGroundnut = allergens.includes('nuts');
   const existingVegNote = document.getElementById('vegNote');
@@ -3144,10 +3148,6 @@ async function renderResult(data, fromCache) {
 
   // Brand Reputation Score (Feature 10)
   renderBrandScore(p.brands || '', additives);
-
-  // Allergen Warnings (Feature 5)
-  const allergens = detectAllergens(p.ingredients_text || '', additives);
-  renderAllergenSection(allergens);
 
   // Salt/Sugar/Fat Meters (Feature 7)
   updateMeters();
