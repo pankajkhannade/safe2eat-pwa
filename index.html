@@ -4724,12 +4724,12 @@ function renderColourWarning(additives) {
 function detectIndiaVegStatus(ingredientText) {
   if (!ingredientText) return 'uncertain';
   const t = ingredientText.toLowerCase();
-  const nvHits = t.match(/chicken|mutton|lamb|beef|pork|fish|meat|egg[s]?[,\s]|[,\s]egg[,\s]|prawn|shrimp|lobster|crab|oyster|clam|mussel|squid|octopus|cuttlefish|casein[,\s]|whey[,\s]|lactose[,\s]|gelatin[,\s]|lard|tallow|suet|dripping|bone marrow|sinew|offal|gizzard|liver|heart|lung|kidney|tripe|brain|pancreas|spleen|duck|goose|venison|rabbit|bacon|ham|sausage|pepperoni|salami|prosciutto|chorizo|meatball|isinglass|rennet|pepsin|trypsin|chymosin|elastin|collagen/gi) || [];
-  const vHits = t.match(/wheat gluten|corn gluten|soy protein isolate|pea protein|rice protein|moong dal|urad dal|chana dal|masoor dal|tofu|paneer|chhena|coconut oil|groundnut oil|mustard oil|sesame oil|sunflower oil|olive oil|jowar|bajra|ragi|wheat flour|atta|besan|rajma|chole|kidney beans|black beans/gi) || [];
+  const nvHits = t.match(/chicken|mutton|lamb|beef|pork|fish|meat[,\s]|egg[s]?[,\s]|[,\s]egg[,\s]|prawn|shrimp|lobster|crab|oyster|clam|mussel|squid|octopus|cuttlefish|casein[,\s]|whey[,\s]|lactose[,\s]|gelatin[,\s]|lard|tallow|suet|dripping|bone marrow|sinew|offal|gizzard|liver|heart|lung|kidney|tripe|brain|pancreas|spleen|duck|goose|venison|rabbit|bacon|ham|sausage|pepperoni|salami|prosciutto|chorizo|meatball|isinglass|rennet|pepsin|trypsin|chymosin|elastin|collagen/gi) || [];
+  const vHits = t.match(/wheat gluten|wheat flour|maida|refined wheat flour|corn gluten|soy protein isolate|pea protein|rice protein|moong dal|urad dal|chana dal|masoor dal|tofu|paneer|chhena|coconut oil|groundnut oil|mustard oil|sesame oil|sunflower oil|olive oil|jowar|bajra|ragi|atta|besan|rajma|chole|kidney beans|black beans/gi) || [];
   const nvScore = nvHits.length;
   const vScore = vHits.length;
   if (/groundnut.*protein|hydrolyse.*groundnut/i.test(t) && nvScore===0) return 'uncertain-groundnut';
-  if (nvScore===0 && vScore>=2) return 'veg';
+  if (nvScore===0 && vScore>=1) return 'veg';
   if (nvScore>=2) return 'nonveg';
   if (nvScore===1 && vScore===0) return 'nonveg';
   if (nvScore===1 && vScore>=1) return 'uncertain';
