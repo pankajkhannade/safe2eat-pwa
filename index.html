@@ -4178,6 +4178,11 @@ function askAddToAvoidList(verdict, brand) {
 let scanMode = 'fast'; // 'fast' or 'accurate'
 let manualEntryAlwaysVisible = false;
 
+// FEATURE r4: EMBEDDED REDDIT PRODUCTS (from cron job discovery)
+const EMBEDDED_REDDIT_PRODUCTS = [{"id":"1tfuxa1","subreddit":"india","query_used":"BIS standard food india","title":"Public Safety Warning Regarding The Big Barbeque Group Restaurants","selftext":"People visiting buffet restaurants often focus on ambience, unlimited food offers, and social media popularity, but very few actually check food safety records, hygiene complaints, or operational practices behind the scenes.\n\nRecently, multiple documents and customer complaints circulating online have raised serious concerns regarding different branches associated with The Big Barbeque group in Bangalore. These include FSSAI-related notices issued on more than one occasion.","brands":["ITC"],"concerns":["fssai_alert"],"score":87,"reddit_score":2,"comments":5,"permalink":"https://reddit.com/r/india/comments/1tfuxa1/public_safety_warning_regarding_the_big_barbeque/","url":"https://www.reddit.com/r/india/comments/1tfuxa1/public_safety_warning_regarding_the_big_barbeque/","created":"2026-05-17","discovered_at":"2026-05-19T13:00:41.691076+00:00"},{"id":"1tcwkss","subreddit":"indianfood","query_used":"harmful packaged food india","title":"Chatpata snack suggestions","selftext":"I crave for chatpata Khana everyday. helppp!!! \n\nI also don't like packaged food, like kurkure which has excessive amount of masalas on it, any suggestions?","brands":["Kurkure"],"concerns":[],"score":39,"reddit_score":7,"comments":14,"permalink":"https://reddit.com/r/IndianFood/comments/1tcwkss/chatpata_snack_suggestions/","url":"https://www.reddit.com/r/indianfood/comments/1tcwkss/chatpata_snack_suggestions/","created":"2026-05-14","discovered_at":"2026-05-19T13:00:30.162527+00:00"}];
+
+// MODIFIED loadRedditProducts — uses embedded data first, falls back to fetch, then localStorage
+
 function getStoredScanMode() {
   try { return localStorage.getItem('safe2eat_scan_mode') || 'fast'; } catch(e) { return 'fast'; }
 }
@@ -4458,6 +4463,12 @@ let currentAlertFilter = 'all';
 let currentBrandFilter = null;
 
 async function loadRedditProducts() {
+  // Primary: use embedded static data (always available)
+  if (typeof EMBEDDED_REDDIT_PRODUCTS !== 'undefined' && EMBEDDED_REDDIT_PRODUCTS.length > 0) {
+    redditProducts = EMBEDDED_REDDIT_PRODUCTS;
+    return;
+  }
+  // Secondary: try fetch from same origin
   try {
     const base = window.location.href.includes('github.io')
       ? 'https://pankajkhannade.github.io/safe2eat-pwa/'
@@ -4465,6 +4476,7 @@ async function loadRedditProducts() {
     const res = await fetch(base + 'reddit_products.json?t=' + Date.now());
     if (res.ok) { redditProducts = (await res.json()).products || []; return; }
   } catch (e) {}
+  // Tertiary: localStorage cache
   const cached = localStorage.getItem('safe2eat_reddit_products');
   if (cached) { try { redditProducts = JSON.parse(cached); } catch(e) {} }
 }
