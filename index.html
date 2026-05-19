@@ -2196,16 +2196,25 @@ function detectVegetarian(ingredientText, additives) {
   
   // Check ingredient text patterns
   const nonVegPatterns = [
+    // Explicit animal products
     /gelatin(?!.*synthetic)/i, /rennet/i, /carmine/i, /cochineal/i,
-    /lactose(?!.*powder)/i, /whey\s*powder/i, /casein(?!.*plant)/i,
+    /lactose(?!.*powder)/i, /whey\s*powder/i,
     /isinglass/i, /shellac/i, /confectioner.*glaze/i,
     /animal.*fat(?!.*plant)/i, /lard/i, /tallow/i, /bone.*phosphate/i,
     /ghee/i, /butter.*oil(?!.*vegetable)/i, /chicken.*fat/i,
     /pork/i, /beef/i, /lamb/i, /fish.*oil(?!.*vegetable)/i,
     /egg.*white(?!.*plant)/i, /egg.*yolk(?!.*plant)/i,
+    // Animal protein sources — non-veg when explicit
+    /casein(?!.*plant)/i, /whey\s*protein(?!.*plant)/i,
+    /hydrolysed\s*groundnut/i, /groundnut\s*protein/i,
   ];
-  
+
   const vegPatterns = [
+    // Plant proteins — vegetarian
+    /wheat\s*gluten/i, /wheat\s*flour/i,
+    /pea\s*protein/i, /soy\s*protein/i, /almond\s*protein/i,
+    /rice\s*protein/i, /oat\s*protein/i,
+    // Plant oils and gums
     /vegetable.*oil/i, /plant.*oil/i, /palm.*oil/i, /sunflower.*oil/i,
     /soy.*lecithin/i, /sunflower.*lecithin/i, /rapeseed.*oil/i,
     /microbial.*origin/i, /fermentation/i, /bacterial/i, /fungal/i,
@@ -2500,7 +2509,7 @@ function showFavorites() {
 const ALLERGEN_KEYWORDS = {
   gluten: ['gluten', 'wheat', 'barley', 'rye', 'oats', 'maida', 'atta', 'semolina', 'durum', 'spelt', 'kamut', 'triticale'],
   dairy: ['milk', 'dairy', 'lactose', 'casein', 'whey', 'butter', 'cheese', 'cream', 'ghee', 'yogurt', 'curd', 'lactalbumin', 'lactoglobulin'],
-  nuts: ['nuts', 'almond', 'cashew', 'walnut', 'pistachio', 'hazelnut', 'pecan', 'macadamia', 'brazil nut', 'chestnut', 'peanut'],
+  nuts: ['nuts', 'almond', 'cashew', 'walnut', 'pistachio', 'hazelnut', 'pecan', 'macadamia', 'brazil nut', 'chestnut', 'peanut', 'groundnut'],
   soy: ['soy', 'soya', 'soybean', 'edamame', 'tofu', 'tempeh', 'miso', 'soy lecithin', 'soy protein'],
   eggs: ['egg', 'albumin', 'globulin', 'lysozyme', 'mayonnaise', 'meringue'],
   fish: ['fish', 'cod', 'salmon', 'tuna', 'anchovy', 'sardine', 'mackerel', 'fish oil', 'fish sauce'],
