@@ -517,6 +517,56 @@
     .report-nav-btn { padding: 6px 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; font-size: 12px; cursor: pointer; color: var(--text); }
     .report-nav-btn:active { background: var(--surface); }
     .report-empty { text-align: center; padding: 20px; color: var(--text-dim); font-size: 13px; }
+
+    /* Community Alerts (r4) */
+    .alerts-screen { display: none; padding: 16px; padding-bottom: 90px; }
+    .alerts-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .alerts-title { font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .alerts-badge { background: var(--avoid); color: #fff; font-size: 10px; padding: 2px 7px; border-radius: 20px; font-weight: 700; }
+    .alerts-refresh { font-size: 11px; color: var(--text-dim); }
+    .alerts-filter-bar { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 12px; scrollbar-width: none; }
+    .alerts-filter-bar::-webkit-scrollbar { display: none; }
+    .filter-chip { padding: 5px 12px; border-radius: 20px; font-size: 11px; background: var(--surface2); border: 1px solid var(--border); color: var(--text-dim); cursor: pointer; white-space: nowrap; transition: all 0.15s; }
+    .filter-chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .filter-chip:active { transform: scale(0.96); }
+    .alert-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-bottom: 12px; cursor: pointer; transition: transform 0.15s; }
+    .alert-card:active { transform: scale(0.98); }
+    .alert-card.high { border-left: 4px solid var(--avoid); }
+    .alert-card.medium { border-left: 4px solid var(--warn); }
+    .alert-card.low { border-left: 4px solid var(--safe); }
+    .alert-card-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 8px; }
+    .alert-reddit-badge { font-size: 10px; background: rgba(255,69,0,0.1); color: #ff4500; padding: 2px 7px; border-radius: 6px; font-weight: 600; }
+    .alert-score { font-size: 12px; font-weight: 700; color: var(--text-dim); }
+    .alert-concerns { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+    .concern-tag { font-size: 10px; padding: 2px 8px; border-radius: 12px; background: rgba(239,68,68,0.1); color: var(--avoid); font-weight: 600; }
+    .concern-tag.fssai_alert { background: rgba(59,130,246,0.1); color: #3b82f6; }
+    .concern-tag.maggi_ban { background: rgba(239,68,68,0.15); color: #ef4444; }
+    .concern-tag.adulteration { background: rgba(245,158,11,0.1); color: var(--warn); }
+    .concern-tag.heavy_metal { background: rgba(239,68,68,0.15); color: #ef4444; }
+    .concern-tag.msg { background: rgba(168,85,247,0.1); color: #a855f7; }
+    .concern-tag.lead { background: rgba(239,68,68,0.12); color: #ef4444; }
+    .alert-title { font-size: 14px; font-weight: 600; line-height: 1.4; margin-bottom: 6px; }
+    .alert-text { font-size: 12px; color: var(--text-dim); line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .alert-meta { display: flex; align-items: center; gap: 10px; margin-top: 10px; font-size: 11px; color: var(--text-dim); }
+    .alert-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--text-dim); }
+    .alert-sources-title { font-size: 11px; font-weight: 600; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; margin: 18px 0 10px; }
+    .source-item { display: flex; align-items: center; gap: 10px; padding: 10px; background: var(--surface2); border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: background 0.15s; }
+    .source-item:active { background: var(--surface); }
+    .source-icon { font-size: 20px; }
+    .source-info { flex: 1; }
+    .source-name { font-size: 13px; font-weight: 600; }
+    .source-desc { font-size: 11px; color: var(--text-dim); }
+    .source-count { font-size: 12px; font-weight: 700; color: var(--text-dim); }
+    .alerts-empty { text-align: center; padding: 40px 20px; }
+    .alerts-empty-icon { font-size: 48px; margin-bottom: 14px; }
+    .alerts-empty-title { font-size: 15px; font-weight: 600; margin-bottom: 6px; }
+    .alerts-empty-sub { font-size: 12px; color: var(--text-dim); }
+    .alerts-loading { display: none; text-align: center; padding: 40px; }
+    .alerts-brand-strip { display: flex; gap: 6px; overflow-x: auto; padding: 10px 0; border-bottom: 1px solid var(--border); margin-bottom: 14px; scrollbar-width: none; }
+    .alerts-brand-strip::-webkit-scrollbar { display: none; }
+    .brand-chip { padding: 5px 12px; border-radius: 20px; font-size: 11px; background: var(--surface2); border: 1px solid var(--border); color: var(--text-dim); cursor: pointer; white-space: nowrap; }
+    .brand-chip.active { background: var(--avoid); color: #fff; border-color: var(--avoid); }
+    .brand-chip.has-alert { border-color: var(--avoid); color: var(--avoid); font-weight: 600; }
   </style>
 </head>
 <body>
@@ -867,6 +917,80 @@
     </button>
   </div>
 
+  <!-- Community Alerts Screen (r4) -->
+  <div class="alerts-screen" id="alertsScreen">
+    <div class="alerts-header">
+      <div class="alerts-title">
+        🚨 <span id="alertsTitleLabel">Community Alerts</span>
+        <span class="alerts-badge" id="alertsCountBadge">0</span>
+      </div>
+      <span class="alerts-refresh" id="alertsLastUpdated">Updated just now</span>
+    </div>
+
+    <!-- Brand quick filter strip -->
+    <div class="alerts-brand-strip" id="alertsBrandStrip"></div>
+
+    <!-- Concern filter chips -->
+    <div class="alerts-filter-bar" id="alertsFilterBar">
+      <button class="filter-chip active" id="filterAll" onclick="filterAlerts('all')" id2="filterAll">All</button>
+      <button class="filter-chip" onclick="filterAlerts('fssai_alert')" id2="filterFssai">🚨 FSSAI Alert</button>
+      <button class="filter-chip" onclick="filterAlerts('lead')" id2="filterLead">⚠️ Lead</button>
+      <button class="filter-chip" onclick="filterAlerts('maggi_ban')" id2="filterMaggi">🔴 Maggi Ban</button>
+      <button class="filter-chip" onclick="filterAlerts('heavy_metal')" id2="filterHeavy">⚠️ Heavy Metal</button>
+      <button class="filter-chip" onclick="filterAlerts('msg')" id2="filterMsg">💜 MSG</button>
+      <button class="filter-chip" onclick="filterAlerts('adulteration')" id2="filterAd">⚠️ Adulteration</button>
+      <button class="filter-chip" onclick="filterAlerts('pesticide')" id2="filterPest">🐛 Pesticide</button>
+    </div>
+
+    <div class="alerts-loading" id="alertsLoading">
+      <div class="spinner" style="margin:0 auto 10px"></div>
+      <span>Loading alerts...</span>
+    </div>
+
+    <div class="alerts-list" id="alertsList"></div>
+
+    <div class="alerts-empty" id="alertsEmpty" style="display:none">
+      <div class="alerts-empty-icon">🔕</div>
+      <p class="alerts-empty-title" id="alertsEmptyTitle">No alerts yet</p>
+      <p class="alerts-empty-sub" id="alertsEmptySub">Safe2Eat scans Reddit every 6 hours for food safety reports. Check back soon.</p>
+    </div>
+
+    <!-- Data sources info -->
+    <div class="alert-sources-title" id="sourcesTitle">📡 Data Sources</div>
+    <div class="source-item" onclick="window.open('https://www.reddit.com/r/india/search.json?q=unsafe+food+india','_blank')">
+      <div class="source-icon">👥</div>
+      <div class="source-info">
+        <div class="source-name">r/india</div>
+        <div class="source-desc">India's largest community — food safety discussions</div>
+      </div>
+      <div class="source-count">🔴</div>
+    </div>
+    <div class="source-item" onclick="window.open('https://www.reddit.com/r/indianfood/search.json?q=food+safety','_blank')">
+      <div class="source-icon">🍛</div>
+      <div class="source-info">
+        <div class="source-name">r/indianfood</div>
+        <div class="source-desc">Indian food discussions and product complaints</div>
+      </div>
+      <div class="source-count">🔴</div>
+    </div>
+    <div class="source-item" onclick="window.open('https://www.reddit.com/r/indiadiscussion/search.json?q=food+india','_blank')">
+      <div class="source-icon">💬</div>
+      <div class="source-info">
+        <div class="source-name">r/indiadiscussion</div>
+        <div class="source-desc">In-depth India discussions — food quality issues</div>
+      </div>
+      <div class="source-count">🔴</div>
+    </div>
+    <div class="source-item" onclick="window.open('https://www.reddit.com/r/FoodsandsNutrition/search.json?q=food+safety','_blank')">
+      <div class="source-icon">🥗</div>
+      <div class="source-info">
+        <div class="source-name">r/FoodsandsNutrition</div>
+        <div class="source-desc">Food science and nutrition community</div>
+      </div>
+      <div class="source-count">🟡</div>
+    </div>
+  </div>
+
   <!-- History Screen -->
   <div class="history-screen" id="historyScreen">
     <div class="history-header">
@@ -938,6 +1062,9 @@
     </button>
     <button class="nav-item" onclick="showFavorites()" id="navFavorites">
       <span class="nav-icon">❤️</span><span id="navFavoritesLabel">Favorites</span>
+    </button>
+    <button class="nav-item" onclick="showAlerts()" id="navAlerts">
+      <span class="nav-icon" id="alertsBellIcon">🔔</span><span id="navAlertsLabel">Alerts</span>
     </button>
     <button class="nav-item" onclick="showAbout()" id="navAbout">
       <span class="nav-icon">ℹ️</span><span id="navAboutLabel">About</span>
@@ -4321,6 +4448,423 @@ if (!manualEntryAlwaysVisible) {
 } else {
   document.getElementById('barcodeInput').parentElement.style.display = 'block';
 }
+// INJECT NEW FEATURES 21-30
+// ============================================================
+// FEATURES 21-30: INDIA-FIRST FOOD SAFETY PLATFORM
+// ============================================================
+
+let redditProducts = [];
+let currentAlertFilter = 'all';
+let currentBrandFilter = null;
+
+async function loadRedditProducts() {
+  try {
+    const base = window.location.href.includes('github.io')
+      ? 'https://pankajkhannade.github.io/safe2eat-pwa/'
+      : '';
+    const res = await fetch(base + 'reddit_products.json?t=' + Date.now());
+    if (res.ok) { redditProducts = (await res.json()).products || []; return; }
+  } catch (e) {}
+  const cached = localStorage.getItem('safe2eat_reddit_products');
+  if (cached) { try { redditProducts = JSON.parse(cached); } catch(e) {} }
+}
+
+function riskLevel(score) { return score >= 60 ? 'high' : score >= 30 ? 'medium' : 'low'; }
+
+function concernLabel(c) {
+  const m = {
+    fssai_alert:'🚨 FSSAI Alert', lead:'⚠️ Lead', maggi_ban:'🔴 Maggi Ban',
+    heavy_metal:'⚠️ Heavy Metal', msg:'💜 MSG', pesticide:'🐛 Pesticide',
+    artificial_color:'🎨 Artificial Colour', preservative:'💉 Preservative',
+    adulteration:'⚠️ Adulteration', ban_recall:'🚫 Recall/Ban',
+    carcinogen:'☠️ Carcinogen', trans_fat:'🧈 Trans Fat',
+  };
+  return m[c] || c;
+}
+
+function escHtml(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function renderAlertCard(post) {
+  const risk = riskLevel(post.score||0);
+  const concerns = (post.concerns||[]).map(c=>`<span class="concern-tag ${escHtml(c)}">${concernLabel(c)}</span>`).join('');
+  const brands = (post.brands||[]).map(b=>`<span class="concern-tag" style="background:rgba(59,130,246,0.1);color:#3b82f6">🏷️ ${escHtml(b)}</span>`).join('');
+  return `<div class="alert-card ${risk}" onclick="openAlertDetail('${post.id}')">
+    ${(concerns+brands)?`<div class="alert-concerns">${concerns}${brands}</div>`:''}
+    <div class="alert-title">${escHtml(post.title||'')}</div>
+    <div class="alert-text">${escHtml(post.selftext||'')}</div>
+    <div class="alert-meta">
+      <span>👥 r/${escHtml(post.subreddit||'')}</span>
+      <span class="alert-meta-dot"></span><span>📅 ${post.created||''}</span>
+      <span class="alert-meta-dot"></span><span>💬 ${post.comments||0}</span>
+      <span class="alert-meta-dot"></span><span>🔥 ${post.reddit_score||0}</span>
+    </div></div>`;
+}
+
+function filterAlerts(filter) {
+  currentAlertFilter = filter;
+  document.querySelectorAll('.filter-chip').forEach(chip => {
+    const id = chip.id||'';
+    const match = (id==='filterAll'&&filter==='all')||id===('filter'+filter.charAt(0).toUpperCase()+filter.slice(1));
+    chip.classList.toggle('active', match);
+  });
+  renderAlertsList();
+}
+
+function renderAlertsList() {
+  const list = document.getElementById('alertsList');
+  const empty = document.getElementById('alertsEmpty');
+  const badge = document.getElementById('alertsCountBadge');
+  let filtered = redditProducts;
+  if (currentAlertFilter !== 'all') filtered = filtered.filter(p=>(p.concerns||[]).includes(currentAlertFilter));
+  if (currentBrandFilter) filtered = filtered.filter(p=>(p.brands||[]).includes(currentBrandFilter));
+  if (badge) { badge.textContent = filtered.length; badge.style.display = filtered.length>0?'inline':'none'; }
+  if (!filtered.length) { list.innerHTML=''; if(empty)empty.style.display='block'; return; }
+  if(empty)empty.style.display='none';
+  list.innerHTML = filtered.map(renderAlertCard).join('');
+}
+
+function renderBrandStrip() {
+  const strip = document.getElementById('alertsBrandStrip');
+  if (!strip) return;
+  const allBrands = [...new Set(redditProducts.flatMap(p=>p.brands||[]))];
+  const alertBrands = [...new Set(redditProducts.filter(p=>(p.concerns||[]).length>0).flatMap(p=>p.brands||[]))];
+  if (!allBrands.length) { strip.innerHTML=''; return; }
+  strip.innerHTML = `<span class="brand-chip ${!currentBrandFilter?'active':''}" onclick="filterByBrand(null)">All</span>` +
+    allBrands.map(b=>`<span class="brand-chip ${currentBrandFilter===b?'active':''} ${alertBrands.includes(b)?'has-alert':''}" onclick="filterByBrand('${escHtml(b)}')">🏷️ ${escHtml(b)}</span>`).join('');
+}
+
+function filterByBrand(brand) { currentBrandFilter=brand; renderBrandStrip(); renderAlertsList(); }
+
+async function showAlerts() {
+  hideAllScreens();
+  const screen = document.getElementById('alertsScreen');
+  screen.style.display = 'block';
+  setActiveNav('alerts');
+  const loading = document.getElementById('alertsLoading');
+  const list = document.getElementById('alertsList');
+  const empty = document.getElementById('alertsEmpty');
+  if(loading)loading.style.display='block';
+  if(list)list.innerHTML='';
+  if(empty)empty.style.display='none';
+  await loadRedditProducts();
+  const lastRun = localStorage.getItem('safe2eat_reddit_last_run');
+  const updatedEl = document.getElementById('alertsLastUpdated');
+  if (updatedEl && lastRun) {
+    const ago = Math.round((Date.now()-new Date(lastRun))/60000);
+    updatedEl.textContent = ago<60?`Updated ${ago}m ago`:`Updated ${Math.round(ago/60)}h ago`;
+  }
+  renderBrandStrip();
+  if(loading)loading.style.display='none';
+  renderAlertsList();
+}
+
+function openAlertDetail(id) {
+  const post = redditProducts.find(p=>p.id===id);
+  if (!post) return;
+  const concerns = (post.concerns||[]).map(c=>concernLabel(c)).join(', ')||'General food safety';
+  const brands = (post.brands||[]).join(', ')||'Unknown brand';
+  const msg = `🚨 ${post.title}\n\n📋 Concerns: ${concerns}\n🏷️ Brands: ${brands}\n👥 r/${post.subreddit} · ${post.created}\n💬 ${post.comments} comments · 🔥 ${post.reddit_score} upvotes\n\n${post.selftext||''}\n\n🔗 ${post.permalink}`;
+  if (navigator.share) navigator.share({title:'Safe2Eat Alert',text:msg}).catch(()=>copyToClipboard(msg));
+  else { copyToClipboard(msg); showToast('Alert copied!'); }
+}
+
+// Feature 21: FSSAI License Checker
+function showFssaiChecker() {
+  let modal = document.getElementById('reportModal');
+  const isNew = !modal;
+  if (isNew) {
+    modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.id = 'reportModal';
+    modal.innerHTML = '<div class="modal-card" style="max-height:80vh;overflow-y:auto;padding:20px"><div class="modal-header" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><span id="reportModalTitle" style="font-size:16px;font-weight:700"></span><button class="modal-close" onclick="this.closest(\'.modal\').classList.remove(\'visible\')" style="background:none;border:none;font-size:18px;cursor:pointer">✕</button></div><div id="reportModalBody"></div></div>';
+    document.body.appendChild(modal);
+  }
+  document.getElementById('reportModalTitle').textContent = '🔍 FSSAI License Checker';
+  document.getElementById('reportModalBody').innerHTML = '<div style="padding:4px 0 16px"><p style="font-size:13px;color:var(--text-dim);margin-bottom:14px;text-align:center">Enter the FSSAI license or registration number<br><span style="font-size:11px">Found on food product packaging (eg: 10012011000123)</span></p><input type="text" id="fssaiInput" maxlength="20" placeholder="Enter FSSAI License No." style="width:100%;padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:16px;text-align:center;letter-spacing:2px;box-sizing:border-box;outline:none" onkeydown="if(event.key===\'Enter\')checkFssai()"><button class="submit-btn" style="width:100%;margin-top:12px" onclick="checkFssai()">🔍 Check License</button><div id="fssaiResult" style="margin-top:16px"></div><div style="margin-top:20px;padding:12px;background:var(--surface2);border-radius:10px;font-size:12px;color:var(--text-dim)"><strong style="color:var(--text)">How to find FSSAI license:</strong><br>✅ FSSAI logo with license number on label<br>✅ License No. printed below the FSSAI logo<br>✅ 14-digit: State(1-2) + Year(4) + Serial(8)<br>✅ Verify at <a href="https://foscos.fssai.gov.in" target="_blank" style="color:var(--accent)">foscos.fssai.gov.in</a></div></div>';
+  modal.classList.add('visible');
+}
+
+async function checkFssai() {
+  const licenseNo = document.getElementById('fssaiInput').value.trim().replace(/[^0-9]/g,'');
+  const resultDiv = document.getElementById('fssaiResult');
+  if (!licenseNo || licenseNo.length < 6) { resultDiv.innerHTML='<p style="color:var(--warn);font-size:13px">Enter a valid FSSAI license number (min 6 digits)</p>'; return; }
+  resultDiv.innerHTML='<p style="font-size:13px;color:var(--text-dim)">Checking FSSAI database...</p>';
+  try {
+    const res = await fetch('https://backend.fssai.co.in/api/SearchbyLicense?LicenseNo='+licenseNo);
+    if (res.ok) { const data = await res.json(); renderFssaiResult(data, resultDiv); }
+    else { resultDiv.innerHTML='<div style="background:rgba(245,158,11,0.08);border:1px solid var(--warn);border-radius:12px;padding:14px"><p style="font-size:13px;color:var(--warn);margin:0 0 8px">⚠️ FSSAI backend returned error '+res.status+'</p><p style="font-size:12px;color:var(--text-dim);margin:0">The FSSAI backend requires server-side access. Check the packaging directly. Verify at <a href="https://foscos.fssai.gov.in" target="_blank" style="color:var(--accent)">foscos.fssai.gov.in</a></p></div>'; }
+  } catch(e) {
+    resultDiv.innerHTML='<div style="background:rgba(245,158,11,0.08);border:1px solid var(--warn);border-radius:12px;padding:14px"><p style="font-size:13px;color:var(--warn);margin:0 0 8px">⚠️ Cannot reach FSSAI backend from browser</p><p style="font-size:12px;color:var(--text-dim);margin:0">FSSAI APIs require server-side access. Check the packaging directly. Verify at <a href="https://foscos.fssai.gov.in" target="_blank" style="color:var(--accent)">foscos.fssai.gov.in</a></p></div>';
+  }
+}
+
+function renderFssaiResult(data, div) {
+  if (data && data.length>0) {
+    const d=data[0];
+    div.innerHTML='<div style="background:rgba(34,197,94,0.08);border:1px solid #22c55e;border-radius:12px;padding:14px"><p style="font-size:15px;font-weight:700;color:#22c55e;margin:0 0 8px">✅ Licensed Business</p><div style="font-size:13px;display:grid;gap:6px"><div><strong>Name:</strong> '+escHtml(d.Name||d.BusinessName||'N/A')+'</div><div><strong>License No:</strong> '+escHtml(d.LicenseNo||'')+'</div><div><strong>Address:</strong> '+escHtml(d.Address||'N/A')+'</div><div><strong>Status:</strong> <span style="color:#22c55e">✓ Active</span></div></div></div>';
+  } else {
+    div.innerHTML='<div style="background:rgba(239,68,68,0.08);border:1px solid #ef4444;border-radius:12px;padding:14px"><p style="font-size:14px;font-weight:700;color:#ef4444;margin:0">⚠️ License not found in FSSAI records</p><p style="font-size:12px;color:var(--text-dim);margin:8px 0 0">The license number may be invalid, expired, or not yet synced. Verify directly at foscos.fssai.gov.in</p></div>';
+  }
+}
+
+// Feature 22: Indian Brand Database
+const INDIAN_BRANDS_DB = {
+  'Maggi':{additives:['E621','E631','E450','E452','E300'],risk:'high',concerns:['msg','preservative'],vegStatus:'uncertain',notes:'Contains hydrolysed groundnut protein + MSG. Check label before eating if veg.'},
+  'Nestle':{additives:['E322','E440','E330','E1500'],risk:'medium',concerns:['msg'],vegStatus:'mixed',notes:'Maggi noodles contain MSG — not fully veg for Jains/vegetarians'},
+  'Nestlé':{additives:['E322','E440','E330','E1500'],risk:'medium',concerns:['msg'],vegStatus:'mixed',notes:'Maggi noodles contain MSG'},
+  'Britannia':{additives:['E476','E322','E452','E450','E330'],risk:'medium',concerns:['trans_fat'],vegStatus:'veg',notes:'Some products contain vanaspati/hydrogenated fats'},
+  'Parle':{additives:['E322','E476','E202','E330'],risk:'low',concerns:[],vegStatus:'veg'},
+  'ITC':{additives:['E1500','E330','E452'],risk:'low',concerns:[],vegStatus:'veg'},
+  'Haldiram':{additives:['E320','E330','E452'],risk:'medium',concerns:['preservative'],vegStatus:'veg'},
+  'Amul':{additives:['E331','E509'],risk:'low',concerns:[],vegStatus:'veg',notes:'Dairy — not vegan'},
+  'Kurkure':{additives:['E621','E635','E450','E330','E160c'],risk:'high',concerns:['msg','artificial_color'],vegStatus:'veg',notes:'Contains MSG + paprika oleoresin (E160c)'},
+  'Lays':{additives:['E621','E635','E330','E450'],risk:'high',concerns:['msg'],vegStatus:'veg',notes:'Contains MSG (E621)'},
+  'Cadbury':{additives:['E322','E476','E110','E1500'],risk:'high',concerns:['artificial_color'],vegStatus:'veg',notes:'Some products contain E110 (Sunset Yellow) — linked to hyperactivity'},
+  'Sunfeast':{additives:['E322','E476','E450','E330'],risk:'medium',concerns:['trans_fat'],vegStatus:'veg'},
+  'Oreo':{additives:['E322','E110','E1500','E500'],risk:'high',concerns:['artificial_color'],vegStatus:'veg',notes:'Contains E110 (Sunset Yellow)'},
+  'Dabur':{additives:['E211','E202','E330'],risk:'low',concerns:['preservative'],vegStatus:'veg'},
+  'Patanjali':{additives:[],risk:'low',concerns:[],vegStatus:'veg',notes:'Ayush-certified — generally clean ingredients'},
+  'Horlicks':{additives:['E322','E341','E1500'],risk:'low',concerns:[],vegStatus:'veg'},
+  'Bournvita':{additives:['E322','E1500','E500'],risk:'medium',concerns:['artificial_color'],vegStatus:'veg'},
+  'Indomie':{additives:['E621','E631','E450','E452'],risk:'high',concerns:['msg','preservative'],vegStatus:'uncertain',notes:'MSG + seasoning with non-veg traces'},
+  'Kissan':{additives:['E211','E202','E330','E440'],risk:'medium',concerns:['preservative'],vegStatus:'veg'},
+};
+
+function lookupIndianBrand(brandName) {
+  if (!brandName) return null;
+  const key = Object.keys(INDIAN_BRANDS_DB).find(k => brandName.toLowerCase().includes(k.toLowerCase()));
+  return key ? INDIAN_BRANDS_DB[key] : null;
+}
+
+function renderIndianBrandWarning(brandName, container) {
+  const brand = lookupIndianBrand(brandName);
+  if (!brand || brand.risk==='low') return '';
+  const rc = {high:'var(--avoid)',medium:'var(--warn)',low:'var(--safe)'};
+  const rb = {high:'rgba(239,68,68,0.08)',medium:'rgba(245,158,11,0.08)',low:'rgba(34,197,94,0.08)'};
+  const rl = {high:'⚠️ High Concern Brand',medium:'⚡ Medium Concern',low:'✓ Low Concern'};
+  const concerns = brand.concerns.map(c=>`<span class="concern-tag">${concernLabel(c)}</span>`).join('');
+  const notes = brand.notes?`<p style="font-size:12px;color:var(--text-dim);margin:8px 0 0">${escHtml(brand.notes)}</p>`:'';
+  const html = `<div style="background:${rb[brand.risk]};border:1px solid ${rc[brand.risk]};border-radius:10px;padding:12px;margin-top:12px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:18px">${brand.risk==='high'?'⚠️':'⚡'}</span><span style="font-weight:700;font-size:14px;color:${rc[brand.risk]}">${escHtml(brandName)} — ${rl[brand.risk]}</span></div>${concerns?`<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:4px">${concerns}</div>`:''}${notes}<button class="submit-btn" style="margin-top:10px;font-size:12px;padding:8px;background:var(--avoid);color:#fff;border:none" onclick="addBrandToAvoidList('${escHtml(brandName)}')">🚫 Add ${escHtml(brandName)} to Avoid List</button></div>`;
+  if (container) container.insertAdjacentHTML('beforeend', html);
+  return html;
+}
+
+// Feature 23: Artificial Colour Detector
+const ARTIFICIAL_COLOURS = {
+  'E102':{name:'Tartrazine',risk:'high',note:'⚠️ BANNED in Norway, Austria, Japan. Hyperactivity in children'},
+  'E104':{name:'Quinoline Yellow',risk:'high',note:'BANNED in Norway, Austria. Allergic reactions'},
+  'E110':{name:'Sunset Yellow',risk:'high',note:'⚠️ BANNED in Norway, Austria, Finland. Found in Kurkure, Cadbury products'},
+  'E120':{name:'Cochineal',risk:'low',note:'From insects — not vegan, but low health concern'},
+  'E122':{name:'Carmoisine',risk:'high',note:'BANNED in Japan, USA, Norway. Allergic reactions'},
+  'E124':{name:'Ponceau 4R',risk:'high',note:'BANNED in USA, Japan. Cancer in animal studies'},
+  'E127':{name:'Erythrosine',risk:'high',note:'BANNED in USA, Norway. Thyroid cancer link'},
+  'E129':{name:'Allura Red',risk:'medium',note:'BANNED in Belgium, France, Germany, Sweden'},
+  'E132':{name:'Indigo Carmine',risk:'medium',note:'Allergic reactions possible'},
+  'E133':{name:'Brilliant Blue FCF',risk:'low',note:'Generally safe'},
+  'E140':{name:'Chlorophyll',risk:'low',note:'Natural — green plant pigment'},
+  'E150a':{name:'Plain Caramel',risk:'low',note:'Sugar — safe'},
+  'E150c':{name:'Ammonia Caramel',risk:'high',note:'⚠️ Found in cola drinks, soy sauce. Cancer link (animal studies)'},
+  'E150d':{name:'Sulfite Ammonia Caramel',risk:'high',note:'☠️ Cancer and allergic reactions'},
+  'E151':{name:'Black PN',risk:'high',note:'BANNED in USA, Japan. Hyperactivity in children'},
+  'E155':{name:'Brown HT',risk:'high',note:'BANNED in USA, Austria'},
+  'E160a':{name:'Beta Carotene',risk:'low',note:'Natural — from carrots'},
+  'E160b':{name:'Annatto',risk:'low',note:'Natural — from achiote seeds'},
+  'E160c':{name:'Paprika Oleoresin',risk:'low',note:'Natural — from paprika pepper'},
+  'E162':{name:'Beet Red',risk:'low',note:'Natural — from beetroot'},
+  'E163':{name:'Anthocyanins',risk:'low',note:'Natural — from grapes, berries'},
+  'E171':{name:'Titanium Dioxide',risk:'high',note:'☠️ BANNED in France (food use). DNA damage in studies'},
+  'E172':{name:'Iron Oxides',risk:'medium',note:'Accumulation concerns with excessive use'},
+  'E174':{name:'Silver',risk:'medium',note:'Metallic accumulation in body over time'},
+  'E175':{name:'Gold',risk:'low',note:'Generally inert — used in decorations'},
+  'E180':{name:'Lithol Rubine BK',risk:'medium',note:'Allergic reactions possible'},
+};
+const INDIA_BANNED_COLOURS = ['E102','E104','E110','E122','E124','E127','E129','E151','E155','E171'];
+
+function detectArtificialColours(ingredientsText) {
+  if (!ingredientsText) return [];
+  const t = ingredientsText.toLowerCase();
+  const found = [];
+  for (const [code, info] of Object.entries(ARTIFICIAL_COLOURS)) {
+    if (t.includes(code.toLowerCase()) || t.includes(info.name.toLowerCase().split(' ')[0].toLowerCase())) {
+      found.push({code, ...info, isBanned: INDIA_BANNED_COLOURS.includes(code)});
+    }
+  }
+  return found;
+}
+
+function renderColourWarning(additives) {
+  const text = (additives||[]).map(a=>`${a.code||''} ${a.name||''}`).join(' ');
+  const colours = detectArtificialColours(text);
+  if (!colours.length) return '';
+  const banned = colours.filter(c=>c.isBanned);
+  const high = colours.filter(c=>c.risk==='high'&&!c.isBanned);
+  let html = '';
+  if (banned.length) {
+    html += `<div class="alert-card high" style="margin-top:10px"><div class="alert-title" style="color:var(--avoid)">☠️ BANNED Colours in this product</div><div class="alert-concerns">${banned.map(c=>`<span class="concern-tag">${c.code} ${c.name}</span>`).join('')}</div><p style="font-size:12px;color:var(--text-dim);margin:6px 0 0">These colours are banned in EU, USA, Japan — linked to cancer, hyperactivity, allergic reactions. India has not banned them yet.</p></div>`;
+  }
+  if (high.length) {
+    html += `<div class="alert-card medium" style="margin-top:8px"><div class="alert-title" style="color:var(--warn)">⚠️ High-Risk Artificial Colours</div><div class="alert-concerns">${high.map(c=>`<span class="concern-tag">${c.code} ${c.name}</span>`).join('')}</div><p style="font-size:12px;color:var(--text-dim);margin:6px 0 0">${escHtml(high[0]?.note||'')}</p></div>`;
+  }
+  return html;
+}
+
+// Feature 24: India veg/non-veg deep detection
+function detectIndiaVegStatus(ingredientText) {
+  if (!ingredientText) return 'uncertain';
+  const t = ingredientText.toLowerCase();
+  const nvHits = t.match(/chicken|mutton|lamb|beef|pork|fish|meat|egg[s]?[,\s]|[,\s]egg[,\s]|prawn|shrimp|lobster|crab|oyster|clam|mussel|squid|octopus|cuttlefish|casein[,\s]|whey[,\s]|lactose[,\s]|gelatin[,\s]|lard|tallow|suet|dripping|bone marrow|sinew|offal|gizzard|liver|heart|lung|kidney|tripe|brain|pancreas|spleen|duck|goose|venison|rabbit|bacon|ham|sausage|pepperoni|salami|prosciutto|chorizo|meatball|isinglass|rennet|pepsin|trypsin|chymosin|elastin|collagen/gi) || [];
+  const vHits = t.match(/wheat gluten|corn gluten|soy protein isolate|pea protein|rice protein|moong dal|urad dal|chana dal|masoor dal|tofu|paneer|chhena|coconut oil|groundnut oil|mustard oil|sesame oil|sunflower oil|olive oil|jowar|bajra|ragi|wheat flour|atta|besan|rajma|chole|kidney beans|black beans/gi) || [];
+  const nvScore = nvHits.length;
+  const vScore = vHits.length;
+  if (/groundnut.*protein|hydrolyse.*groundnut/i.test(t) && nvScore===0) return 'uncertain-groundnut';
+  if (nvScore===0 && vScore>=2) return 'veg';
+  if (nvScore>=2) return 'nonveg';
+  if (nvScore===1 && vScore===0) return 'nonveg';
+  if (nvScore===1 && vScore>=1) return 'uncertain';
+  return 'uncertain';
+}
+
+// Feature 25: India-adjusted Safety Score
+function computeIndiaSafetyScore(additives, allergens, vegStatus, ingredientText) {
+  let score = 100;
+  for (const add of (additives||[])) {
+    const safety = add.safety||'medium';
+    if (safety==='avoid') score -= 20;
+    else if (safety==='caution') score -= 8;
+    else if (safety==='low') score -= 2;
+  }
+  score -= (allergens||[]).length * 8;
+  if (vegStatus==='nonveg'||vegStatus==='uncertain') score -= 10;
+  if (ingredientText) {
+    const t = ingredientText.toLowerCase();
+    if (/hydrogenated.*fat|vanaspati|partially hydrogenated/i.test(t)) score -= 15;
+    if (/msg|ajinomoto|monosodium/i.test(t)) score -= 8;
+    if (/e102|e104|e110|e122|e124|e127|e129|e151|e155|e171|tartrazine|sunset yellow|carmoisine|ponceau/i.test(t)) score -= 12;
+    if (/preservative.*benzoate|preservative.*sorbate/i.test(t)) score -= 5;
+  }
+  return Math.max(0, Math.min(100, score));
+}
+
+// Feature 26: Product Compare
+function renderCompareVs() {
+  if (!compareProducts || compareProducts.length<2) { showToast('Select 2 products to compare first'); return; }
+  showCompareScreen(compareProducts[0], compareProducts[1]);
+}
+
+function showCompareScreen(p1, p2) {
+  let modal = document.getElementById('reportModal');
+  const isNew = !modal;
+  if (isNew) {
+    modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.id = 'reportModal';
+    modal.innerHTML = '<div class="modal-card" style="max-height:80vh;overflow-y:auto;padding:20px"><div class="modal-header" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><span id="reportModalTitle" style="font-size:16px;font-weight:700"></span><button class="modal-close" onclick="this.closest(\'.modal\').classList.remove(\'visible\')" style="background:none;border:none;font-size:18px;cursor:pointer">✕</button></div><div id="reportModalBody"></div></div>';
+    document.body.appendChild(modal);
+  }
+  document.getElementById('reportModalTitle').textContent = '⚖️ Compare Products';
+  const add1 = p1.additives||[];
+  const add2 = p2.additives||[];
+  const score1 = computeIndiaSafetyScore(add1, p1.allergens||[], p1.vegStatus, p1.ingredients_text);
+  const score2 = computeIndiaSafetyScore(add2, p2.allergens||[], p2.vegStatus, p2.ingredients_text);
+  const better = score1>=score2?'p1':'p2';
+  const sC = s => s>=70?'#22c55e':s>=40?'#f59e0b':'#ef4444';
+  document.getElementById('reportModalBody').innerHTML = '<div style="display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;margin-bottom:16px"><div style="text-align:center"><div style="font-size:11px;color:var(--text-dim);margin-bottom:4px">'+escHtml(p1.name||'Product 1')+'</div><div style="font-size:32px;font-weight:800;color:'+sC(score1)+'">'+score1+'</div><div style="font-size:11px;color:var(--text-dim)">Safety Score</div></div><div style="font-size:20px;color:var(--text-dim)">vs</div><div style="text-align:center"><div style="font-size:11px;color:var(--text-dim);margin-bottom:4px">'+escHtml(p2.name||'Product 2')+'</div><div style="font-size:32px;font-weight:800;color:'+sC(score2)+'">'+score2+'</div><div style="font-size:11px;color:var(--text-dim)">Safety Score</div></div></div>'+(better==='p1'?'<div style="text-align:center;padding:10px;background:rgba(34,197,94,0.1);border-radius:10px;font-size:13px;font-weight:600;color:#22c55e">✅ '+escHtml(p1.name||'Product 1')+' is safer by '+Math.abs(score1-score2)+' points</div>':'<div style="text-align:center;padding:10px;background:rgba(34,197,94,0.1);border-radius:10px;font-size:13px;font-weight:600;color:#22c55e">✅ '+escHtml(p2.name||'Product 2')+' is safer by '+Math.abs(score2-score1)+' points</div>')+'<div style="margin-top:16px;font-size:12px;font-weight:700;color:var(--text-dim);text-transform:uppercase;margin-bottom:8px">Additives Comparison</div>'+renderCompareAdditives(add1,add2)+'<div style="margin-top:14px;font-size:12px;font-weight:700;color:var(--text-dim);text-transform:uppercase;margin-bottom:8px">Nutrition Comparison</div>'+renderCompareNutrition(p1,p2);
+  modal.classList.add('visible');
+}
+
+function renderCompareAdditives(a1, a2) {
+  const all = [...new Set([...(a1||[]).map(x=>x.code||x),...(a2||[]).map(x=>x.code||x)])];
+  if (!all.length) return '<p style="font-size:12px;color:var(--text-dim)">No additive data available</p>';
+  const rows = all.map(code => {
+    const i1=(a1||[]).findIndex(a=>(a.code||a)===code);
+    const i2=(a2||[]).findIndex(a=>(a.code||a)===code);
+    const in1=i1>=0, in2=i2>=0;
+    const s1=in1?(a1[i1].safety||'low'):null;
+    const s2=in2?(a2[i2].safety||'low'):null;
+    const icon=s=>s==='avoid'?'🔴':s==='caution'?'🟡':'🟢';
+    const c=s=>s==='avoid'?'#ef4444':s==='caution'?'#f59e0b':'#22c55e';
+    return '<tr><td style="padding:6px 4px;font-size:12px;color:'+(in1?c(s1):'var(--text-dim)')+'">'+(in1?icon(s1)+' '+escHtml(code):'—')+'</td><td style="padding:6px 4px;font-size:11px;text-align:center;color:var(--text-dim)">'+(in1&&in2?'↔':'')+'</td><td style="padding:6px 4px;font-size:12px;color:'+(in2?c(s2):'var(--text-dim)')+'">'+(in2?icon(s2)+' '+escHtml(code):'—')+'</td></tr>';
+  }).join('');
+  return '<table style="width:100%;border-collapse:collapse"><tbody>'+rows+'</tbody></table>';
+}
+
+function renderCompareNutrition(p1, p2) {
+  const n1=parseNutrition(p1)||{}, n2=parseNutrition(p2)||{};
+  const items=[['Energy',n1.energy_kcal,n2.energy_kcal,'kcal'],['Protein',n1.proteins,n2.proteins,'g'],['Carbs',n1.carbohydrates,n2.carbohydrates,'g'],['Sugar',n1.sugars,n2.sugars,'g'],['Fat',n1.fat,n2.fat,'g'],['Salt',n1.salt,n2.salt,'g']];
+  const rows = items.filter(([,v1,v2])=>v1!=null||v2!=null).map(([label,v1,v2,unit])=>{
+    const n1=parseFloat(v1), n2=parseFloat(v2);
+    const better=(!isNaN(n1)&&!isNaN(n2)&&n1<n2)?'p1':'p2';
+    return '<tr><td style="padding:6px 4px;font-size:12px;color:'+(better==='p1'?'#22c55e':'var(--text-dim)')+'>'+(v1!=null?v1+unit:'—')+'</td><td style="padding:6px 4px;font-size:11px;color:var(--text-dim);text-align:center">'+label+'</td><td style="padding:6px 4px;font-size:12px;color:'+(better==='p2'?'#22c55e':'var(--text-dim)')+'>'+(v2!=null?v2+unit:'—')+'</td></tr>';
+  }).join('');
+  return '<table style="width:100%;border-collapse:collapse"><tbody>'+rows+'</tbody></table>';
+}
+
+// Feature 27: Nova Group
+function getNovaGroup(p) {
+  const text = ((p.ingredients_text||'')+' '+(p.categories||'')).toLowerCase();
+  const additives = (p.additives_tags||[]).length;
+  if (/fresh fruit|fresh vegetable|unprocessed|whole grain|milk,.*no added|salt,.*no added/i.test(text)) return 1;
+  if (/canned|salted|smoked|roasted|baked|cheese.*natural|yoghurt.*plain/i.test(text) && additives<3) return 3;
+  const upPatterns = /instant noodles|soda|energy drink|flavoured milk|chips|sweet biscuit|salty snack|confectionery|ice cream|soft drink|nuggets|fries|processed meat|sauce.*industrial|bread.*industrial/i;
+  if (upPatterns.test(text) && additives>=3) return 4;
+  if (additives>=8) return 4;
+  if (additives>=5 && /(sweet|salt|fat).*flavour|flavour.*enhancer|emulsifier|preservative.*combined/i.test(text)) return 4;
+  if (/carbohydrate.*syrup|invert sugar|high fructose|maltodextrin|dextrose/i.test(text) && additives>=4) return 4;
+  return null;
+}
+
+function renderNovaGroup(p) {
+  const nova = getNovaGroup(p);
+  if (!nova) return '';
+  const g = {1:{label:'Group 1 — Unprocessed',color:'#22c55e',desc:'Natural/minimally processed foods',icon:'🌿'},2:{label:'Group 2 — Ingredients',color:'#84cc16',desc:'Oils, butter, sugar, salt — processed at home',icon:'🧈'},3:{label:'Group 3 — Processed',color:'#f59e0b',desc:'Canned beans, cheese, artisan bread — made with salt, oil, sugar',icon:'🥖'},4:{label:'Group 4 — Ultra-Processed',color:'#ef4444',desc:'Soda, instant noodles, chips, candy — made in factories',icon:'⚠️'}}[nova];
+  return '<div style="margin-top:12px;background:'+g.color+'18;border:1px solid '+g.color+';border-radius:10px;padding:12px"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><span style="font-size:18px">'+g.icon+'</span><span style="font-weight:700;font-size:13px;color:'+g.color+'">'+g.label+'</span></div><p style="font-size:12px;color:var(--text-dim);margin:0">'+g.desc+'</p>'+(nova===4?'<p style="font-size:11px;color:var(--avoid);margin:4px 0 0">☠️ Associated with higher rates of obesity, heart disease, diabetes, and cancer</p>':'')+'</div>';
+}
+
+// Feature 28: Add to Avoid List from Alerts
+function addBrandToAvoidList(brand) {
+  const avoided = JSON.parse(localStorage.getItem('safe2eat_avoided_brands')||'[]');
+  if (!avoided.includes(brand)) { avoided.push(brand); localStorage.setItem('safe2eat_avoided_brands',JSON.stringify(avoided)); }
+  showToast(brand+' added to avoid list');
+}
+
+// Feature 29: Export Scan History
+function exportScanHistory() {
+  const history = getHistory();
+  if (!history||!history.length) { showToast('No scan history to export'); return; }
+  const hdrs = ['Date','Barcode','Name','Brand','Safety Score','Veg Status','Concerns','Calories (kcal)','Fat (g)','Protein (g)','Carbs (g)','Salt (g)'];
+  const csv = [hdrs.join(',')];
+  history.forEach(h => csv.push([h.scannedAt||'',h.barcode||'',(h.name||'').replace(/,/g,';'),(h.brand||'').replace(/,/g,';'),h.score||'',h.vegStatus||'',(h.concerns||[]).join(';'),h.nutrition?.energy_kcal||'',h.nutrition?.fat||'',h.nutrition?.proteins||'',h.nutrition?.carbohydrates||'',h.nutrition?.salt||''].map(v=>`"${v}"`).join(',')));
+  const blob = new Blob([csv.join('\n')],{type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'safe2eat-history-'+new Date().toISOString().slice(0,10)+'.csv'; a.click();
+  URL.revokeObjectURL(url);
+  showToast('Exported '+history.length+' scans');
+}
+
+// Feature 30: Dark Scanner Mode
+let scannerDarkMode = false;
+function getStoredScannerDarkMode() { return localStorage.getItem('safe2eat_scanner_dark')==='true'; }
+function saveScannerDarkMode(val) { scannerDarkMode=val; localStorage.setItem('safe2eat_scanner_dark',val); applyScannerDarkMode(); }
+function applyScannerDarkMode() {
+  const overlay = document.getElementById('scannerDarkOverlay');
+  if (overlay) overlay.style.opacity = scannerDarkMode ? '0.4' : '0';
+}
+function initScannerDarkMode() {
+  scannerDarkMode = getStoredScannerDarkMode();
+  if (!document.getElementById('scannerDarkOverlay')) {
+    const overlay = document.createElement('div');
+    overlay.id = 'scannerDarkOverlay';
+    overlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:0;background:#000;opacity:0;pointer-events:none;z-index:9998;transition:opacity 0.3s';
+    document.body.appendChild(overlay);
+  }
+  if (scannerDarkMode) applyScannerDarkMode();
+}
+function toggleScannerDarkMode() { saveScannerDarkMode(!scannerDarkMode); showToast(scannerDarkMode?'Dark scanner ON':'Dark scanner OFF'); }
+
+// Init
+if (document.readyState==='loading') { document.addEventListener('DOMContentLoaded',()=>{initScannerDarkMode();loadRedditProducts().catch(()=>{});}); }
+else { initScannerDarkMode(); loadRedditProducts().catch(()=>{}); }
+
 </script>
 </body>
 </html>
