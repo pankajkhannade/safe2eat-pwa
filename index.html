@@ -3367,6 +3367,22 @@ async function renderResult(data, fromCache) {
   // Feature 11: Safety Score
   renderSafetyScore(additives, allergens, vegStatus);
   
+  // Feature 35: Nutrition Health Score
+  setTimeout(() => {
+    const nutSec = document.getElementById('nutritionScoreSection');
+    if (nutSec && typeof renderNutritionScore === 'function') {
+      nutSec.innerHTML = renderNutritionScore(nutr);
+    }
+  }, 500);
+  
+  // Feature 33: Medical Diet Warnings
+  setTimeout(() => {
+    const med = document.getElementById('medicalWarnings');
+    if (med && typeof renderMedicalWarnings === 'function') {
+      med.innerHTML = renderMedicalWarnings(p.ingredients_text || ', nutr);
+    }
+  }, 400);
+  
   // Feature 32: Score Breakdown (ensure it renders)
   setTimeout(() => {
     const sb = document.getElementById('scoreBreakdown');
@@ -4626,6 +4642,11 @@ function showFssaiChecker() {
   document.getElementById('reportModalTitle').textContent = '🔍 FSSAI License Checker';
   document.getElementById('reportModalBody').innerHTML = '<div style="padding:4px 0 16px"><p style="font-size:13px;color:var(--text-dim);margin-bottom:14px;text-align:center">Enter the FSSAI license or registration number<br><span style="font-size:11px">Found on food product packaging (eg: 10012011000123)</span></p><input type="text" id="fssaiInput" maxlength="20" placeholder="Enter FSSAI License No." style="width:100%;padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:16px;text-align:center;letter-spacing:2px;box-sizing:border-box;outline:none" onkeydown="if(event.key===\'Enter\')checkFssai()"><button class="submit-btn" style="width:100%;margin-top:12px" onclick="checkFssai()">🔍 Check License</button><div id="fssaiResult" style="margin-top:16px"></div><div style="margin-top:20px;padding:12px;background:var(--surface2);border-radius:10px;font-size:12px;color:var(--text-dim)"><strong style="color:var(--text)">How to find FSSAI license:</strong><br>✅ FSSAI logo with license number on label<br>✅ License No. printed below the FSSAI logo<br>✅ 14-digit: State(1-2) + Year(4) + Serial(8)<br>✅ Verify at <a href="https://foscos.fssai.gov.in" target="_blank" style="color:var(--accent)">foscos.fssai.gov.in</a></div></div>';
   modal.classList.add('visible');
+  
+  // Close on outside click
+  modal.onclick = function(e) {
+    if (e.target === modal) modal.classList.remove('visible');
+  };
 }
 
 async function checkFssai() {
@@ -4814,6 +4835,11 @@ function showCompareScreen(p1, p2) {
   const sC = s => s>=70?'#22c55e':s>=40?'#f59e0b':'#ef4444';
   document.getElementById('reportModalBody').innerHTML = '<div style="display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;margin-bottom:16px"><div style="text-align:center"><div style="font-size:11px;color:var(--text-dim);margin-bottom:4px">'+escHtml(p1.name||'Product 1')+'</div><div style="font-size:32px;font-weight:800;color:'+sC(score1)+'">'+score1+'</div><div style="font-size:11px;color:var(--text-dim)">Safety Score</div></div><div style="font-size:20px;color:var(--text-dim)">vs</div><div style="text-align:center"><div style="font-size:11px;color:var(--text-dim);margin-bottom:4px">'+escHtml(p2.name||'Product 2')+'</div><div style="font-size:32px;font-weight:800;color:'+sC(score2)+'">'+score2+'</div><div style="font-size:11px;color:var(--text-dim)">Safety Score</div></div></div>'+(better==='p1'?'<div style="text-align:center;padding:10px;background:rgba(34,197,94,0.1);border-radius:10px;font-size:13px;font-weight:600;color:#22c55e">✅ '+escHtml(p1.name||'Product 1')+' is safer by '+Math.abs(score1-score2)+' points</div>':'<div style="text-align:center;padding:10px;background:rgba(34,197,94,0.1);border-radius:10px;font-size:13px;font-weight:600;color:#22c55e">✅ '+escHtml(p2.name||'Product 2')+' is safer by '+Math.abs(score2-score1)+' points</div>')+'<div style="margin-top:16px;font-size:12px;font-weight:700;color:var(--text-dim);text-transform:uppercase;margin-bottom:8px">Additives Comparison</div>'+renderCompareAdditives(add1,add2)+'<div style="margin-top:14px;font-size:12px;font-weight:700;color:var(--text-dim);text-transform:uppercase;margin-bottom:8px">Nutrition Comparison</div>'+renderCompareNutrition(p1,p2);
   modal.classList.add('visible');
+  
+  // Close on outside click
+  modal.onclick = function(e) {
+    if (e.target === modal) modal.classList.remove('visible');
+  };
 }
 
 function renderCompareAdditives(a1, a2) {
@@ -5041,6 +5067,11 @@ function openAdditiveExplain(code) {
   document.getElementById('explainBan').innerHTML = banNote;
   document.getElementById('explainFound').textContent = ADDITIVE_SOURCES[c] || 'Various processed foods';
   modal.classList.add('visible');
+  
+  // Close on outside click
+  modal.onclick = function(e) {
+    if (e.target === modal) modal.classList.remove('visible');
+  };
 }
 
 function wireAdditiveBadges() {
@@ -5242,6 +5273,11 @@ function renderBatchCompareList() {
   document.getElementById('batchCompareActions').style.display = 'flex';
   document.getElementById('batchCompareList').innerHTML = compareBatch.map((h,i)=>'<div id="batchItem'+i+'" onclick="toggleBatchItem('+i+')" style="display:flex;align-items:center;gap:12px;padding:10px;background:var(--surface2);border-radius:10px;cursor:pointer"><div id="batchCheck'+i+'" style="width:24px;height:24px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">📋</div><div style="flex:1;min-width:0"><div style="font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+escHtml(h.name||h.barcode)+'</div><div style="font-size:11px;color:var(--text-dim)">'+escHtml(h.brand||'')+' · Score: '+(h.score||'?')+'</div></div></div>').join('');
   modal.classList.add('visible');
+  
+  // Close on outside click
+  modal.onclick = function(e) {
+    if (e.target === modal) modal.classList.remove('visible');
+  };
 }
 
 function toggleBatchItem(i) {
@@ -5322,6 +5358,11 @@ function renderCitySelector() {
     document.body.appendChild(modal);
   }
   modal.classList.add('visible');
+  
+  // Close on outside click
+  modal.onclick = function(e) {
+    if (e.target === modal) modal.classList.remove('visible');
+  };
 }
 
 function refreshCityAlerts() {
