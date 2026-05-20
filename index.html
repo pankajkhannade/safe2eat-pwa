@@ -3366,6 +3366,16 @@ async function renderResult(data, fromCache) {
   // === NEW FEATURES 11-20: Call all render functions ===
   // Feature 11: Safety Score
   renderSafetyScore(additives, allergens, vegStatus);
+  
+  // Feature 32: Score Breakdown (ensure it renders)
+  setTimeout(() => {
+    const sb = document.getElementById('scoreBreakdown');
+    if (sb) {
+      const avoidCount = safetyLevels.filter(s => s === 'avoid').length;
+      const warnCount = safetyLevels.filter(s => s === 'warning').length;
+      renderScoreBreakdown({score: computedScore || 70, avoid: avoidCount, warn: warnCount, vegPenalty: vegPenalty || 0}, {allergens: allergens || [], brands: p.brands, ingredients_text: p.ingredients_text, nutrition: nutr});
+    }
+  }, 300);
 
   // Feature 12: Additive Timeline
   renderAdditiveTimeline(additives);
