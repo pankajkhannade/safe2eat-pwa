@@ -3383,15 +3383,16 @@ async function renderResult(data, fromCache) {
     }
   }, 400);
   
-  // Feature 32: Score Breakdown (ensure it renders)
+  // Feature 32: Score Breakdown
   setTimeout(() => {
     const sb = document.getElementById('scoreBreakdown');
-    if (sb) {
-      const avoidCount = safetyLevels.filter(s => s === 'avoid').length;
-      const warnCount = safetyLevels.filter(s => s === 'warning').length;
-      renderScoreBreakdown({score: computedScore || 70, avoid: avoidCount, warn: warnCount, vegPenalty: vegPenalty || 0}, {allergens: allergens || [], brands: p.brands, ingredients_text: p.ingredients_text, nutrition: nutr});
+    if (sb && typeof renderScoreBreakdown === 'function') {
+      const avoidC = safetyLevels.filter(s => s==='avoid').length;
+      const warnC = safetyLevels.filter(s => s==='warning').length;
+      renderScoreBreakdown({score: computedScore||70, avoid: avoidC, warn: warnC, vegPenalty: vegPenalty||0}, {allergens: (data.allergens||[]), brands: p.brands, ingredients_text: p.ingredients_text, nutrition: nutr});
+      sb.style.display = 'block';
     }
-  }, 300);
+  }, 350);
 
   // Feature 12: Additive Timeline
   renderAdditiveTimeline(additives);
@@ -4633,6 +4634,7 @@ function showFssaiChecker() {
   let modal = document.getElementById('reportModal');
   const isNew = !modal;
   if (!document.getElementById('explainModal')) {
+  .modal-card { background: var(--surface); color: var(--text); }
     modal = document.createElement('div');
     modal.className = 'modal';
     modal.id = 'reportModal';
@@ -4820,6 +4822,7 @@ function showCompareScreen(p1, p2) {
   let modal = document.getElementById('reportModal');
   const isNew = !modal;
   if (!document.getElementById('explainModal')) {
+  .modal-card { background: var(--surface); color: var(--text); }
     modal = document.createElement('div');
     modal.className = 'modal';
     modal.id = 'reportModal';
@@ -5033,11 +5036,14 @@ function openAdditiveExplain(code) {
   const isBanned = BANNED_CODES.includes(c);
   const banNote = isBanned ? '<div style="background:rgba(239,68,68,0.12);border:1px solid var(--avoid);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;color:var(--avoid)"><strong>☠️ BANNED</strong> in USA, EU, Japan, or Norway. Not banned in India yet but poses health risks.</div>' : '';
   let modal = document.getElementById('explainModal');
+  .modal-card { background: var(--surface); color: var(--text); }
   const isNew = !modal;
   if (!document.getElementById('explainModal')) {
+  .modal-card { background: var(--surface); color: var(--text); }
     modal = document.createElement('div');
     modal.className = 'modal';
     modal.id = 'explainModal';
+  .modal-card { background: var(--surface); color: var(--text); }
     modal.innerHTML = `<div class="modal-card" style="max-height:85vh;overflow-y:auto;padding:20px">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px">
         <div>
@@ -5264,6 +5270,7 @@ function renderBatchCompareList() {
   let modal = document.getElementById('batchCompareModal');
   const isNew = !modal;
   if (!document.getElementById('explainModal')) {
+  .modal-card { background: var(--surface); color: var(--text); }
     modal = document.createElement('div');
     modal.className = 'modal';
     modal.id = 'batchCompareModal';
@@ -5348,6 +5355,7 @@ function renderCitySelector() {
   let modal = document.getElementById('cityModal');
   const isNew = !modal;
   if (!document.getElementById('explainModal')) {
+  .modal-card { background: var(--surface); color: var(--text); }
     modal = document.createElement('div');
     modal.className = 'modal';
     modal.id = 'cityModal';
