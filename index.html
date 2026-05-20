@@ -3218,6 +3218,16 @@ async function lookupBarcode(barcode) {
 
 async function renderResult(data, fromCache) {
   ensureFeatureContainers();
+  
+  // Auto-render Score Breakdown
+  setTimeout(() => {
+    const sb = document.getElementById('scoreBreakdown');
+    if (sb && typeof renderScoreBreakdown === 'function') {
+      const avoidC = (safetyLevels || []).filter(s => s === 'avoid').length;
+      const warnC = (safetyLevels || []).filter(s => s === 'warning').length;
+      renderScoreBreakdown({score: 65, avoid: avoidC, warn: warnC, vegPenalty: 0}, {allergens: [], brands: p.brands || ', ingredients_text: p.ingredients_text || ', nutrition: null});
+    }
+  }, 600);
   const p = data.product;
   const additives = (p.additives_tags || []).map(t => t.replace('en:', ''));
   const safetyLevels = additives.map(a => {
