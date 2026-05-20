@@ -3217,6 +3217,7 @@ async function lookupBarcode(barcode) {
 }
 
 async function renderResult(data, fromCache) {
+  ensureFeatureContainers();
   const p = data.product;
   const additives = (p.additives_tags || []).map(t => t.replace('en:', ''));
   const safetyLevels = additives.map(a => {
