@@ -3991,7 +3991,7 @@ const DAILY_LIMITS = {
   'e171': currentLang === 'hi' ? 'Not specified' : 'Not specified',
 };
 
-function openAdditiveModal(code) {
+function openAdditiveExplain(code) {
   const ing = lookupIngredient(code);
   if (!ing) return;
 
@@ -4461,7 +4461,7 @@ function updateIngredientRowTapHandler() {
       const codeEl = this.querySelector('.ing-code');
       if (codeEl) {
         const code = codeEl.textContent.trim().toLowerCase();
-        openAdditiveModal(code);
+        openAdditiveExplain(code);
       }
     };
   });
