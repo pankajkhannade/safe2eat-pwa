@@ -5500,14 +5500,17 @@ window.renderResult = async function(data, fromCache) {
 function injectFeatureContainers() {
   const resultScreen = document.getElementById('resultScreen');
   if (!resultScreen) return;
-
-  // Score breakdown container
-  if (!document.getElementById('scoreBreakdown')) {
-    const sbDiv = document.createElement('div');
-    sbDiv.id = 'scoreBreakdown';
-    sbDiv.style.cssText = 'margin:12px 0';
-    resultScreen.insertBefore(sbDiv, resultScreen.querySelector('.action-row') || null);
-  }
+  const needed = ['scoreBreakdown', 'nutritionScoreSection', 'medicalWarnings', 'fssaiRecallSection', 'expertReviewSection', 'cityAlertsSection', 'weeklyScorecard'];
+  needed.forEach(id => {
+    if (!document.getElementById(id)) {
+      const div = document.createElement('div');
+      div.id = id;
+      if (id === 'scoreBreakdown') div.style.cssText = 'margin:12px 0';
+      const actionRow = resultScreen.querySelector('.action-row');
+      resultScreen.insertBefore(div, actionRow || null);
+    }
+  });
+}
 }
 
 // Inject containers when app loads
