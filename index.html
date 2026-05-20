@@ -3300,7 +3300,7 @@ async function renderResult(data, fromCache) {
     vegNote.id = 'vegNote';
     vegNote.className = 'veg-note';
     const noteKey = hasGroundnut ? 'vegNoteGroundnut' : 'vegNoteMixed';
-    vegNote.textContent = t(noteKey);
+    vegNote.innerHTML = `⚠️ ${t(noteKey)}`;
     vegBadge.insertAdjacentElement('afterend', vegNote);
   }
 
