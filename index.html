@@ -5523,3 +5523,11 @@ if (document.readyState === 'loading') {
 </script>
 </body>
 </html>
+<script>
+// Ensure containers function (safe addition)
+function ensureFeatureContainers() {
+  if (typeof injectFeatureContainers === 'function') {
+    injectFeatureContainers();
+  }
+}
+</script>
