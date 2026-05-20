@@ -4616,7 +4616,7 @@ function openAlertDetail(id) {
 function showFssaiChecker() {
   let modal = document.getElementById('reportModal');
   const isNew = !modal;
-  if (isNew) {
+  if (!document.getElementById('explainModal')) {
     modal = document.createElement('div');
     modal.className = 'modal';
     modal.id = 'reportModal';
@@ -4798,7 +4798,7 @@ function renderCompareVs() {
 function showCompareScreen(p1, p2) {
   let modal = document.getElementById('reportModal');
   const isNew = !modal;
-  if (isNew) {
+  if (!document.getElementById('explainModal')) {
     modal = document.createElement('div');
     modal.className = 'modal';
     modal.id = 'reportModal';
@@ -5008,7 +5008,7 @@ function openAdditiveExplain(code) {
   const banNote = isBanned ? '<div style="background:rgba(239,68,68,0.12);border:1px solid var(--avoid);border-radius:8px;padding:10px;margin-top:10px;font-size:12px;color:var(--avoid)"><strong>☠️ BANNED</strong> in USA, EU, Japan, or Norway. Not banned in India yet but poses health risks.</div>' : '';
   let modal = document.getElementById('explainModal');
   const isNew = !modal;
-  if (isNew) {
+  if (!document.getElementById('explainModal')) {
     modal = document.createElement('div');
     modal.className = 'modal';
     modal.id = 'explainModal';
@@ -5232,7 +5232,7 @@ function renderBatchCompareList() {
   selectedBatchItems = new Set();
   let modal = document.getElementById('batchCompareModal');
   const isNew = !modal;
-  if (isNew) {
+  if (!document.getElementById('explainModal')) {
     modal = document.createElement('div');
     modal.className = 'modal';
     modal.id = 'batchCompareModal';
@@ -5311,7 +5311,7 @@ function renderCityAlerts() {
 function renderCitySelector() {
   let modal = document.getElementById('cityModal');
   const isNew = !modal;
-  if (isNew) {
+  if (!document.getElementById('explainModal')) {
     modal = document.createElement('div');
     modal.className = 'modal';
     modal.id = 'cityModal';
