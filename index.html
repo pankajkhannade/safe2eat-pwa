@@ -5607,3 +5607,11 @@ document.addEventListener('keydown', function(e) {
   }
 });
 </script>
+
+<script>
+// Loading state helper (final bug fix pass)
+function showFeatureLoading(containerId, text = 'Loading...') {
+  const el = document.getElementById(containerId);
+  if (el) el.innerHTML = `<div style="padding:12px;color:var(--text-dim);font-size:12px">${text}</div>`;
+}
+</script>
