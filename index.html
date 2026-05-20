@@ -2404,11 +2404,12 @@ function parseNutrition(p) {
   const n = p.nutriments || {};
   const toNum = v => v !== undefined && v !== null ? parseFloat(v) : null;
   return {
-    sugar: toNum(n.sugars_100g ?? n.sugars_serving),
-    sodium: toNum(n.sodium_100g ?? n.sodium_serving),
-    satFat: toNum(n['saturated-fat_100g'] ?? n['saturated-fat_serving']),
-    protein: toNum(n.proteins_100g ?? n.proteins_serving),
-    energy: toNum(n['energy-kcal_100g'] ?? n['energy-kcal'] ?? n['energy-kj_100g']),
+    sugar: toNum(n.sugars_100g ?? n.sugars_serving ?? n.sugars_prepared),
+    sodium: toNum(n.sodium_100g ?? n.sodium_serving ?? n.sodium_prepared),
+    satFat: toNum(n['saturated-fat_100g'] ?? n['saturated-fat_serving'] ?? n['saturated-fat_prepared']),
+    protein: toNum(n.proteins_100g ?? n.proteins_serving ?? n.proteins_prepared),
+    energy: toNum(n['energy-kcal_100g'] ?? n['energy-kcal'] ?? n['energy-kj_100g'] ?? n['energy-kcal_prepared']),
+    salt: toNum(n.salt_100g ?? n.salt_serving ?? n.salt_prepared),
   };
 }
 
