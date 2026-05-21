@@ -1796,15 +1796,19 @@ const EXPLAIN = {
 const NON_VEG_CODES = ['e120','e904','e441','e542','e1105'];
 
 function detectVegetarian(ingredientText, additives) {
-  const text = (ingredientText || '').toLowerCase();
+  const text = (ingredientText || '').trim();
   const codes = (additives || []).map(a => a.toLowerCase().replace('en:', ''));
-  
+
+  // Empty ingredient text — plain water, salt, sugar, etc. — is veg
+  if (!text) return 'veg';
+
   // Check explicit non-veg codes
   for (const c of codes) {
     if (NON_VEG_CODES.includes(c)) return 'nonveg';
   }
-  
-  // Check ingredient text patterns
+
+  const t = text.toLowerCase();
+
   const nonVegPatterns = [
     // Explicit animal products
     /gelatin(?!.*synthetic)/i, /rennet/i, /carmine/i, /cochineal/i,
@@ -1832,11 +1836,11 @@ function detectVegetarian(ingredientText, additives) {
     /cellulose.*fiber/i, /corn.*starch/i, /potato.*starch/i,
     /tapioca.*starch/i, /wheat.*starch/i, /rice.*starch/i,
   ];
-  
+
   let nvScore = 0, vScore = 0;
-  
+
   for (const p of nonVegPatterns) {
-    if (p.test(text)) nvScore++;
+    if (p.test(t)) nvScore++;
   }
   for (const c of codes) {
     // e322 (lecithin) is typically veg unless from egg
@@ -1844,13 +1848,14 @@ function detectVegetarian(ingredientText, additives) {
     if (NON_VEG_CODES.includes(c)) nvScore++;
   }
   for (const p of vegPatterns) {
-    if (p.test(text)) vScore++;
+    if (p.test(t)) vScore++;
   }
   
   if (nvScore > 0 && vScore === 0) return 'nonveg';
   if (vScore > 0 && nvScore === 0) return 'veg';
   if (nvScore > 0 && vScore > 0) return 'uncertain';
-  return 'uncertain';
+  // No patterns matched — assume veg (e.g. water, salt, minerals, plain spices)
+  return 'veg';
 }
 
 // ============================================================
