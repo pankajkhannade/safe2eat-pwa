@@ -1244,7 +1244,7 @@ const I18 = {
     verdictAvoid: "Best Avoid", verdictAvoidSub: "One or more harmful additives found",
     verdictUnknown: "Limited Data", verdictUnknownSub: "Check ingredients manually",
     safe: "SAFE", warn: "CAUTION", avoid: "AVOID", unknown: "UNKNOWN",
-    veg: "🥬 Vegetarian", nonveg: "🥩 Non-Veg", uncertain: "❓ Check Label",
+    veg: "🥬 Vegetarian", nonveg: "🥩 Non-Veg", uncertain: "⚠️ Ambiguous",
     vegNoteGroundnut: "Contains groundnut + plant protein — check label",
     vegNoteMixed: "Contains both veg and non-veg ingredients — check label",
     sugar: "Sugar", sodium: "Sodium", satFat: "Sat Fat",
@@ -1400,7 +1400,7 @@ const I18 = {
     verdictAvoid: "बचें", verdictAvoidSub: "एक या अधिक हानिकारक योजक मिले",
     verdictUnknown: "सीमित डेटा", verdictUnknownSub: "सामग्री स्वयं जांचें",
     safe: "सुरक्षित", warn: "सावधान", avoid: "बचें", unknown: "अज्ञात",
-    veg: "🥬 शाकाहारी", nonveg: "🥩 मांसाहारी", uncertain: "❓ लेबल जांचें",
+    veg: "🥬 शाकाहारी", nonveg: "🥩 मांसाहारी", uncertain: "⚠️ अस्पष्ट",
     vegNoteGroundnut: "मूंगफली + पौध प्रोटीन है — लेबल जांचें",
     vegNoteMixed: "शाकाहारी और मांसाहारी दोनों सामग्री — लेबल जांचें",
     sugar: "चीनी", sodium: "सोडियम", satFat: "वसा",
@@ -1864,7 +1864,7 @@ function parseNutrition(p) {
     sodium: toNum(n.sodium_100g ?? n.sodium_serving ?? n.sodium_prepared),
     satFat: toNum(n['saturated-fat_100g'] ?? n['saturated-fat_serving'] ?? n['saturated-fat_prepared']),
     protein: toNum(n.proteins_100g ?? n.proteins_serving ?? n.proteins_prepared),
-    energy: toNum(n['energy-kcal_100g'] ?? n['energy-kcal'] ?? n['energy-kj_100g'] ?? n['energy-kcal_prepared']),
+    energy: toNum(n['energy-kcal_100g'] ?? n['energy-kcal'] ?? n['energy-kj_100g'] ?? n['energy-kcal_prepared'] ?? n['energy-kj_prepared'] ?? n.energy_prepared),
     salt: toNum(n.salt_100g ?? n.salt_serving ?? n.salt_prepared),
   };
 }
@@ -3338,8 +3338,8 @@ function loadBetterAlternatives(productName, verdict) {
   const brand = document.getElementById('productBrand').textContent;
   const query = brand ? `${brand} ${productName}`.split(' ').slice(0, 3).join(' ') : productName;
 
-  fetch(`https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&search_simple=1&action=process&json=1&page_size=8`)
-    .then(r => r.json())
+  fetch(`https://world.openfoodfacts.org/cgi/search.pl?search_terms=${encodeURIComponent(query)}&search_simple=1&action=process&json=1&page_size=8`, { signal: AbortSignal.timeout(6000) })
+    .then(r => r.ok ? r.json() : Promise.reject(new Error('HTTP ' + r.status)))
     .then(data => {
       document.getElementById('altLoading').style.display = 'none';
       const products = (data.products || []).filter(p => p.code !== currentProductBarcode).slice(0, 5);
@@ -3360,8 +3360,9 @@ function loadBetterAlternatives(productName, verdict) {
           : `<div class="alt-img-placeholder">🥗</div>`;
         return `<button class="alt-item" onclick="lookupDemo('${p.code || p.barcode}')">${imgHtml}<div class="alt-info"><div class="alt-name">${name}</div><div class="alt-brand">${p.brands || ''}</div></div><span class="alt-score ${verdictClass}">${score.score}</span></button>`;
       }).join('');
-    }).catch(() => {
-      document.getElementById('altLoading').textContent = currentLang === 'hi' ? 'त्रुटि' : 'Error loading alternatives';
+    }).catch((err) => {
+      console.error('loadBetterAlternatives:', err);
+      document.getElementById('altLoading').textContent = currentLang === 'hi' ? 'विकल्प नहीं मिले' : 'No alternatives found';
     });
 }
 
